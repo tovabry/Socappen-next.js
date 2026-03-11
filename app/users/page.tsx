@@ -15,7 +15,7 @@ export default function usersPage() {
     const [users, setUsers] = useState<ResponseUsers[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/user/all")
+        fetch("http://localhost:8080/api/users/all")
         .then(res => res.json())
         .then((data: ResponseUsers[]) => setUsers(data))
         .catch(err => {
