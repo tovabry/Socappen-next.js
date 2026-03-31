@@ -29,9 +29,15 @@ export default function HomePage() {
 		<div>
 			<Header title="Resursenheten för ungdomar" />
 			<h1>Welcome, {user}</h1>
-			<HomePageButton buttonText="Kontakta oss" routeLink="/#" />
-			<HomePageButton buttonText="Andra kontakter" routeLink="/#" />
-			<HomePageButton buttonText="Skriv med oss" routeLink="/#" />
+			<p className="mx-10 mt-5 text-white">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias obcaecati
+				similique perspiciatis ratione repellat illo est atque nisi, neque illum
+				temporibus consequuntur possimus itaque molestiae numquam et totam quod
+				asperiores.
+			</p>
+			<HomePageButton buttonText="Kontakta oss" routeLink="#" />
+			<HomePageButton buttonText="Andra kontakter" routeLink="#" />
+			<HomePageButton buttonText="Skriv med oss" routeLink="#" />
 			<HomePageButton
 				buttonText="Vanligt förekommande frågor"
 				routeLink="/faq"
