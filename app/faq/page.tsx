@@ -45,16 +45,15 @@ export default function FaqPage() {
 				placeholder="Sök..."
 				className="p-2 border rounded-md mx-10 mt-5 bg-white w-[calc(100%-80px)]"
 			/>
-			<ul>
+			<div className="flex flex-col gap-2 mx-10 md:grid md:grid-cols-2 lg:grid-cols-3">
 				{filtered.map((faq) => (
-					<li key={faq.id}>
-						<QuestionCard
-							question={faq.question}
-							routeLink={`/faq/${faq.id}`}
-						/>
-					</li>
+					<QuestionCard
+						key={faq.id}
+						question={faq.question}
+						routeLink={`/faq/${faq.id}`}
+					/>
 				))}
-			</ul>
+			</div>
 		</div>
 	);
 }

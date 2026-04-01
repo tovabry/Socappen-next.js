@@ -36,7 +36,7 @@ export default function HomePage() {
 				asperiores.
 			</p>
 			<HomePageButton buttonText="Kontakta oss" routeLink="#" />
-			<HomePageButton buttonText="Andra kontakter" routeLink="#" />
+			<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
 			<HomePageButton buttonText="Skriv med oss" routeLink="#" />
 			<HomePageButton
 				buttonText="Vanligt förekommande frågor"

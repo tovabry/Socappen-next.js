@@ -7,7 +7,7 @@ interface HeaderProps {
 
 export function Header({ title, backRouteLink }: HeaderProps) {
 	return (
-		<header className="bg-[#DF5E5E] shadow-md p-2 opacity-95">
+		<header className="bg-[#DF5E5E] shadow-lg p-2 opacity-95">
 			<div className="flex flex-row items-center px-4 py-1">
 				{backRouteLink && (
 					<a href={backRouteLink || "/home"}>
