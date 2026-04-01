@@ -11,7 +11,7 @@ export default function ContactPage() {
 					contactName="BRIS"
 					contactDescription="Exempel beskrivning"
 					contactNumber="+123456789"
-					contactWebsite="https://www.bris.se/"
+					contactWebsite="https://www.bris.se"
 				/>
 				<ContactsCard contactName="Exempel" />
 			</div>
