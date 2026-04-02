@@ -13,13 +13,16 @@ export default async function FaqAnswerPage({ params }: Props) {
 	return (
 		<div>
 			<Header title="FAQ Answer" backRouteLink="/faq" />
-			<div>
-				<h1>{faq.question}</h1>
-				<p>{faq.answer}</p>
-			</div>
+			{/* Main content */}
+			<section className="flex flex-col items-center mt-10 bg-white p-6 rounded-lg shadow-md mx-10">
+				<h1 className="text-xl">{faq.question}</h1>
+				<hr className="my-4 w-full border-t border-gray-300" />
+				<p className="text-lg">{faq.answer}</p>
+			</section>
+
 			{/* If FAQ returns 500 status show error and link back to FAQ page. */}
 			{faq.status === 500 ? (
-				<div className="flex flex-col items-center mt-30">
+				<section className="flex flex-col items-center mt-30">
 					<p className="text-white">
 						Här var det tomt...
 						<a href="/faq" className="text-[#DF5E5E] flex items-center">
@@ -27,7 +30,7 @@ export default async function FaqAnswerPage({ params }: Props) {
 							<ArrowRight className="inline ml-1" />
 						</a>
 					</p>
-				</div>
+				</section>
 			) : null}
 		</div>
 	);

@@ -53,7 +53,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 			<p className="text-sm text-gray-400 mb-6">
 				Har du inget konto?{" "}
 				<a href="/login/signup" className="text-gray-900 hover:underline">
-					Skapa ett
+					Skapa ett konto
 				</a>
 			</p>
 
@@ -73,6 +73,8 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 						value={form.email}
 						onChange={handleChange}
 						className="auth-input"
+						required
+						aria-required="true"
 					/>
 				</div>
 
@@ -89,6 +91,8 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 						value={form.password}
 						onChange={handleChange}
 						className="auth-input"
+						required
+						aria-required="true"
 					/>
 				</div>
 

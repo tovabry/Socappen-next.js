@@ -25,8 +25,8 @@ export default function FaqPage() {
 	}, []);
 
 	const searchFilter = (array: ResponseFaq[]) => {
-		return array.filter((el) =>
-			el.question.toLowerCase().includes(searchQuery.toLowerCase()),
+		return array.filter((faq) =>
+			faq.question.toLowerCase().includes(searchQuery.toLowerCase()),
 		);
 	};
 

@@ -28,7 +28,7 @@ export default function HomePage() {
 	return (
 		<div>
 			<Header title="Resursenheten för ungdomar" />
-			<h1>Welcome, {user}</h1>
+			<h2>Welcome, {user}</h2>
 			<p className="mx-10 mt-5 text-white">
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias obcaecati
 				similique perspiciatis ratione repellat illo est atque nisi, neque illum
