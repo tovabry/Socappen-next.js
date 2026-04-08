@@ -1,40 +1,22 @@
 "use client";
 import { Header } from "@/components/Header";
 import { HomePageButton } from "@/components/HomePageButtons";
-import { useEffect, useState } from "react";
-
-interface ResponseUser {
-	email: string;
-}
+import { useAuth } from "@/lib/context/AuthContext";
 
 export default function HomePage() {
-	const [user, setUser] = useState<string>("Guest");
-
-	useEffect(() => {
-		const fetchUser = () => {
-			const token = localStorage.getItem("token");
-			fetch("http://localhost:8080/api/users/me", {
-				headers: { Authorization: `Bearer ${token}` },
-			})
-				.then((res) => res.json())
-				.then((data: ResponseUser) => setUser(data.email))
-				.catch(() => setUser("anonymous user"));
-		};
-
-		fetchUser();
-		window.addEventListener("auth-change", fetchUser);
-		return () => window.removeEventListener("auth-change", fetchUser);
-	}, []);
+	const { user } = useAuth();
 
 	return (
 		<div>
 			<Header title="Resursenheten för ungdomar" />
-			<h2>Welcome, {user}</h2>
-			<p className="mx-10 mt-5 text-white">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias obcaecati
-				similique perspiciatis ratione repellat illo est atque nisi, neque illum
-				temporibus consequuntur possimus itaque molestiae numquam et totam quod
-				asperiores.
+			<h2>
+				Welcome, {user?.email ?? "Guest"}, {user?.id}
+			</h2>
+			<p className="mx-12 my-5 text-white text-lg">
+				Resursenheten har hand om familjefrågor. Du som ungdom kan kontakta oss
+				här genom öppna frågor eller vår anonyma chatt som är öppen under
+				begränsade tider. För personlig hjälp kan du kontakta oss här och
+				här....
 			</p>
 			<HomePageButton buttonText="Kontakta oss" routeLink="#" />
 			<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
