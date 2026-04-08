@@ -3,6 +3,8 @@
 import { useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { fetchCurrentUser, saveToken } from "@/lib/auth";
+import { useAuth } from "@/lib/context/AuthContext";
 
 interface LoginFormProps {
 	onSuccess?: () => void;
@@ -13,6 +15,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
+	const { setUser } = useAuth();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -38,8 +41,17 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 			}
 
 			const { token } = await res.json();
+
 			localStorage.setItem("token", token);
-			onSuccess ? onSuccess() : router.push("/home");
+			window.dispatchEvent(new Event("auth-change"));
+			if (onSuccess) {
+				saveToken(token);
+				const user = await fetchCurrentUser(token);
+				setUser(user);
+				onSuccess?.();
+			} else {
+				router.push("/home");
+			}
 		} catch {
 			setError("Något gick fel, försök igen.");
 		} finally {
