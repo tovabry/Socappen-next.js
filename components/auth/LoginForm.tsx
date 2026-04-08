@@ -38,8 +38,14 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 			}
 
 			const { token } = await res.json();
+
 			localStorage.setItem("token", token);
-			onSuccess ? onSuccess() : router.push("/home");
+			window.dispatchEvent(new Event("auth-change"));
+			if (onSuccess) {
+				onSuccess();
+			} else {
+				router.push("/home");
+			}
 		} catch {
 			setError("Något gick fel, försök igen.");
 		} finally {

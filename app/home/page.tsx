@@ -1,5 +1,4 @@
 "use client";
-
 import { Header } from "@/components/Header";
 import { HomePageButton } from "@/components/HomePageButtons";
 import { useEffect, useState } from "react";
@@ -12,17 +11,19 @@ export default function HomePage() {
 	const [user, setUser] = useState<string>("Guest");
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		console.log("Token:", token);
+		const fetchUser = () => {
+			const token = localStorage.getItem("token");
+			fetch("http://localhost:8080/api/users/me", {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+				.then((res) => res.json())
+				.then((data: ResponseUser) => setUser(data.email))
+				.catch(() => setUser("anonymous user"));
+		};
 
-		fetch("http://localhost:8080/api/users/me", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((data: ResponseUser) => setUser(data.email))
-			.catch(() => setUser("anonymous user"));
+		fetchUser();
+		window.addEventListener("auth-change", fetchUser);
+		return () => window.removeEventListener("auth-change", fetchUser);
 	}, []);
 
 	return (
