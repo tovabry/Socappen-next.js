@@ -1,36 +1,59 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { QuestionCard } from "../../components/QuestionCard";
+import { Header } from "@/components/Header";
 
 interface ResponseFaq {
-  id: number;
-  question: string;
-  answer: string;
+	id: number;
+	question: string;
+	answer: string;
 }
 
 export default function FaqPage() {
-  const [faqs, setFaqs] = useState<ResponseFaq[]>([]);
+	const [faqs, setFaqs] = useState<ResponseFaq[]>([]);
+	const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/faq/all")
-      .then(res => res.json())
-      .then((data: ResponseFaq[]) => setFaqs(data))
-      .catch(err => {
-        console.error("Failed to fetch FAQs:", err);
-        setFaqs([]);
-      });
-  }, []);
+	useEffect(() => {
+		fetch("http://localhost:8080/api/faq")
+			.then((res) => res.json())
+			.then((data: ResponseFaq[]) => setFaqs(data))
+			.catch((err) => {
+				console.error("Failed to fetch FAQs:", err);
+				setFaqs([]);
+			});
+	}, []);
 
-  return (
-    <div>
-      <h1>Frequently Asked Questions</h1>
-      <ul>
-        {faqs.map(faq => (
-          <li key={faq.id}>
-            <strong>{faq.question}</strong>: {faq.answer}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+	const searchFilter = (array: ResponseFaq[]) => {
+		return array.filter((faq) =>
+			faq.question.toLowerCase().includes(searchQuery.toLowerCase()),
+		);
+	};
+
+	const filtered = searchFilter(faqs);
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchQuery(e.target.value);
+	};
+
+	return (
+		<div className="w-full">
+			<Header title="Vanligt förekommande frågor" backRouteLink="/home" />
+			<input
+				onChange={handleChange}
+				type="text"
+				placeholder="Sök..."
+				className="p-2 border rounded-md mx-10 mt-5 bg-white w-[calc(100%-80px)]"
+			/>
+			<div className="flex flex-col gap-2 mx-10 md:grid md:grid-cols-2 lg:grid-cols-3">
+				{filtered.map((faq) => (
+					<QuestionCard
+						key={faq.id}
+						question={faq.question}
+						routeLink={`/faq/${faq.id}`}
+					/>
+				))}
+			</div>
+		</div>
+	);
 }
