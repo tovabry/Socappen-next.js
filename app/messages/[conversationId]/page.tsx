@@ -58,10 +58,10 @@ export default function MessagesPage() {
 		}
 	}, [messages]);
 
-	const handleSend = () => {
+	const handleSend = async () => {
 		try {
 			if (!newMessage.trim()) return;
-			sendMessage(newMessage);
+			await sendMessage(newMessage);
 			setNewMessage("");
 			if (textareaRef.current) textareaRef.current.style.height = "auto";
 		} catch (err) {
@@ -132,13 +132,17 @@ export default function MessagesPage() {
 					}}
 					placeholder="Skicka meddelande"
 					rows={1}
-					className="w-full resize-none overflow-hidden focus:outline-none px-3 py-2 border border-gray-400 rounded-lg mx-2 shadow-sm"
+					className="w-full resize-none overflow-y-auto focus:outline-none px-3 py-2 border border-gray-400 rounded-lg mx-2 shadow-sm max-h-22 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
 				/>
-				{sendError && <div className="text-red-500 text-sm">{sendError}</div>}
-				<button type="submit" className="mr-2 p-1">
+				<button type="submit" className="mr-2 p-1" aria-label="Send message">
 					<Send strokeWidth={1} />
 				</button>
 			</form>
+			{sendError && (
+				<div className="text-red-500 bg-white text-sm text-center">
+					{sendError}
+				</div>
+			)}
 		</div>
 	);
 }

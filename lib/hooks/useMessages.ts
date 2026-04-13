@@ -81,7 +81,7 @@ export function useMessages(conversationId: string) {
 	};
 
 	const sendMessage = (content: string) => {
-		postMessage(conversationId, content).catch(console.error);
+		return postMessage(conversationId, content);
 	};
 
 	return {
