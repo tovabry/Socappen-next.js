@@ -2,10 +2,13 @@
 
 import { Header } from "@/components/Header";
 import { getToken } from "@/lib/auth";
+import { formatDate } from "@/lib/formatDate";
 import { useEffect, useState } from "react";
 
 interface ResponseConversation {
 	id: number;
+	createdAt: string;
+	status: string;
 }
 
 export default function MessagesPage() {
@@ -13,10 +16,7 @@ export default function MessagesPage() {
 		[],
 	);
 
-	/*
-	 Fetch conversations on first load to show the list of conversations.
-	(Future improvement: Only show conversations the current logged in user is part of.)
-	*/
+	// fetch conversations on first load to show the list of conversations where logged in user is a participant.
 	useEffect(() => {
 		const token = getToken();
 		fetch("http://localhost:8080/api/conversations/my?page=0&size=20", {
@@ -45,6 +45,8 @@ export default function MessagesPage() {
 						className="block p-4 border-b"
 					>
 						<h3 className="text-black">Conversation {conversation.id}</h3>
+						<p>{formatDate(conversation.createdAt)}</p>
+						<p>Status: {conversation.status}</p>
 					</a>
 				</div>
 			))}
