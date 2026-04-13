@@ -17,6 +17,10 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+/*
+ Provide authentication context to the app, including user info and logout function.
+ On first load, it checks for a token and fetches the current user info if a token exists.
+*/
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<AuthUser | null>(null);
 

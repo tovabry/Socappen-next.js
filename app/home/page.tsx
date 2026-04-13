@@ -20,7 +20,7 @@ export default function HomePage() {
 			</p>
 			<HomePageButton buttonText="Kontakta oss" routeLink="#" />
 			<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
-			<HomePageButton buttonText="Skriv med oss" routeLink="#" />
+			<HomePageButton buttonText="Skriv med oss" routeLink="/messages" />
 			<HomePageButton
 				buttonText="Vanligt förekommande frågor"
 				routeLink="/faq"
