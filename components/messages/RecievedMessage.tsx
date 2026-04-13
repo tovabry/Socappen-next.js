@@ -25,7 +25,7 @@ export function RecievedMessage({
 					})}
 				</span>
 				<span className="text-xs opacity-70">
-					{senderId ? ` (ID: ${senderId})` : "Missing id"}
+					{senderId ? `${senderId}` : "Missing id"}
 				</span>
 			</div>
 		</li>

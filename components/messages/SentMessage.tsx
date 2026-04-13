@@ -21,7 +21,7 @@ export function SentMessage({ content, sentAt, senderId }: SentMessageProps) {
 					})}
 				</span>
 				<span className="text-xs opacity-70 flex justify-end">
-					{senderId ? ` (ID: ${senderId})` : "Missing id"}
+					{senderId ? `${senderId}` : "Missing id"}
 				</span>
 			</div>
 		</li>
