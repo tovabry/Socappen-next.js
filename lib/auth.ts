@@ -5,10 +5,9 @@ export const saveToken = (token: string) =>
 export const getToken = () => localStorage.getItem("token");
 export const removeToken = () => localStorage.removeItem("token");
 
-/*
- Fetch the current logged in user info from the backend using the token.
- The token is decoded to get the email and roles, and the user id is fetched from the backend.
-*/
+/**
+ * @returns user info such as id, email and array of roles
+ */
 export async function fetchCurrentUser(token: string) {
 	const decoded = jwtDecode<{ sub: string; roles: string[] }>(token);
 	const res = await fetch("http://localhost:8080/api/users/me", {

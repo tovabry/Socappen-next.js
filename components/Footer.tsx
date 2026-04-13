@@ -3,9 +3,9 @@ export function Footer() {
 		<footer className="bg-[#DF5E5E] text-white text-center py-4 shadow-lg mt-4">
 			<div className="flex flex-row justify-between mx-8 gap-4">
 				<section className="flex flex-col flex-1 text-start">
-					<h3 className="text-lg">Om oss</h3>
+					<h3 className="text-lg mb-2">Om oss</h3>
 
-					<p className="text-sm ">Resursenheten hanterar frågor om:</p>
+					<p className="text-sm mb-2">Resursenheten hanterar frågor om:</p>
 					<ul className="list-disc list-inside text-sm">
 						<li>Familjefrågor</li>
 						<li>Ungdomsfrågor</li>
@@ -13,9 +13,9 @@ export function Footer() {
 					</ul>
 				</section>
 				<section className="flex flex-col flex-1 text-start">
-					<h3 className="text-lg">Kontakt</h3>
+					<h3 className="text-lg mb-2">Kontakt</h3>
 					<p className="text-sm">
-						Vill du ha snabb kontakt med oss kan du ringa oss <br /> Öppettider
+						Vill du ha snabb kontakt med oss kan du ringa oss. <br /> Öppettider
 						för telefon: <br /> 10:00 - 16:00 <br />
 						Telefon: <br /> 0322-000 00 <br /> Mail: <br />
 						resursenheten@herrljunga.se <br /> Länk: <br />

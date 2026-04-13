@@ -11,6 +11,9 @@ export interface Message {
 
 export class MessageValidationError extends Error {}
 
+/**
+ * @throws {MessageValidationError} if content is empty or over 1000 characters
+ */
 export function validateMessageContent(content: string): void {
 	if (!content.trim()) {
 		throw new MessageValidationError("Message content cannot be empty");
