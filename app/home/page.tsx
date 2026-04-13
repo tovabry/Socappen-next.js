@@ -10,7 +10,7 @@ export default function HomePage() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header title="Resursenheten för ungdomar" />
-			<main className="flex-1">
+			<main className="flex-1 mb-4">
 				<h2>
 					Welcome, {user?.email ?? "Guest"}, {user?.id}
 				</h2>
