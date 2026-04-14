@@ -23,6 +23,7 @@ export function validateMessageContent(content: string): void {
 	}
 }
 
+// Fetches a page of messages for a conversation with optional abort signal
 export async function fetchMessagePage(
 	conversationId: string,
 	page: number,
@@ -38,6 +39,7 @@ export async function fetchMessagePage(
 	return (data as Message[]).reverse();
 }
 
+// Posts a new message to the backend throws an error if it fails
 export async function postMessage(
 	conversationId: string,
 	content: string,
@@ -58,6 +60,7 @@ export async function postMessage(
 	if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }
 
+// Merges older messages with the current list, ensuring no duplicates based on message id and maintaining order with older messages first
 export function mergeOlderMessages(
 	older: Message[],
 	current: Message[],
