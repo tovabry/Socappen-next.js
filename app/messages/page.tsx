@@ -3,12 +3,14 @@
 import { Header } from "@/components/Header";
 import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/formatDate";
+import { sortConversationsByActivity } from "@/lib/sortConversations";
 import { useEffect, useState } from "react";
 
 interface ResponseConversation {
 	id: number;
 	createdAt: string;
 	status: string;
+	lastActivityAt: string;
 }
 
 export default function MessagesPage() {
@@ -32,10 +34,12 @@ export default function MessagesPage() {
 			});
 	}, []);
 
+	const sortedConversations = sortConversationsByActivity(conversations);
+
 	return (
 		<div className="flex flex-col">
 			<Header title="Konversationer" backRouteLink="/home" />
-			{conversations.map((conversation) => (
+			{sortedConversations.map((conversation) => (
 				<div
 					key={conversation.id}
 					className="bg-white rounded-md shadow mx-5 mt-5"
@@ -44,9 +48,10 @@ export default function MessagesPage() {
 						href={`/messages/${conversation.id}`}
 						className="block p-4 border-b"
 					>
-						<h3 className="text-black">Conversation {conversation.id}</h3>
+						<h3 className="text-black">Konversation {conversation.id}</h3>
 						<p>{formatDate(conversation.createdAt)}</p>
 						<p>Status: {conversation.status}</p>
+						<p>Senaste aktivitet: {formatDate(conversation.lastActivityAt)}</p>
 					</a>
 				</div>
 			))}
