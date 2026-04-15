@@ -1,6 +1,7 @@
 "use client";
 import { LogTable } from "@/components/logs/LogTable";
 import { getToken } from "@/lib/auth";
+import { formatDate } from "@/lib/formatDate";
 import { sortLogsByCreatedAt } from "@/lib/sorting/sortLogs";
 import { useEffect, useState } from "react";
 
@@ -41,16 +42,13 @@ export default function MessageLogs() {
 
 	return (
 		<LogTable
-			title="Meddellande loggar"
+			title="Meddelande loggar"
 			data={sortedLogs}
 			columns={[
-				{ header: "User ID", render: (l) => l.appUserId },
-				{ header: "Conversation ID", render: (l) => l.conversationId },
-				{ header: "IP Address", render: (l) => l.ipAddress },
-				{
-					header: "Created At",
-					render: (l) => new Date(l.createdAt).toLocaleString(),
-				},
+				{ id: 1, header: "User ID", render: (l) => l.appUserId },
+				{ id: 2, header: "Konversations ID", render: (l) => l.conversationId },
+				{ id: 3, header: "IP Address", render: (l) => l.ipAddress },
+				{ id: 4, header: "Skapad", render: (l) => formatDate(l.createdAt) },
 			]}
 		/>
 	);

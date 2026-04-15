@@ -7,7 +7,7 @@ export default function HomePage() {
 			<Header title="Loggar" backRouteLink="/home" />
 			<main className=" flex flex-col items-start w-full">
 				<LogsMenuButton
-					buttonText="Meddellande loggar"
+					buttonText="Meddelande loggar"
 					routeLink="/logs/messagelogs"
 				/>
 				<LogsMenuButton

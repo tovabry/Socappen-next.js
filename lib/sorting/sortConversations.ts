@@ -5,6 +5,9 @@ export interface Conversation {
 	lastActivityAt: string;
 }
 
+/**
+ * @returns Sorted list based of lastActivityAt where newest first
+ */
 export function sortConversationsByActivity(
 	conversations: Conversation[],
 ): Conversation[] {

@@ -1,6 +1,7 @@
 import { Header } from "../Header";
 
 interface Column<T> {
+	id: number;
 	header: string;
 	render: (row: T) => React.ReactNode;
 }
@@ -25,7 +26,7 @@ export function LogTable<T extends { id: number }>({
 					<thead>
 						<tr>
 							{columns.map((col) => (
-								<th key={col.header} className="px-4 py-2 border-b text-left">
+								<th key={col.id} className="px-4 py-2 border-b text-left">
 									{col.header}
 								</th>
 							))}
@@ -35,7 +36,7 @@ export function LogTable<T extends { id: number }>({
 						{data.map((row) => (
 							<tr key={row.id}>
 								{columns.map((col) => (
-									<td key={col.header} className="px-4 py-2 border-b">
+									<td key={col.id} className="px-4 py-2 border-b">
 										{col.render(row)}
 									</td>
 								))}
@@ -50,7 +51,7 @@ export function LogTable<T extends { id: number }>({
 					<div key={row.id} className="bg-white rounded shadow p-4 space-y-1">
 						{columns.map((col) => (
 							<div
-								key={col.header}
+								key={col.id}
 								className="flex justify-between text-sm border-b pb-1"
 							>
 								<span className="text-gray-500">{col.header}</span>

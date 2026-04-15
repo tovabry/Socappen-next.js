@@ -21,6 +21,7 @@ export function Footer() {
 						<a
 							href="mailto:resursenheten@herrljunga.se"
 							className="text-white hover:underline"
+							aria-label="Länk till mail-adress"
 						>
 							resursenheten@herrljunga.se
 						</a>

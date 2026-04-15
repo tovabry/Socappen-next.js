@@ -45,16 +45,17 @@ export default function AuthLogs() {
 			title="Auth loggar"
 			data={sortedLogs}
 			columns={[
-				{ header: "User ID", render: (l) => l.userId },
-				{ header: "IP", render: (l) => l.ipAddress },
-				{ header: "Lyckad", render: (l) => (l.success ? "Ja" : "Nej") },
-				{ header: "Anledning", render: (l) => l.failReason ?? "–" },
-				{ header: "Inloggad", render: (l) => formatDate(l.loggedInAt) },
+				{ id: 1, header: "User ID", render: (l) => l.userId },
+				{ id: 2, header: "IP adress", render: (l) => l.ipAddress },
+				{ id: 3, header: "Lyckad", render: (l) => (l.success ? "Ja" : "Nej") },
+				{ id: 4, header: "Anledning", render: (l) => l.failReason ?? "–" },
+				{ id: 5, header: "Inloggad", render: (l) => formatDate(l.loggedInAt) },
 				{
+					id: 6,
 					header: "Utloggad",
 					render: (l) => (l.loggedOutAt ? formatDate(l.loggedOutAt) : "–"),
 				},
-				{ header: "Skapad", render: (l) => formatDate(l.createdAt) },
+				{ id: 7, header: "Skapad", render: (l) => formatDate(l.createdAt) },
 			]}
 		/>
 	);

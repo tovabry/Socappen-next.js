@@ -17,6 +17,9 @@ export interface MessageLog {
 	createdAt: string;
 }
 
+/**
+ * @returns Sorted list based of createdAt where newest first
+ */
 export function sortLogsByCreatedAt<T extends { createdAt: string }>(
 	logs: T[],
 ): T[] {
