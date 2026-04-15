@@ -1,9 +1,7 @@
-"use client";
-
 import { Header } from "@/components/Header";
 import { formatDate } from "@/lib/formatDate";
+import { serverFetch } from "@/lib/serverFetch";
 import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
-import { useEffect, useState } from "react";
 
 interface ResponseConversation {
 	id: number;
@@ -12,24 +10,11 @@ interface ResponseConversation {
 	lastActivityAt: string;
 }
 
-export default function MessagesPage() {
-	const [conversations, setConversations] = useState<ResponseConversation[]>(
-		[],
+export default async function MessagesPage() {
+	const res = await serverFetch(
+		"http://localhost:8080/api/conversations/my?page=0&size=20",
 	);
-
-	// fetch conversations on first load to show the list of conversations where logged in user is a participant.
-	useEffect(() => {
-		fetch("http://localhost:8080/api/conversations/my?page=0&size=20", {
-			credentials: "include",
-		})
-			.then((res) => res.json())
-			.then((data: ResponseConversation[]) => setConversations(data))
-			.catch((err) => {
-				console.error("Failed to fetch conversations:", err);
-				setConversations([]);
-			});
-	}, []);
-
+	const conversations: ResponseConversation[] = res.ok ? await res.json() : [];
 	const sortedConversations = sortConversationsByActivity(conversations);
 
 	return (
