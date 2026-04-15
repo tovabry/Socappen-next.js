@@ -25,7 +25,10 @@ export default async function FaqAnswerPage({ params }: Props) {
 				<section className="flex flex-col items-center mt-30">
 					<p className="text-white">
 						Här var det tomt...
-						<a href="/faq" className="text-[#DF5E5E] flex items-center">
+						<a
+							href="/faq"
+							className="text-(--link-color-red) flex items-center"
+						>
 							Gå tillbaka
 							<ArrowRight className="inline ml-1" />
 						</a>

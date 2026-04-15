@@ -64,7 +64,7 @@ export default function SignupPage() {
 		setErrors((prev) => ({ ...prev, [name]: undefined, general: undefined }));
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!validate()) return;
 

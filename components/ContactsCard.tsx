@@ -26,7 +26,7 @@ export function ContactsCard({
 								? contactWebsite
 								: `https://${contactWebsite}`
 						}
-						className=" hover:underline text-blue-400"
+						className=" hover:underline text-blue-600"
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label={`Besök ${contactName} webbplats`}

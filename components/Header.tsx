@@ -12,7 +12,7 @@ export function Header({ title, backRouteLink }: HeaderProps) {
 	const [authOpen, setAuthOpen] = useState(false);
 	return (
 		<>
-			<header className="bg-[#DF5E5E] shadow-lg p-2">
+			<header className="bg-(--bg-secondary-color-red) shadow-lg p-2">
 				<div className="flex flex-row items-center px-4 py-1">
 					{backRouteLink && (
 						<a href={backRouteLink || "/home"} aria-label="Stäng login fönster">

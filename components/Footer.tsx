@@ -1,6 +1,6 @@
 export function Footer() {
 	return (
-		<footer className="bg-[#DF5E5E] text-white text-center py-4 shadow-lg mt-4">
+		<footer className="bg-(--bg-secondary-color-red) text-white text-center py-4 shadow-lg mt-4">
 			<div className="flex flex-row justify-between mx-8 gap-4">
 				<section className="flex flex-col flex-1 text-start md:max-w-[50%] md:text-center">
 					<h3 className="text-lg mb-2">Om oss</h3>
@@ -18,7 +18,22 @@ export function Footer() {
 						Vill du ha snabb kontakt med oss kan du ringa oss. <br /> Öppettider
 						för telefon: <br /> 10:00 - 16:00 <br />
 						Telefon: <br /> 0322-000 00 <br /> Mail: <br />
-						resursenheten@herrljunga.se <br /> Länk: <br />
+						<a
+							href="mailto:resursenheten@herrljunga.se"
+							className="text-white hover:underline"
+						>
+							resursenheten@herrljunga.se
+						</a>
+						<br /> Länk: <br />
+						<a
+							href="#"
+							className="text-white hover:underline"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label="Besök Exempel webbplats"
+						>
+							www.exempel.se
+						</a>
 					</p>
 				</section>
 			</div>
