@@ -3,7 +3,7 @@
 import { useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { fetchCurrentUser, saveToken } from "@/lib/auth";
+import { fetchCurrentUser } from "@/lib/auth";
 import { useAuth } from "@/lib/context/AuthContext";
 
 interface LoginFormProps {
@@ -33,6 +33,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: form.email, password: form.password }),
+				credentials: "include",
 			});
 
 			if (!res.ok) {
@@ -40,15 +41,10 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 				return;
 			}
 
-			const { token } = await res.json();
-
-			localStorage.setItem("token", token);
-			window.dispatchEvent(new Event("auth-change"));
+			const user = await fetchCurrentUser();
+			setUser(user);
 			if (onSuccess) {
-				saveToken(token);
-				const user = await fetchCurrentUser(token);
-				setUser(user);
-				onSuccess?.();
+				onSuccess();
 			} else {
 				router.push("/home");
 			}

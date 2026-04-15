@@ -1,7 +1,6 @@
 "use client";
 
 import { Header } from "@/components/Header";
-import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/formatDate";
 import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
 import { useEffect, useState } from "react";
@@ -20,11 +19,8 @@ export default function MessagesPage() {
 
 	// fetch conversations on first load to show the list of conversations where logged in user is a participant.
 	useEffect(() => {
-		const token = getToken();
 		fetch("http://localhost:8080/api/conversations/my?page=0&size=20", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
+			credentials: "include",
 		})
 			.then((res) => res.json())
 			.then((data: ResponseConversation[]) => setConversations(data))

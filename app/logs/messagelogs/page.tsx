@@ -1,6 +1,5 @@
 "use client";
 import { LogTable } from "@/components/logs/LogTable";
-import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/formatDate";
 import { sortLogsByCreatedAt } from "@/lib/sorting/sortLogs";
 import { useEffect, useState } from "react";
@@ -17,15 +16,12 @@ export default function MessageLogs() {
 	const [messageLogs, setMessageLogs] = useState<MessageLog[]>([]);
 
 	useEffect(() => {
-		const token = getToken();
-		if (!token) return;
-
 		const fetchLogs = async () => {
 			try {
 				const res = await fetch(
 					"http://localhost:8080/api/admin/logs/messages",
 					{
-						headers: { Authorization: `Bearer ${token}` },
+						credentials: "include",
 					},
 				);
 				const data = await res.json();

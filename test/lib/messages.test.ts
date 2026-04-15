@@ -1,5 +1,3 @@
-jest.mock("@/lib/auth", () => ({ getToken: () => "fake-token" }));
-
 import {
 	mergeOlderMessages,
 	Message,
@@ -68,7 +66,7 @@ describe("fetchMessagePage", () => {
 		await expect(fetchMessagePage("conv-1", 0)).rejects.toThrow("HTTP 403");
 	});
 
-	test("Sends Authorization header", async () => {
+	test("Sends credentials: include", async () => {
 		(fetch as jest.Mock).mockResolvedValueOnce({
 			ok: true,
 			json: async () => [],
@@ -76,11 +74,7 @@ describe("fetchMessagePage", () => {
 		await fetchMessagePage("conv-1", 0);
 		expect(fetch).toHaveBeenCalledWith(
 			expect.stringContaining("conv-1"),
-			expect.objectContaining({
-				headers: expect.objectContaining({
-					Authorization: "Bearer fake-token",
-				}),
-			}),
+			expect.objectContaining({ credentials: "include" }),
 		);
 	});
 });

@@ -1,17 +1,9 @@
-import { jwtDecode } from "jwt-decode";
-
-export const saveToken = (token: string) =>
-	localStorage.setItem("token", token);
-export const getToken = () => localStorage.getItem("token");
-export const removeToken = () => localStorage.removeItem("token");
-
 /**
  * @returns user info such as id, email and array of roles
  */
-export async function fetchCurrentUser(token: string) {
-	const decoded = jwtDecode<{ sub: string; roles: string[] }>(token);
+export async function fetchCurrentUser() {
 	const res = await fetch("http://localhost:8080/api/users/me", {
-		headers: { Authorization: `Bearer ${token}` },
+		credentials: "include",
 	});
 	if (!res.ok) {
 		throw new Error("Failed to fetch user");
@@ -19,7 +11,7 @@ export async function fetchCurrentUser(token: string) {
 	const data = await res.json();
 	return {
 		id: data.id,
-		email: decoded.sub,
-		roles: decoded.roles ?? [],
+		email: data.email,
+		roles: data.roles ?? [],
 	};
 }

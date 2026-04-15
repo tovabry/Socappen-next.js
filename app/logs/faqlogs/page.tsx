@@ -1,5 +1,4 @@
 "use client";
-import { getToken } from "@/lib/auth";
 import { useEffect, useState } from "react";
 
 interface FaqLog {
@@ -14,13 +13,10 @@ export default function FaqLogs() {
 	const [faqLogs, setFaqLogs] = useState<FaqLog[]>([]);
 
 	useEffect(() => {
-		const token = getToken();
-		if (!token) return;
-
 		const fetchLogs = async () => {
 			try {
 				const res = await fetch("http://localhost:8080/api/admin/logs/faqs", {
-					headers: { Authorization: `Bearer ${token}` },
+					credentials: "include",
 				});
 				const data = await res.json();
 				setFaqLogs(data);
