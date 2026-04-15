@@ -1,7 +1,7 @@
 import {
 	sortConversationsByActivity,
 	Conversation,
-} from "@/lib/sortConversations";
+} from "@/lib/sorting/sortConversations";
 
 const conv = (id: number, lastActivityAt: string): Conversation => ({
 	id,

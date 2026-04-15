@@ -3,7 +3,7 @@
 import { Header } from "@/components/Header";
 import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/formatDate";
-import { sortConversationsByActivity } from "@/lib/sortConversations";
+import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
 import { useEffect, useState } from "react";
 
 interface ResponseConversation {

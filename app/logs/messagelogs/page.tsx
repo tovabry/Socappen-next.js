@@ -1,5 +1,7 @@
 "use client";
+import { LogTable } from "@/components/logs/LogTable";
 import { getToken } from "@/lib/auth";
+import { sortLogsByCreatedAt } from "@/lib/sorting/sortLogs";
 import { useEffect, useState } from "react";
 
 interface MessageLog {
@@ -35,31 +37,21 @@ export default function MessageLogs() {
 		fetchLogs();
 	}, []);
 
+	const sortedLogs = sortLogsByCreatedAt(messageLogs);
+
 	return (
-		<div className="w-full">
-			<h1 className="text-2xl font-bold mb-4">Message Logs</h1>
-			<table className="min-w-full bg-white">
-				<thead>
-					<tr>
-						<th className="py-2 px-4 border-b">User ID</th>
-						<th className="py-2 px-4 border-b">Conversation ID</th>
-						<th className="py-2 px-4 border-b">IP Address</th>
-						<th className="py-2 px-4 border-b">Created At</th>
-					</tr>
-				</thead>
-				<tbody>
-					{messageLogs.map((log) => (
-						<tr key={log.id}>
-							<td className="py-2 px-4 border-b">{log.appUserId}</td>
-							<td className="py-2 px-4 border-b">{log.conversationId}</td>
-							<td className="py-2 px-4 border-b">{log.ipAddress}</td>
-							<td className="py-2 px-4 border-b">
-								{new Date(log.createdAt).toLocaleString()}
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
+		<LogTable
+			title="Meddellande loggar"
+			data={sortedLogs}
+			columns={[
+				{ header: "User ID", render: (l) => l.appUserId },
+				{ header: "Conversation ID", render: (l) => l.conversationId },
+				{ header: "IP Address", render: (l) => l.ipAddress },
+				{
+					header: "Created At",
+					render: (l) => new Date(l.createdAt).toLocaleString(),
+				},
+			]}
+		/>
 	);
 }
