@@ -20,6 +20,7 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 		logout();
 		onClose();
 		router.push("/home");
+		router.refresh();
 	};
 
 	return (

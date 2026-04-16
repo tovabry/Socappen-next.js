@@ -10,7 +10,7 @@ jest.mock("@/components/auth/LoginForm", () => ({
 	default: () => <div>Mocked LoginForm</div>,
 }));
 jest.mock("next/navigation", () => ({
-	useRouter: () => ({ push: jest.fn() }),
+	useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
 }));
 
 describe("AuthModal", () => {

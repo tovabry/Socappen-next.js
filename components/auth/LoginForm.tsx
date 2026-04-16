@@ -45,8 +45,10 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 			setUser(user);
 			if (onSuccess) {
 				onSuccess();
+				router.refresh();
 			} else {
 				router.push("/home");
+				router.refresh();
 			}
 		} catch {
 			setError("Något gick fel, försök igen.");
