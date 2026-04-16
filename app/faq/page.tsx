@@ -25,8 +25,10 @@ export default async function FaqPage() {
 		}
 	}
 
-	const res = await fetch("http://localhost:8080/api/faq");
-	const faqs: ResponseFaq[] = await res.json();
+	// SÄTTER SIZE SOM 30 FÖR ATT UNDVIKA PROBLEMET MED ATT DET BARA HÄMTAR 10 FAQS SOM ÄR SATT SOM DEFAULT I BACKEND OCH SEDAN INTE VISAR NÅGRA FLER
+	const res = await fetch("http://localhost:8080/api/faq?size=30");
+	const data = await res.json();
+	const faqs: ResponseFaq[] = data.content ?? data;
 
 	return <FaqList faqs={faqs} isAdmin={isAdmin} />;
 }
