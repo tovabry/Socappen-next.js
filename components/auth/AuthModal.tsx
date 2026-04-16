@@ -3,6 +3,7 @@
 import LoginForm from "./LoginForm";
 import { X } from "lucide-react";
 import { useAuth } from "@/lib/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface AuthModalProps {
 	open: boolean;
@@ -11,11 +12,14 @@ interface AuthModalProps {
 
 export default function AuthModal({ open, onClose }: AuthModalProps) {
 	const { user, logout } = useAuth();
+	const router = useRouter();
+
 	if (!open) return null;
 
 	const handleLogout = () => {
 		logout();
 		onClose();
+		router.push("/home");
 	};
 
 	return (
