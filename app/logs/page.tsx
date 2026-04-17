@@ -14,6 +14,7 @@ export default function HomePage() {
 					buttonText="Authentication loggar"
 					routeLink="/logs/authlogs"
 				/>
+				<LogsMenuButton buttonText="FAQ loggar" routeLink="/logs/faqlogs" />
 			</main>
 		</div>
 	);
