@@ -37,21 +37,21 @@ export default function SignupPage() {
 		const newErrors: FieldErrors = {};
 
 		if (!form.email.trim()) {
-			newErrors.email = "Email is required.";
+			newErrors.email = "Email krävs.";
 		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-			newErrors.email = "Enter a valid email address.";
+			newErrors.email = "Ange en giltig e-postadress.";
 		}
 
 		if (!form.password) {
-			newErrors.password = "Password is required.";
+			newErrors.password = "Lösenord krävs.";
 		} else if (form.password.length < 8) {
-			newErrors.password = "Must be at least 8 characters.";
+			newErrors.password = "Lösenord måste vara minst 8 tecken.";
 		}
 
 		if (!form.confirmPassword) {
-			newErrors.confirmPassword = "Please confirm your password.";
+			newErrors.confirmPassword = "Bekräfta ditt lösenord.";
 		} else if (form.password !== form.confirmPassword) {
-			newErrors.confirmPassword = "Passwords do not match.";
+			newErrors.confirmPassword = "Lösenorden matchar inte.";
 		}
 
 		setErrors(newErrors);
@@ -64,7 +64,7 @@ export default function SignupPage() {
 		setErrors((prev) => ({ ...prev, [name]: undefined, general: undefined }));
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!validate()) return;
 
@@ -85,7 +85,7 @@ export default function SignupPage() {
 			if (!res.ok) {
 				const text = await res.text();
 				setErrors({
-					general: text || "Registration failed. Please try again.",
+					general: text || "Registrering misslyckades. Försök igen.",
 				});
 				return;
 			}
@@ -93,7 +93,7 @@ export default function SignupPage() {
 			const data: ResponseAppUser = await res.json();
 			setSuccess(data);
 		} catch {
-			setErrors({ general: "Network error. Is the server running?" });
+			setErrors({ general: "Nätverksfel. Försök igen." });
 		} finally {
 			setLoading(false);
 		}
@@ -103,9 +103,9 @@ export default function SignupPage() {
 		return (
 			<div className="auth-page">
 				<div className="auth-card">
-					<h2 className="text-xl font-semibold mb-2">Account created</h2>
+					<h2 className="text-xl font-semibold mb-2">Konto skapat</h2>
 					<p className="text-sm text-gray-500 mb-4">
-						Welcome, <strong>{success.email}</strong>. Your account is active.
+						Välkommen, <strong>{success.email}</strong>. Ditt konto är aktivt.
 					</p>
 					<a href="/home" className="text-sm text-gray-900 hover:underline">
 						Fortsätt

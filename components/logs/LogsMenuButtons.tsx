@@ -1,14 +1,11 @@
 import { ArrowRight } from "lucide-react";
 
-interface HomePageButtonsProps {
+interface LogsMenuButtonProps {
 	buttonText: string;
 	routeLink?: string;
 }
 
-export function HomePageButton({
-	buttonText,
-	routeLink,
-}: HomePageButtonsProps) {
+export function LogsMenuButton({ buttonText, routeLink }: LogsMenuButtonProps) {
 	return (
 		<div className="rounded-full border shadow-md bg-(--bg-secondary-color-red) mx-5 mt-5">
 			<a href={routeLink || "#"} aria-label={`Navigera till ${buttonText}`}>

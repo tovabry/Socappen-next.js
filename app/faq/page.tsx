@@ -1,8 +1,8 @@
-"use client";
+import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
+import { FaqList } from "@/components/faq/FaqList";
 
-import { useEffect, useState } from "react";
-import { QuestionCard } from "../../components/QuestionCard";
-import { Header } from "@/components/Header";
+type JwtPayload = { roles: string[]; sub: string; exp: number };
 
 interface ResponseFaq {
 	id: number;
@@ -10,50 +10,25 @@ interface ResponseFaq {
 	answer: string;
 }
 
-export default function FaqPage() {
-	const [faqs, setFaqs] = useState<ResponseFaq[]>([]);
-	const [searchQuery, setSearchQuery] = useState("");
+export default async function FaqPage() {
+	const cookieStore = await cookies();
+	const token = cookieStore.get("token")?.value;
+	let isAdmin = false;
+	if (token) {
+		try {
+			const decodedToken = jwtDecode<JwtPayload>(token);
+			isAdmin = decodedToken.roles.some((r) =>
+				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
+			);
+		} catch {
+			console.error("Invalid token");
+		}
+	}
 
-	useEffect(() => {
-		fetch("http://localhost:8080/api/faq")
-			.then((res) => res.json())
-			.then((data: ResponseFaq[]) => setFaqs(data))
-			.catch((err) => {
-				console.error("Failed to fetch FAQs:", err);
-				setFaqs([]);
-			});
-	}, []);
+	// SÄTTER SIZE SOM 30 FÖR ATT UNDVIKA PROBLEMET MED ATT DET BARA HÄMTAR 10 FAQS SOM ÄR SATT SOM DEFAULT I BACKEND OCH SEDAN INTE VISAR NÅGRA FLER
+	const res = await fetch("http://localhost:8080/api/faq?size=30");
+	const data = await res.json();
+	const faqs: ResponseFaq[] = data.content ?? data;
 
-	const searchFilter = (array: ResponseFaq[]) => {
-		return array.filter((faq) =>
-			faq.question.toLowerCase().includes(searchQuery.toLowerCase()),
-		);
-	};
-
-	const filtered = searchFilter(faqs);
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchQuery(e.target.value);
-	};
-
-	return (
-		<div className="w-full">
-			<Header title="Vanligt förekommande frågor" backRouteLink="/home" />
-			<input
-				onChange={handleChange}
-				type="text"
-				placeholder="Sök..."
-				className="p-2 border rounded-md mx-10 mt-5 bg-white w-[calc(100%-80px)]"
-			/>
-			<div className="flex flex-col gap-2 mx-10 md:grid md:grid-cols-2 lg:grid-cols-3">
-				{filtered.map((faq) => (
-					<QuestionCard
-						key={faq.id}
-						question={faq.question}
-						routeLink={`/faq/${faq.id}`}
-					/>
-				))}
-			</div>
-		</div>
-	);
+	return <FaqList faqs={faqs} isAdmin={isAdmin} />;
 }
