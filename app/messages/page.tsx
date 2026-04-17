@@ -1,10 +1,9 @@
-"use client";
-
 import { Header } from "@/components/Header";
-import { getToken } from "@/lib/auth";
 import { formatDate } from "@/lib/formatDate";
+import { serverFetch } from "@/lib/serverFetch";
 import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
-import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
 interface ResponseConversation {
 	id: number;
@@ -13,28 +12,26 @@ interface ResponseConversation {
 	lastActivityAt: string;
 }
 
-export default function MessagesPage() {
-	const [conversations, setConversations] = useState<ResponseConversation[]>(
-		[],
+type JwtPayload = { roles: string[]; sub: string; exp: number };
+
+export default async function MessagesPage() {
+	const res = await serverFetch(
+		"http://localhost:8080/api/conversations/my?page=0&size=20",
 	);
-
-	// fetch conversations on first load to show the list of conversations where logged in user is a participant.
-	useEffect(() => {
-		const token = getToken();
-		fetch("http://localhost:8080/api/conversations/my?page=0&size=20", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-			.then((res) => res.json())
-			.then((data: ResponseConversation[]) => setConversations(data))
-			.catch((err) => {
-				console.error("Failed to fetch conversations:", err);
-				setConversations([]);
-			});
-	}, []);
-
+	const conversations: ResponseConversation[] = res.ok ? await res.json() : [];
 	const sortedConversations = sortConversationsByActivity(conversations);
+
+	const cookieStore = await cookies();
+	const token = cookieStore.get("token")?.value;
+	let isUser = false;
+	if (token) {
+		try {
+			const decodedToken = jwtDecode<JwtPayload>(token);
+			isUser = decodedToken.roles.some((r) => ["ROLE_USER"].includes(r));
+		} catch {
+			console.error("Invalid token");
+		}
+	}
 
 	return (
 		<div className="flex flex-col">
@@ -55,6 +52,16 @@ export default function MessagesPage() {
 					</a>
 				</div>
 			))}
+			{isUser && sortedConversations.length === 0 && (
+				<div className="flex justify-center mt-10">
+					<a
+						href="/messages/new"
+						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md"
+					>
+						Starta ny chatt
+					</a>
+				</div>
+			)}
 		</div>
 	);
 }

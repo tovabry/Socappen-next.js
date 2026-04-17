@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchCurrentUser, getToken, removeToken } from "../auth";
+import { fetchCurrentUser } from "../auth";
 
 interface AuthUser {
 	id: number;
@@ -25,16 +25,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<AuthUser | null>(null);
 
 	useEffect(() => {
-		const token = getToken();
-		if (token) {
-			fetchCurrentUser(token)
-				.then(setUser)
-				.catch(() => removeToken());
-		}
+		fetchCurrentUser()
+			.then(setUser)
+			.catch(() => setUser(null));
 	}, []);
 
-	const logout = () => {
-		removeToken();
+	const logout = async () => {
+		await fetch("http://localhost:8080/api/auth/logout", {
+			method: "POST",
+			credentials: "include",
+		});
 		setUser(null);
 	};
 

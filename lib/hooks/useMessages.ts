@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { getToken } from "@/lib/auth";
 import {
 	fetchMessagePage,
 	mergeOlderMessages,
@@ -45,11 +44,9 @@ export function useMessages(conversationId: string) {
 
 	// WebSocket connection
 	useEffect(() => {
-		const token = getToken();
 		const client = new Client({
 			webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
 			reconnectDelay: 5000,
-			connectHeaders: { Authorization: `Bearer ${token}` },
 		});
 		client.onConnect = () => {
 			client.subscribe(`/conversation/${conversationId}`, (msg) => {

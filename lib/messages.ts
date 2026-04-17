@@ -1,5 +1,3 @@
-import { getToken } from "@/lib/auth";
-
 export const pageSize = 20;
 
 export interface Message {
@@ -29,10 +27,9 @@ export async function fetchMessagePage(
 	page: number,
 	signal?: AbortSignal,
 ): Promise<Message[]> {
-	const token = getToken();
 	const res = await fetch(
 		`http://localhost:8080/api/conversations/${conversationId}/messages?page=${page}&size=${pageSize}`,
-		{ headers: { Authorization: `Bearer ${token}` }, signal },
+		{ credentials: "include", signal },
 	);
 	if (!res.ok) throw new Error(`HTTP ${res.status}`);
 	const data = await res.json();
@@ -45,15 +42,14 @@ export async function postMessage(
 	content: string,
 ): Promise<void> {
 	validateMessageContent(content);
-	const token = getToken();
 	const res = await fetch(
 		`http://localhost:8080/api/conversations/${conversationId}/messages`,
 		{
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
 			},
+			credentials: "include",
 			body: JSON.stringify({ content }),
 		},
 	);
