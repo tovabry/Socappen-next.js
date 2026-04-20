@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { QuestionCard } from "../QuestionCard";
 import { Header } from "@/components/Header";
+import { ChevronDown } from "lucide-react";
 
 interface ResponseFaq {
 	id: number;
@@ -17,6 +17,7 @@ interface Props {
 
 export function FaqList({ faqs, isAdmin }: Props) {
 	const [searchQuery, setSearchQuery] = useState("");
+	const [openId, setOpenId] = useState<number | null>(null);
 
 	const filtered = faqs.filter((faq) =>
 		faq.question.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -41,13 +42,33 @@ export function FaqList({ faqs, isAdmin }: Props) {
 					</a>
 				)}
 			</div>
-			<div className="flex flex-col gap-2 mx-10 md:grid md:grid-cols-2 lg:grid-cols-3">
+			<div className="flex flex-col gap-2 mx-10 mt-4">
 				{filtered.map((faq) => (
-					<QuestionCard
-						key={faq.id}
-						question={faq.question}
-						routeLink={`/faq/${faq.id}`}
-					/>
+					<div key={faq.id} className="bg-white rounded-md shadow">
+						<button
+							onClick={() => setOpenId(openId === faq.id ? null : faq.id)}
+							className="w-full flex items-center justify-between p-4 text-left"
+						>
+							<p className="text-lg ">{faq.question}</p>
+							<ChevronDown
+								size={18}
+								className={`transition-transform shrink-0 ml-2 ${openId === faq.id ? "rotate-180" : ""}`}
+							/>
+						</button>
+						{openId === faq.id && (
+							<div className="px-4 pb-4 text-gray-700 border-t pt-3">
+								<p>{faq.answer}</p>
+								{isAdmin && (
+									<a
+										href={`/faq/${faq.id}/edit`}
+										className="text-sm text-(--bg-secondary-color-red) underline hover:underline mt-2 inline-block"
+									>
+										Redigera
+									</a>
+								)}
+							</div>
+						)}
+					</div>
 				))}
 			</div>
 		</div>

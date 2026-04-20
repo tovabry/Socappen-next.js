@@ -2,6 +2,8 @@ import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
+import { deleteFaq } from "../../actions";
+import { DeleteFaqButton } from "@/components/faq/DeleteFaqButton";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -63,7 +65,7 @@ export default async function FaqEditPage({ params }: Props) {
 
 	return (
 		<div className="w-full">
-			<Header title="Redigera FAQ" backRouteLink={`/faq/${id}`} />
+			<Header title="Redigera FAQ" backRouteLink={`/faq`} />
 			<section className="flex flex-col mt-10 bg-white p-6 rounded-lg shadow-md mx-10 gap-4">
 				<form action={updateFaq} className="flex flex-col gap-4">
 					<input type="hidden" name="faqId" value={id} />
@@ -93,6 +95,7 @@ export default async function FaqEditPage({ params }: Props) {
 						Spara
 					</button>
 				</form>
+				<DeleteFaqButton faqId={id} />
 			</section>
 		</div>
 	);
