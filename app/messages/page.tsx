@@ -4,7 +4,7 @@ import { serverFetch } from "@/lib/serverFetch";
 import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
-import { createConversation } from "./actions";
+import { createConversation, joinConversation } from "./actions";
 
 interface ResponseConversation {
 	id: number;
@@ -33,6 +33,7 @@ export default async function MessagesPage() {
 		}
 	}
 
+	// Get conversations where logged in user is a participant
 	const myRes = await serverFetch(
 		"http://localhost:8080/api/conversations/my?page=0&size=20",
 	);
@@ -40,7 +41,11 @@ export default async function MessagesPage() {
 		? await myRes.json()
 		: [];
 
+	const myConversationIds = new Set(myConversations.map((c) => c.id));
+
 	let allConversations: ResponseConversation[] = [];
+
+	// If admin fetch all conversations
 	if (isAdmin) {
 		const allRes = await serverFetch(
 			"http://localhost:8080/api/conversations?page=0&size=100",
@@ -57,13 +62,21 @@ export default async function MessagesPage() {
 						Mina konversationer
 					</h2>
 					{sortConversationsByActivity(myConversations).map((c) => (
-						<ConversationCard key={c.id} conversation={c} />
+						<ConversationCard
+							key={c.id}
+							conversation={c}
+							isParticipant={myConversationIds.has(c.id)}
+						/>
 					))}
 					<h2 className="text-xl text-center font-semibold mt-10 mx-5">
 						Alla konversationer
 					</h2>
 					{sortConversationsByActivity(allConversations).map((c) => (
-						<ConversationCard key={c.id} conversation={c} />
+						<ConversationCard
+							key={c.id}
+							conversation={c}
+							isParticipant={myConversationIds.has(c.id)}
+						/>
 					))}
 				</>
 			) : (
@@ -72,7 +85,11 @@ export default async function MessagesPage() {
 						Mina konversationer
 					</h2>
 					{sortConversationsByActivity(myConversations).map((c) => (
-						<ConversationCard key={c.id} conversation={c} />
+						<ConversationCard
+							key={c.id}
+							conversation={c}
+							isParticipant={myConversationIds.has(c.id)}
+						/>
 					))}
 					{isUser && myConversations.length === 0 && (
 						<div className="flex justify-center mt-10">
@@ -94,8 +111,10 @@ export default async function MessagesPage() {
 
 function ConversationCard({
 	conversation,
+	isParticipant,
 }: {
 	conversation: ResponseConversation;
+	isParticipant: boolean;
 }) {
 	return (
 		<div className="bg-white rounded-md shadow mx-5 mt-5">
@@ -105,6 +124,17 @@ function ConversationCard({
 				<p>Status: {conversation.status}</p>
 				<p>Senaste aktivitet: {formatDate(conversation.lastActivityAt)}</p>
 			</a>
+			{!isParticipant && (
+				<form action={joinConversation} className="p-4">
+					<input type="hidden" name="conversationId" value={conversation.id} />
+					<button
+						type="submit"
+						className="px-3 py-1 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+					>
+						Gå med i konversation
+					</button>
+				</form>
+			)}
 		</div>
 	);
 }

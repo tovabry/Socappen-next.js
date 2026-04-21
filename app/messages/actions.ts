@@ -19,7 +19,7 @@ export async function createConversation() {
 			"Content-Type": "application/json",
 			Cookie: `token=${token}`,
 		},
-		body: JSON.stringify({ userId: currentUser.id }),
+		body: JSON.stringify({ participantIds: [currentUser.id] }),
 	});
 
 	if (!res.ok) {
@@ -29,4 +29,24 @@ export async function createConversation() {
 
 	const conversation = await res.json();
 	redirect(`/messages/${conversation.id}`);
+}
+
+export async function joinConversation(formData: FormData) {
+	const conversationId = formData.get("conversationId") as string;
+	const cookieStore = await cookies();
+	const token = cookieStore.get("token")?.value;
+
+	const res = await fetch(
+		`http://localhost:8080/api/conversations/${conversationId}/join`,
+		{
+			method: "POST",
+			headers: { Cookie: `token=${token}` },
+		},
+	);
+
+	if (!res.ok) {
+		console.error("Join failed:", res.status, await res.text());
+		return;
+	}
+	redirect(`/messages/${conversationId}`);
 }
