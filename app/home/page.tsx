@@ -36,7 +36,7 @@ export default async function HomePage() {
 					begränsade tider. För personlig hjälp kan du kontakta oss här och
 					här....
 				</p>
-				<HomePageButton buttonText="Kontakta oss" routeLink="#" />
+				<HomePageButton buttonText="Posts" routeLink="/post" />
 				<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
 				<HomePageButton buttonText="Skriv med oss" routeLink="/messages" />
 				<HomePageButton
