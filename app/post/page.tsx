@@ -1,9 +1,87 @@
 import { Header } from "@/components/Header";
+import { formatDate } from "@/lib/formatDate";
+import { serverFetch } from "@/lib/serverFetch";
+import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
 
-export default function PostPage() {
+type JwtPayload = { roles: string[]; sub: string; exp: number };
+
+interface ResponsePost {
+	id: number;
+	userId: number;
+	title: string;
+	content: string;
+	createdAt: string;
+}
+
+export default async function PostPage() {
+	const cookieStore = await cookies();
+	const token = cookieStore.get("token")?.value;
+	let isAdmin = false;
+	if (token) {
+		try {
+			const decodedToken = jwtDecode<JwtPayload>(token);
+			isAdmin = decodedToken.roles.some((r) =>
+				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
+			);
+		} catch {
+			console.error("Invalid token");
+		}
+	}
+
+	const res = await serverFetch(
+		"http://localhost:8080/api/posts?page=0&size=20",
+	);
+	const posts: ResponsePost[] = await res.json();
+
 	return (
-		<div>
-			<Header title="Post" backRouteLink="/home" />
+		<div className="w-full">
+			<Header title="Posts" backRouteLink="/home" />
+			<div className="flex justify-end mx-10 mt-5">
+				{isAdmin && (
+					<a
+						href="/post/new"
+						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm shadow-md"
+					>
+						+ Nytt inlägg
+					</a>
+				)}
+			</div>
+			<main className="flex flex-col gap-4 mx-10 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
+				{posts.map((post) => (
+					<article key={post.id} className="bg-white rounded-lg shadow-md p-5">
+						<div className="flex justify-between items-start">
+							<div>
+								<h2 className="text-lg font-semibold">{post.title}</h2>
+								<time
+									dateTime={post.createdAt}
+									className="text-xs text-gray-400 mt-1"
+								>
+									{formatDate(post.createdAt)}
+								</time>
+							</div>
+							{isAdmin && (
+								<div className="flex gap-2">
+									<a
+										href={`/post/${post.id}/edit`}
+										className="px-3 py-1 text-sm border rounded-md shadow-md"
+									>
+										Redigera
+									</a>
+								</div>
+							)}
+						</div>
+						<p className="mt-3 text-gray-700 line-clamp-3">{post.content}</p>
+						<a
+							href={`/post/${post.id}`}
+							aria-label={`Läs mer om ${post.title}`}
+							className="text-sm mt-3 inline-block border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+						>
+							Läs mer
+						</a>
+					</article>
+				))}
+			</main>
 		</div>
 	);
 }
