@@ -59,12 +59,14 @@ export function FaqList({ faqs, isAdmin }: Props) {
 							<div className="px-4 pb-4 text-gray-700 border-t pt-3">
 								<p>{faq.answer}</p>
 								{isAdmin && (
-									<a
-										href={`/faq/${faq.id}/edit`}
-										className="text-sm text-(--bg-secondary-color-red) underline hover:underline mt-2 inline-block"
-									>
-										Redigera
-									</a>
+									<div className="flex flex-row justify-end gap-2">
+										<a
+											href={`/faq/${faq.id}/edit`}
+											className="px-3 py-1 text-sm border rounded-md shadow-md"
+										>
+											Redigera
+										</a>
+									</div>
 								)}
 							</div>
 						)}

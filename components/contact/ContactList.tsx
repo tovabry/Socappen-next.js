@@ -38,7 +38,7 @@ export function ContactList({ contacts, isAdmin }: Props) {
 							alt={contact.title}
 							className="w-16 h-16 rounded-full object-contain"
 						/>
-						<div className="flex flex-col">
+						<div className="flex flex-col gap-2 w-full">
 							<h3 className="text-xl font-semibold">{contact.title}</h3>
 							<a href={`mailto:${contact.mail}`} className="text-gray-600">
 								E-post: {contact.mail}
@@ -46,6 +46,18 @@ export function ContactList({ contacts, isAdmin }: Props) {
 							<a href={`tel:${contact.phone}`} className="text-gray-600">
 								Telefon: {contact.phone}
 							</a>
+							<div className="flex flex-row justify-end">
+								{isAdmin && (
+									<div className="flex gap-2">
+										<a
+											href={`/contacts/${contact.id}/edit`}
+											className="px-3 py-1 text-sm border rounded-md shadow-md"
+										>
+											Redigera
+										</a>
+									</div>
+								)}
+							</div>
 						</div>
 					</section>
 				))}

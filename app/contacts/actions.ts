@@ -3,11 +3,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function deleteFaq(formData: FormData) {
+export async function deleteContact(formData: FormData) {
 	const id = formData.get("id") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
-	const res = await fetch(`http://localhost:8080/api/faq/${id}`, {
+	const res = await fetch(`http://localhost:8080/api/contact/${id}`, {
 		method: "DELETE",
 		headers: { Cookie: `token=${token}` },
 	});
@@ -15,11 +15,11 @@ export async function deleteFaq(formData: FormData) {
 		console.error("Delete failed:", res.status, await res.text());
 		return;
 	}
-	redirect("/faq");
+	redirect("/contacts");
 }
 
-export async function updateFaq(formData: FormData) {
-	const faqId = formData.get("faqId") as string;
+export async function updateContact(formData: FormData) {
+	const contactId = formData.get("contactId") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
 
@@ -28,7 +28,7 @@ export async function updateFaq(formData: FormData) {
 	});
 	const currentUser = await currentUserRes.json();
 
-	const res = await fetch(`http://localhost:8080/api/faq/${faqId}`, {
+	const res = await fetch(`http://localhost:8080/api/contact/${contactId}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -36,18 +36,20 @@ export async function updateFaq(formData: FormData) {
 		},
 		body: JSON.stringify({
 			userId: currentUser.id,
-			question: formData.get("question"),
-			Answer: formData.get("answer"),
+			title: formData.get("title"),
+			img_url: formData.get("imgUrl"),
+			mail: formData.get("mail"),
+			phone: formData.get("phone"),
 		}),
 	});
 	if (!res.ok) {
 		console.error("Update failed:", res.status, await res.text());
 		return;
 	}
-	redirect(`/faq`);
+	redirect(`/contacts`);
 }
 
-export async function createFaq(formData: FormData) {
+export async function createContact(formData: FormData) {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
 
@@ -56,7 +58,7 @@ export async function createFaq(formData: FormData) {
 	});
 	const currentUser = await currentUserRes.json();
 
-	const res = await fetch("http://localhost:8080/api/faq", {
+	const res = await fetch("http://localhost:8080/api/contact", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -64,13 +66,15 @@ export async function createFaq(formData: FormData) {
 		},
 		body: JSON.stringify({
 			userId: currentUser.id,
-			question: formData.get("question"),
-			Answer: formData.get("answer"),
+			title: formData.get("title"),
+			img_url: formData.get("imgUrl"),
+			mail: formData.get("mail"),
+			phone: formData.get("phone"),
 		}),
 	});
 	if (!res.ok) {
 		console.error("Create failed:", res.status, await res.text());
 		return;
 	}
-	redirect("/faq");
+	redirect("/contacts");
 }

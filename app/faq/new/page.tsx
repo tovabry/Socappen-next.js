@@ -2,6 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
+import { createFaq } from "../actions";
 
 type JwtPayload = { roles: string[]; sub: string; exp: number };
 
@@ -21,35 +22,6 @@ export default async function FaqNewPage() {
 	}
 
 	if (!isAdmin) redirect("/faq");
-
-	async function createFaq(formData: FormData) {
-		"use server";
-		const cookieStore = await cookies();
-		const token = cookieStore.get("token")?.value;
-
-		const currentUserRes = await fetch("http://localhost:8080/api/users/me", {
-			headers: { Cookie: `token=${token}` },
-		});
-		const currentUser = await currentUserRes.json();
-
-		const res = await fetch("http://localhost:8080/api/faq", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Cookie: `token=${token}`,
-			},
-			body: JSON.stringify({
-				userId: currentUser.id,
-				question: formData.get("question"),
-				Answer: formData.get("answer"),
-			}),
-		});
-		if (!res.ok) {
-			console.error("Create failed:", res.status, await res.text());
-			return;
-		}
-		redirect("/faq");
-	}
 
 	return (
 		<div className="w-full">

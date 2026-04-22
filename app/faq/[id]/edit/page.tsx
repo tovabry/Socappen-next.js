@@ -36,37 +36,45 @@ export default async function FaqEditPage({ params }: Props) {
 	return (
 		<div className="w-full">
 			<Header title="Redigera FAQ" backRouteLink={`/faq`} />
-			<section className="flex flex-col mt-10 bg-white p-6 rounded-lg shadow-md mx-10 gap-4">
-				<form action={updateFaq} className="flex flex-col gap-4">
-					<input type="hidden" name="faqId" value={id} />
-					<div className="flex flex-col gap-1">
-						<label className="text-sm font-medium">Fråga</label>
-						<input
-							name="question"
-							defaultValue={faq.question}
-							className="p-2 border rounded-md"
-							required
-						/>
-					</div>
-					<div className="flex flex-col gap-1">
-						<label className="text-sm font-medium">Svar</label>
-						<textarea
-							name="answer"
-							defaultValue={faq.answer}
-							rows={5}
-							className="p-2 border rounded-md resize-none"
-							required
-						/>
-					</div>
-					<button
-						type="submit"
-						className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
-					>
-						Spara
-					</button>
-				</form>
-				<DeleteFaqButton faqId={id} />
-			</section>
+			<main className="mx-6 my-6 flex flex-col gap-6">
+				<section className="bg-white rounded-lg shadow-md p-6">
+					<form action={updateFaq} className="flex flex-col gap-4">
+						<input type="hidden" name="faqId" value={id} />
+						<div className="flex flex-col gap-1">
+							<label className="text-sm font-medium">Fråga</label>
+							<input
+								name="question"
+								defaultValue={faq.question}
+								className="p-2 border rounded-md"
+								required
+							/>
+						</div>
+						<div className="flex flex-col gap-1">
+							<label className="text-sm font-medium">Svar</label>
+							<textarea
+								name="answer"
+								defaultValue={faq.answer}
+								rows={5}
+								className="p-2 border rounded-md resize-none"
+								required
+							/>
+						</div>
+						<button
+							type="submit"
+							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+						>
+							Spara
+						</button>
+					</form>
+				</section>
+				<section className="bg-white rounded-lg shadow-md p-6">
+					<h2 className="text-lg font-semibold mb-2">Ta bort inlägg</h2>
+					<p className="text-sm text-gray-500 mb-4">
+						Åtgärden kan inte ångras.
+					</p>
+					<DeleteFaqButton faqId={id} />
+				</section>
+			</main>
 		</div>
 	);
 }
