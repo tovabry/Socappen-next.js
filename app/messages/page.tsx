@@ -57,6 +57,9 @@ export default async function MessagesPage() {
 			"http://localhost:8080/api/conversations?page=0&size=100",
 		);
 		allConversations = allRes.ok ? await allRes.json() : [];
+		allConversations = allConversations.filter(
+			(c: ResponseConversation) => !myConversationIds.has(c.id),
+		);
 	}
 
 	return (
