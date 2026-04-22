@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 import { createPost } from "../actions";
+import { NewPostForm } from "@/components/post/NewPostForm";
 
 type JwtPayload = { roles: string[]; sub: string; exp: number };
 
@@ -26,39 +27,9 @@ export default async function NewPostPage() {
 	return (
 		<div className="w-full">
 			<Header title="Nytt inlägg" backRouteLink="/post" />
-			<main className="mx-10 mt-6">
+			<main className="mx-6 mt-6">
 				<section className="bg-white rounded-lg shadow-md p-6">
-					<form action={createPost} className="flex flex-col gap-4">
-						<div className="flex flex-col gap-1">
-							<label htmlFor="title" className="text-sm font-medium">
-								Titel
-							</label>
-							<input
-								id="title"
-								name="title"
-								className="p-2 border rounded-md"
-								required
-							/>
-						</div>
-						<div className="flex flex-col gap-1">
-							<label htmlFor="content" className="text-sm font-medium">
-								Innehåll
-							</label>
-							<textarea
-								id="content"
-								name="content"
-								rows={8}
-								className="p-2 border rounded-md resize-none"
-								required
-							/>
-						</div>
-						<button
-							type="submit"
-							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
-						>
-							Publicera
-						</button>
-					</form>
+					<NewPostForm />
 				</section>
 			</main>
 		</div>

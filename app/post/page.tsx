@@ -47,7 +47,7 @@ export default async function PostPage() {
 					</a>
 				)}
 			</div>
-			<main className="flex flex-col gap-4 mx-10 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
+			<main className="flex flex-col gap-4 mx-6 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
 				{posts.map((post) => (
 					<article key={post.id} className="bg-white rounded-lg shadow-md p-5">
 						<div className="flex justify-between items-start">
@@ -72,13 +72,15 @@ export default async function PostPage() {
 							)}
 						</div>
 						<p className="mt-3 text-gray-700 line-clamp-3">{post.content}</p>
-						<a
-							href={`/post/${post.id}`}
-							aria-label={`Läs mer om ${post.title}`}
-							className="text-sm mt-3 inline-block border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
-						>
-							Läs mer
-						</a>
+						<div className="flex flex-row">
+							<a
+								href={`/post/${post.id}`}
+								aria-label={`Läs mer om ${post.title}`}
+								className="text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+							>
+								Läs mer
+							</a>
+						</div>
 					</article>
 				))}
 			</main>

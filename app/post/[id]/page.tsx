@@ -65,7 +65,7 @@ export default async function PostDetailPage({ params }: Props) {
 	return (
 		<div className="w-full">
 			<Header title="Inlägg" backRouteLink="/post" />
-			<main className="mx-10 mt-6">
+			<main className="mx-6 mt-6">
 				<article className="bg-white rounded-lg shadow-md p-6">
 					<div className="flex justify-between items-start">
 						<div>
