@@ -47,7 +47,7 @@ export default async function HomePage() {
 				<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
 				<HomePageButton
 					buttonText={
-						isUser ? "Skriv med oss" : "Logga in för att skriva till oss"
+						user ? "Skriv med oss" : "Logga in för att skriva till oss"
 					}
 					routeLink="/messages"
 					disabled={!isAdmin && !isUser}
