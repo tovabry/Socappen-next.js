@@ -9,6 +9,10 @@ export async function fetchCurrentUser() {
 		throw new Error("Failed to fetch user");
 	}
 	const data = await res.json();
+
+	if (!data.id || !data.email) {
+		throw new Error("Invalid user data");
+	}
 	return {
 		id: data.id,
 		email: data.email,

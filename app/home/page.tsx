@@ -11,6 +11,8 @@ export default async function HomePage() {
 	const token = cookieStore.get("token")?.value;
 	let user = null;
 	let isAdmin = false;
+	let isUser = false;
+
 	if (token) {
 		try {
 			const decoded = jwtDecode<JwtPayload>(token);
@@ -18,6 +20,7 @@ export default async function HomePage() {
 			isAdmin = decoded.roles.some((r) =>
 				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
 			);
+			isUser = decoded.roles.includes("ROLE_USER");
 		} catch {
 			console.error("Invalid token");
 		}
@@ -36,13 +39,20 @@ export default async function HomePage() {
 					begränsade tider. För personlig hjälp kan du kontakta oss här och
 					här....
 				</p>
-				<HomePageButton buttonText="Posts" routeLink="/post" />
-				<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
-				<HomePageButton buttonText="Skriv med oss" routeLink="/messages" />
 				<HomePageButton
 					buttonText="Vanligt förekommande frågor"
 					routeLink="/faq"
 				/>
+				<HomePageButton buttonText="Posts" routeLink="/post" />
+				<HomePageButton buttonText="Andra kontakter" routeLink="/contacts" />
+				<HomePageButton
+					buttonText={
+						isUser ? "Skriv med oss" : "Logga in för att skriva till oss"
+					}
+					routeLink="/messages"
+					disabled={!isAdmin && !isUser}
+				/>
+
 				{isAdmin && <HomePageButton buttonText="Loggar" routeLink="/logs" />}
 			</main>
 			<Footer />

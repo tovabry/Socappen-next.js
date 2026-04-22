@@ -5,6 +5,8 @@ import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { createConversation, joinConversation } from "./actions";
+import { fetchCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 interface ResponseConversation {
 	id: number;
@@ -31,6 +33,10 @@ export default async function MessagesPage() {
 		} catch {
 			console.error("Invalid token");
 		}
+	}
+
+	if (!isAdmin && !isUser) {
+		redirect("/home");
 	}
 
 	// Get conversations where logged in user is a participant
