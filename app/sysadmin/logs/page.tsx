@@ -5,7 +5,7 @@ export default function HomePage() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header title="Loggar" backRouteLink="/sysadmin" />
-			<main className=" flex flex-col items-start w-full">
+			<main className="flex flex-col w-full justify-center">
 				<LogsMenuButton
 					buttonText="Meddelande loggar"
 					routeLink="/sysadmin/logs/messagelogs"

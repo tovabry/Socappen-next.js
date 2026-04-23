@@ -16,8 +16,8 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 
 	if (!open) return null;
 
-	const handleLogout = () => {
-		logout();
+	const handleLogout = async () => {
+		await logout();
 		onClose();
 		router.push("/home");
 		router.refresh();

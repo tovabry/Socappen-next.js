@@ -11,27 +11,39 @@ export default async function HomePage() {
 	const token = cookieStore.get("token")?.value;
 	let user = null;
 	let isAdmin = false;
+	let isSysAdmin = false;
 	let isUser = false;
 
 	if (token) {
 		try {
 			const decoded = jwtDecode<JwtPayload>(token);
 			user = decoded;
-			isAdmin = decoded.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
+			isAdmin = decoded.roles.includes("ROLE_ADMIN");
+			isSysAdmin = decoded.roles.includes("ROLE_SYSADMIN");
 			isUser = decoded.roles.includes("ROLE_USER");
 		} catch {
 			console.error("Invalid token");
 		}
 	}
+	const roleLabel = isSysAdmin
+		? "SysAdmin"
+		: isAdmin
+			? "Admin"
+			: isUser
+				? "Användare"
+				: null;
 
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header title="Resursenheten för ungdomar" />
 			<main className="flex-1 mb-4">
-				<h2>
-					Welcome, {user?.sub ?? "Guest"}, {user?.sub && isAdmin && "(Admin)"}
+				<h2 className="flex items-center gap-2 text-white mx-12 my-4 text-xl font-semibold">
+					Välkommen, {user?.sub ?? "Gäst"}
+					{roleLabel && (
+						<span className="text-xs font-medium px-2 py-0.5 rounded-full bg-white/20 text-white">
+							{roleLabel}
+						</span>
+					)}
 				</h2>
 				<p className="mx-12 my-5 text-white text-lg">
 					Resursenheten har hand om familjefrågor. Du som ungdom kan kontakta
@@ -50,10 +62,12 @@ export default async function HomePage() {
 						user ? "Skriv med oss" : "Logga in för att skriva till oss"
 					}
 					routeLink="/messages"
-					disabled={!isAdmin && !isUser}
+					disabled={!isSysAdmin && !isAdmin && !isUser}
 				/>
 
-				{isAdmin && <HomePageButton buttonText="Loggar" routeLink="/logs" />}
+				{isSysAdmin && (
+					<HomePageButton buttonText="System admin" routeLink="/sysadmin" />
+				)}
 			</main>
 			<Footer />
 		</div>
