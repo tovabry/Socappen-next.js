@@ -49,16 +49,21 @@ export default async function PostPage() {
 			</div>
 			<main className="flex flex-col gap-4 mx-6 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
 				{posts.map((post) => (
-					<article key={post.id} className="bg-white rounded-lg shadow-md p-5">
+					<article
+						key={post.id}
+						className="bg-white rounded-lg shadow-md p-5 overflow-hidden"
+					>
 						<div className="flex justify-between items-start">
-							<div>
-								<h2 className="text-lg font-semibold">{post.title}</h2>
+							<div className="min-w-0">
 								<time
 									dateTime={post.createdAt}
 									className="text-xs text-gray-400 mt-1"
 								>
 									{formatDate(post.createdAt)}
 								</time>
+								<h2 className="text-lg font-semibold wrap-break-word">
+									{post.title}
+								</h2>
 							</div>
 							{isAdmin && (
 								<div className="flex gap-2">
@@ -71,7 +76,9 @@ export default async function PostPage() {
 								</div>
 							)}
 						</div>
-						<p className="mt-3 text-gray-700 line-clamp-3">{post.content}</p>
+						<p className="mt-3 text-gray-700 line-clamp-3 wrap-break-word">
+							{post.content}
+						</p>
 						<div className="flex flex-row">
 							<a
 								href={`/post/${post.id}`}

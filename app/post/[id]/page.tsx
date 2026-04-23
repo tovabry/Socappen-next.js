@@ -66,16 +66,18 @@ export default async function PostDetailPage({ params }: Props) {
 		<div className="w-full">
 			<Header title="Inlägg" backRouteLink="/post" />
 			<main className="mx-6 mt-6">
-				<article className="bg-white rounded-lg shadow-md p-6">
+				<article className="bg-white rounded-lg shadow-md p-6 overflow-hidden">
 					<div className="flex justify-between items-start">
-						<div>
-							<h1 className="text-2xl font-semibold">{post.title}</h1>
+						<div className="min-w-0">
 							<time
 								dateTime={post.createdAt}
 								className="text-xs text-gray-400 mt-1 block"
 							>
 								{formatDate(post.createdAt)}
 							</time>
+							<h1 className="text-2xl font-semibold wrap-break-word">
+								{post.title}
+							</h1>
 						</div>
 						{isAdmin && (
 							<a
@@ -88,7 +90,7 @@ export default async function PostDetailPage({ params }: Props) {
 							</a>
 						)}
 					</div>
-					<p className="mt-6 text-gray-700 whitespace-pre-wrap">
+					<p className="mt-6 text-gray-700 whitespace-pre-wrap wrap-break-word">
 						{post.content}
 					</p>
 					{media.length > 0 && (
