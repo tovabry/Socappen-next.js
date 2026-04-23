@@ -4,18 +4,24 @@ import { LogsMenuButton } from "@/components/logs/LogsMenuButtons";
 export default function HomePage() {
 	return (
 		<div className="flex flex-col min-h-screen">
-			<Header title="Loggar" backRouteLink="/home" />
+			<Header title="Loggar" backRouteLink="/sysadmin" />
 			<main className=" flex flex-col items-start w-full">
 				<LogsMenuButton
 					buttonText="Meddelande loggar"
-					routeLink="/logs/messagelogs"
+					routeLink="/sysadmin/logs/messagelogs"
 				/>
 				<LogsMenuButton
 					buttonText="Authentication loggar"
-					routeLink="/logs/authlogs"
+					routeLink="/sysadmin/logs/authlogs"
 				/>
-				<LogsMenuButton buttonText="FAQ loggar" routeLink="/logs/faqlogs" />
-				<LogsMenuButton buttonText="Post loggar" routeLink="/logs/postlogs" />
+				<LogsMenuButton
+					buttonText="FAQ loggar"
+					routeLink="/sysadmin/logs/faqlogs"
+				/>
+				<LogsMenuButton
+					buttonText="Post loggar"
+					routeLink="/sysadmin/logs/postlogs"
+				/>
 			</main>
 		</div>
 	);

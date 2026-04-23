@@ -83,10 +83,14 @@ export default function SignupPage() {
 			});
 
 			if (!res.ok) {
-				const text = await res.text();
-				setErrors({
-					general: text || "Registrering misslyckades. Försök igen.",
-				});
+				if (res.status === 409) {
+					setErrors({ email: "E-postadressen är redan registrerad." });
+				} else {
+					const data = await res.json().catch(() => null);
+					setErrors({
+						general: data?.error || "Registrering misslyckades. Försök igen.",
+					});
+				}
 				return;
 			}
 
