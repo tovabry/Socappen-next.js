@@ -13,7 +13,7 @@ interface MessageLog {
 
 export default async function MessageLogs() {
 	const res = await serverFetch(
-		"http://localhost:8080/api/admin/logs/messages",
+		`${process.env.NEXT_PUBLIC_API_URL}/admin/logs/messages`,
 	);
 	const messageLogs: MessageLog[] = res.ok ? await res.json() : [];
 

@@ -12,7 +12,9 @@ interface MessageLog {
 }
 
 export default async function MessageLogs() {
-	const res = await serverFetch("http://localhost:8080/api/admin/logs/post");
+	const res = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/admin/logs/post`,
+	);
 	const messageLogs: MessageLog[] = res.ok ? await res.json() : [];
 
 	const sortedLogs = sortLogsByCreatedAt(messageLogs);

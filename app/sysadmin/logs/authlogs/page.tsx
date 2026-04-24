@@ -15,7 +15,9 @@ interface AuthLog {
 }
 
 export default async function AuthLogs() {
-	const res = await serverFetch("http://localhost:8080/api/admin/logs/auth");
+	const res = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/admin/logs/auth`,
+	);
 	const authLogs: AuthLog[] = res.ok ? await res.json() : [];
 	const sortedLogs = sortLogsByCreatedAt(authLogs);
 

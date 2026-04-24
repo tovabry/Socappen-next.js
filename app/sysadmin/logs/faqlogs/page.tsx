@@ -12,7 +12,9 @@ interface FaqLog {
 }
 
 export default async function FaqLogs() {
-	const res = await serverFetch("http://localhost:8080/api/admin/logs/faq");
+	const res = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/admin/logs/faq`,
+	);
 	const faqLogs: FaqLog[] = res.ok ? await res.json() : [];
 	const sortedLogs = sortLogsByCreatedAt(faqLogs);
 
