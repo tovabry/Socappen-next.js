@@ -8,7 +8,7 @@ export async function createPost(formData: FormData) {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
 
-	const userRes = await fetch("http://localhost:8080/api/users/me", {
+	const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
 		headers: { Cookie: `token=${token}` },
 	});
 	const currentUser = await userRes.json();
@@ -25,7 +25,7 @@ export async function createPost(formData: FormData) {
 
 	console.log("Creating post with media:", media);
 
-	const res = await fetch("http://localhost:8080/api/posts", {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -51,7 +51,7 @@ export async function updatePost(formData: FormData) {
 	const id = formData.get("postId") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
-	const res = await fetch(`http://localhost:8080/api/posts/${id}`, {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -73,7 +73,7 @@ export async function deletePost(formData: FormData) {
 	const id = formData.get("postId") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
-	const res = await fetch(`http://localhost:8080/api/posts/${id}`, {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
 		method: "DELETE",
 		headers: {
 			Cookie: `token=${token}`,
@@ -92,7 +92,7 @@ export async function addPostMedia(formData: FormData) {
 	const sortOrder = formData.get("sortOrder") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
-	const res = await fetch(`http://localhost:8080/api/posts/media`, {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/media`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -117,12 +117,15 @@ export async function deletePostMedia(formData: FormData) {
 	const mediaId = formData.get("mediaId") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
-	const res = await fetch(`http://localhost:8080/api/posts/media/${mediaId}`, {
-		method: "DELETE",
-		headers: {
-			Cookie: `token=${token}`,
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/posts/media/${mediaId}`,
+		{
+			method: "DELETE",
+			headers: {
+				Cookie: `token=${token}`,
+			},
 		},
-	});
+	);
 	if (!res.ok) {
 		console.error("Delete post media failed:", res.status, await res.text());
 		return;

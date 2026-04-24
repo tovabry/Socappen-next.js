@@ -44,8 +44,8 @@ export default async function PostDetailPage({ params }: Props) {
 	}
 
 	const [res, mediaRes] = await Promise.all([
-		serverFetch(`http://localhost:8080/api/posts/${id}`),
-		serverFetch(`http://localhost:8080/api/posts/${id}/media`),
+		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`),
+		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/media`),
 	]);
 
 	if (!res.ok) {

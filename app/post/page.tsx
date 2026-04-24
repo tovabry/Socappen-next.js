@@ -30,7 +30,7 @@ export default async function PostPage() {
 	}
 
 	const res = await serverFetch(
-		"http://localhost:8080/api/posts?page=0&size=20",
+		`${process.env.NEXT_PUBLIC_API_URL}/posts?page=0&size=20`,
 	);
 	const posts: ResponsePost[] = await res.json();
 

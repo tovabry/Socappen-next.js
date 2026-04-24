@@ -50,8 +50,8 @@ export default async function PostEditPage({ params }: Props) {
 	if (!isAdmin) redirect(`/post/${id}`);
 
 	const [postRes, mediaRes] = await Promise.all([
-		serverFetch(`http://localhost:8080/api/posts/${id}`),
-		serverFetch(`http://localhost:8080/api/posts/${id}/media`),
+		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`),
+		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/media`),
 	]);
 
 	const post: ResponsePost = await postRes.json();
