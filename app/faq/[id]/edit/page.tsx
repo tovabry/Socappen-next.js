@@ -30,7 +30,7 @@ export default async function FaqEditPage({ params }: Props) {
 
 	if (!isAdmin) redirect("/faq");
 
-	const faqRes = await fetch(`http://localhost:8080/api/faq/${id}`);
+	const faqRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`);
 	const faq = await faqRes.json();
 
 	return (

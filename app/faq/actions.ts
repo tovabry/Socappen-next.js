@@ -7,7 +7,7 @@ export async function deleteFaq(formData: FormData) {
 	const id = formData.get("id") as string;
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
-	const res = await fetch(`http://localhost:8080/api/faq/${id}`, {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`, {
 		method: "DELETE",
 		headers: { Cookie: `token=${token}` },
 	});
@@ -23,12 +23,15 @@ export async function updateFaq(formData: FormData) {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
 
-	const currentUserRes = await fetch("http://localhost:8080/api/users/me", {
-		headers: { Cookie: `token=${token}` },
-	});
+	const currentUserRes = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+		{
+			headers: { Cookie: `token=${token}` },
+		},
+	);
 	const currentUser = await currentUserRes.json();
 
-	const res = await fetch(`http://localhost:8080/api/faq/${faqId}`, {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${faqId}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -51,12 +54,15 @@ export async function createFaq(formData: FormData) {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
 
-	const currentUserRes = await fetch("http://localhost:8080/api/users/me", {
-		headers: { Cookie: `token=${token}` },
-	});
+	const currentUserRes = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+		{
+			headers: { Cookie: `token=${token}` },
+		},
+	);
 	const currentUser = await currentUserRes.json();
 
-	const res = await fetch("http://localhost:8080/api/faq", {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
