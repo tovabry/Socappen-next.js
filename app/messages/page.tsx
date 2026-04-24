@@ -41,7 +41,7 @@ export default async function MessagesPage() {
 
 	// Get conversations where logged in user is a participant
 	const myRes = await serverFetch(
-		"http://localhost:8080/api/conversations/my?page=0&size=20",
+		`${process.env.NEXT_PUBLIC_API_URL}/conversations/my?page=0&size=20`,
 	);
 	const myConversations: ResponseConversation[] = myRes.ok
 		? await myRes.json()
@@ -54,7 +54,7 @@ export default async function MessagesPage() {
 	// If admin fetch all conversations
 	if (isAdmin) {
 		const allRes = await serverFetch(
-			"http://localhost:8080/api/conversations?page=0&size=100",
+			`${process.env.NEXT_PUBLIC_API_URL}/conversations?page=0&size=100`,
 		);
 		allConversations = allRes.ok ? await allRes.json() : [];
 		allConversations = allConversations.filter(
