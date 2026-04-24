@@ -76,11 +76,14 @@ export default function SignupPage() {
 		};
 
 		try {
-			const res = await fetch("http://localhost:8080/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
-			});
+			const res = await fetch(
+				`${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload),
+				},
+			);
 
 			if (!res.ok) {
 				if (res.status === 409) {
