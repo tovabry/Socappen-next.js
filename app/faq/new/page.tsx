@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { createFaq } from "../actions";
-import { getIsAdmin } from "@/lib/getRole";
+import { getRoles } from "@/lib/getRole";
 
 export default async function FaqNewPage() {
-	const isAdmin = await getIsAdmin();
+	const { isAdmin } = await getRoles();
 
 	if (!isAdmin) redirect("/faq");
 

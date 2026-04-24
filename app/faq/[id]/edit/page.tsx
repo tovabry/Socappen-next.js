@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
 import { updateFaq } from "../../actions";
 import { DeleteFaqButton } from "@/components/faq/DeleteFaqButton";
-import { getIsAdmin } from "@/lib/getRole";
+import { getRoles } from "@/lib/getRole";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -12,7 +12,7 @@ interface Props {
 
 export default async function FaqEditPage({ params }: Props) {
 	const { id } = await params;
-	const isAdmin = await getIsAdmin();
+	const { isAdmin } = await getRoles();
 
 	if (!isAdmin) redirect("/faq");
 

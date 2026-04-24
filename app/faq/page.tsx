@@ -1,9 +1,5 @@
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
 import { FaqList } from "@/components/faq/FaqList";
-import { getIsAdmin } from "@/lib/getRole";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getRoles } from "@/lib/getRole";
 
 interface ResponseFaq {
 	id: number;
@@ -13,8 +9,8 @@ interface ResponseFaq {
 
 export default async function FaqPage() {
 	console.log("FAQ fetch at:", new Date().toISOString());
-	const [isAdmin, res] = await Promise.all([
-		getIsAdmin(),
+	const [{ isAdmin }, res] = await Promise.all([
+		getRoles(),
 		fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq?size=30`, {
 			next: { revalidate: 300 }, // 5 minutes caching
 		}),
