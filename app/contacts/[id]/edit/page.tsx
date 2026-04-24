@@ -1,34 +1,19 @@
 import { Header } from "@/components/Header";
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 import { updateContact } from "../../actions";
 import { DeleteContactButton } from "@/components/contact/DeleteContactButton";
+import { getRoles } from "@/lib/getRole";
 
-type JwtPayload = { roles: string[]; sub: string; exp: number };
 interface Props {
 	params: Promise<{ id: string }>;
 }
 
 export default async function ContactEditPage({ params }: Props) {
 	const { id } = await params;
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decoded = jwtDecode<JwtPayload>(token);
-			isAdmin = decoded.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const { isAdmin } = await getRoles();
 	if (!isAdmin) redirect(`/contacts/${id}`);
 
 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`);
-	if (!res.ok) redirect("/contacts");
 	const contact = await res.json();
 
 	return (

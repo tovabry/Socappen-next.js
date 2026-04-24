@@ -1,25 +1,10 @@
-import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
 import { createContact } from "../actions";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getRoles } from "@/lib/getRole";
 
 export default async function ContactNewPage() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decoded = jwtDecode<JwtPayload>(token);
-			isAdmin = decoded.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const { isAdmin } = await getRoles();
 	if (!isAdmin) redirect("/contacts");
 
 	return (

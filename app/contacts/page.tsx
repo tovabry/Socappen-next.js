@@ -1,9 +1,5 @@
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
-import { Header } from "@/components/Header";
 import { ContactList } from "@/components/contact/ContactList";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getRoles } from "@/lib/getRole";
 
 interface ContactResponse {
 	id: number;
@@ -13,22 +9,13 @@ interface ContactResponse {
 	phone: string;
 }
 
-export default async function FaqPage() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decodedToken = jwtDecode<JwtPayload>(token);
-			isAdmin = decodedToken.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
-
-	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`);
+export default async function ContactsPage() {
+	const [{ isAdmin }, res] = await Promise.all([
+		getRoles(),
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+			next: { revalidate: 3600 }, // 60 minutes caching
+		}),
+	]);
 	if (!res.ok) {
 		console.error("Contacts fetch failed:", res.status, await res.text());
 		return <div>Kunde inte hämta kontakter.</div>;

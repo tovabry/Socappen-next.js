@@ -15,6 +15,10 @@ export default async function FaqPage() {
 			next: { revalidate: 300 }, // 5 minutes caching
 		}),
 	]);
+	if (!res.ok) {
+		console.error("FAQ fetch failed:", res.status, await res.text());
+		return <div>Kunde inte hämta FAQ.</div>;
+	}
 
 	const data = await res.json();
 	const faqs: ResponseFaq[] = data.content ?? data;

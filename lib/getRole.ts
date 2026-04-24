@@ -15,7 +15,9 @@ export async function getRoles(): Promise<{
 		const decoded = jwtDecode<JwtPayload>(token);
 		return {
 			isUser: decoded.roles.includes("ROLE_USER"),
-			isAdmin: decoded.roles.includes("ROLE_ADMIN"),
+			isAdmin: decoded.roles.some((r) =>
+				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
+			),
 			isSysAdmin: decoded.roles.includes("ROLE_SYSADMIN"),
 		};
 	} catch {
