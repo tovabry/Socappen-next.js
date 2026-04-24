@@ -45,7 +45,8 @@ export function useMessages(conversationId: string) {
 	// WebSocket connection
 	useEffect(() => {
 		const client = new Client({
-			webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+			webSocketFactory: () =>
+				new SockJS(`${process.env.NEXT_PUBLIC_SOCKET_URL}/ws`),
 			reconnectDelay: 5000,
 		});
 		client.onConnect = () => {

@@ -2,7 +2,7 @@
  * @returns user info such as id, email and array of roles
  */
 export async function fetchCurrentUser() {
-	const res = await fetch("http://localhost:8080/api/users/me", {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
 		credentials: "include",
 	});
 	if (!res.ok) {

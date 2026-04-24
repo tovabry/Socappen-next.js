@@ -28,7 +28,7 @@ export async function fetchMessagePage(
 	signal?: AbortSignal,
 ): Promise<Message[]> {
 	const res = await fetch(
-		`http://localhost:8080/api/conversations/${conversationId}/messages?page=${page}&size=${pageSize}`,
+		`${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationId}/messages?page=${page}&size=${pageSize}`,
 		{ credentials: "include", signal },
 	);
 	if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -43,7 +43,7 @@ export async function postMessage(
 ): Promise<void> {
 	validateMessageContent(content);
 	const res = await fetch(
-		`http://localhost:8080/api/conversations/${conversationId}/messages`,
+		`${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationId}/messages`,
 		{
 			method: "POST",
 			headers: {
