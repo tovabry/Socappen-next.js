@@ -1,25 +1,10 @@
-import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
 import { createFaq } from "../actions";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getIsAdmin } from "@/lib/getRole";
 
 export default async function FaqNewPage() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decodedToken = jwtDecode<JwtPayload>(token);
-			isAdmin = decodedToken.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const isAdmin = await getIsAdmin();
 
 	if (!isAdmin) redirect("/faq");
 

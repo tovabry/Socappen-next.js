@@ -4,29 +4,15 @@ import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
 import { updateFaq } from "../../actions";
 import { DeleteFaqButton } from "@/components/faq/DeleteFaqButton";
+import { getIsAdmin } from "@/lib/getRole";
 
 interface Props {
 	params: Promise<{ id: string }>;
 }
 
-type JwtPayload = { roles: string[]; sub: string; exp: number };
-
 export default async function FaqEditPage({ params }: Props) {
 	const { id } = await params;
-
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decodedToken = jwtDecode<JwtPayload>(token);
-			isAdmin = decodedToken.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const isAdmin = await getIsAdmin();
 
 	if (!isAdmin) redirect("/faq");
 
