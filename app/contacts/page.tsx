@@ -28,7 +28,7 @@ export default async function FaqPage() {
 		}
 	}
 
-	const res = await fetch("http://localhost:8080/api/contact");
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`);
 	if (!res.ok) {
 		console.error("Contacts fetch failed:", res.status, await res.text());
 		return <div>Kunde inte hämta kontakter.</div>;

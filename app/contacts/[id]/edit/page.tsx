@@ -27,7 +27,7 @@ export default async function ContactEditPage({ params }: Props) {
 	}
 	if (!isAdmin) redirect(`/contacts/${id}`);
 
-	const res = await fetch(`http://localhost:8080/api/contact/${id}`);
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`);
 	if (!res.ok) redirect("/contacts");
 	const contact = await res.json();
 
