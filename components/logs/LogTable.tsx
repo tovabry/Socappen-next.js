@@ -19,7 +19,7 @@ export function LogTable<T extends { id: number }>({
 }: LogTableProps<T>) {
 	return (
 		<div className="w-full">
-			<Header title={title} backRouteLink="/logs" />
+			<Header title={title} backRouteLink="/sysadmin/logs" />
 			{/* Table for bigger screens */}
 			<div className="hidden md:block overflow-x-auto mt-5">
 				<table className="min-w-full bg-white">

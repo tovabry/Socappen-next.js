@@ -50,7 +50,8 @@ describe("SignupPage", () => {
 	test("Shows network error on failed signup", async () => {
 		(fetch as jest.Mock).mockResolvedValueOnce({
 			ok: false,
-			text: async () => "Email already in use",
+			status: 500,
+			json: async () => ({ error: "Email already in use" }),
 		});
 		render(<SignupPage />);
 		fireEvent.change(screen.getByLabelText(/e-post/i), {

@@ -1,20 +1,31 @@
-import { ContactsCard } from "@/components/ContactsCard";
-import { Header } from "@/components/Header";
+import { ContactList } from "@/components/contact/ContactList";
+import { getRoles } from "@/lib/getRole";
 
-export default function ContactPage() {
-	return (
-		<div>
-			<Header title="Kontakt" backRouteLink="/home" />
-			<div className="flex flex-col items-center">
-				<h1 className="text-2xl font-semibold">Kontakter</h1>
-				<ContactsCard
-					contactName="BRIS"
-					contactDescription="Exempel beskrivning"
-					contactNumber="+123456789"
-					contactWebsite="https://www.bris.se"
-				/>
-				<ContactsCard contactName="Exempel" />
-			</div>
-		</div>
-	);
+interface ContactResponse {
+	id: number;
+	title: string;
+	imgUrl: string;
+	mail: string;
+	phone: string;
+}
+
+export default async function ContactsPage() {
+	const [{ isAdmin }, res] = await Promise.all([
+		getRoles(),
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+			next: { revalidate: 1200 }, // 20 minutes caching
+		}),
+	]);
+	if (!res.ok) {
+		console.error("Contacts fetch failed:", res.status, await res.text());
+		return <div>Kunde inte hämta kontakter.</div>;
+	}
+	const data = await res.json();
+	const contacts: ContactResponse[] = Array.isArray(data)
+		? data
+		: Array.isArray(data.content)
+			? data.content
+			: [];
+
+	return <ContactList contacts={contacts} isAdmin={isAdmin} />;
 }

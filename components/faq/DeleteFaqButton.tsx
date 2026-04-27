@@ -12,7 +12,7 @@ export function DeleteFaqButton({ faqId }: Props) {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<div className="relative">
+		<div className="relative self-end">
 			<button
 				onClick={() => setOpen(true)}
 				className="flex items-center gap-2 px-4 py-2 border border-red-500 text-red-500 rounded-md text-sm"

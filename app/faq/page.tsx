@@ -1,8 +1,5 @@
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
 import { FaqList } from "@/components/faq/FaqList";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getRoles } from "@/lib/getRole";
 
 interface ResponseFaq {
 	id: number;
@@ -11,22 +8,18 @@ interface ResponseFaq {
 }
 
 export default async function FaqPage() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decodedToken = jwtDecode<JwtPayload>(token);
-			isAdmin = decodedToken.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
+	console.log("FAQ fetch at:", new Date().toISOString());
+	const [{ isAdmin }, res] = await Promise.all([
+		getRoles(),
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq?size=30`, {
+			next: { revalidate: 1200 }, // 20 minutes caching
+		}),
+	]);
+	if (!res.ok) {
+		console.error("FAQ fetch failed:", res.status, await res.text());
+		return <div>Kunde inte hämta FAQ.</div>;
 	}
 
-	// SÄTTER SIZE SOM 30 FÖR ATT UNDVIKA PROBLEMET MED ATT DET BARA HÄMTAR 10 FAQS SOM ÄR SATT SOM DEFAULT I BACKEND OCH SEDAN INTE VISAR NÅGRA FLER
-	const res = await fetch("http://localhost:8080/api/faq?size=30");
 	const data = await res.json();
 	const faqs: ResponseFaq[] = data.content ?? data;
 

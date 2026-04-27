@@ -1,6 +1,6 @@
 import AuthModal from "@/components/auth/AuthModal";
 import { useAuth } from "@/lib/context/AuthContext";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
 jest.mock("@/lib/context/AuthContext", () => ({
 	useAuth: jest.fn(),
@@ -39,8 +39,8 @@ describe("AuthModal", () => {
 		expect(screen.getByText(/logga ut/i)).toBeInTheDocument();
 	});
 
-	test("Logout calls logout and onClose", () => {
-		const logout = jest.fn();
+	test("Logout calls logout and onClose", async () => {
+		const logout = jest.fn().mockResolvedValue(undefined);
 		const onClose = jest.fn();
 		(useAuth as jest.Mock).mockReturnValue({
 			user: { email: "test@test.com", roles: [] },
@@ -48,8 +48,10 @@ describe("AuthModal", () => {
 		});
 		render(<AuthModal open={true} onClose={onClose} />);
 		fireEvent.click(screen.getByText(/logga ut/i));
-		expect(logout).toHaveBeenCalled();
-		expect(onClose).toHaveBeenCalled();
+		await waitFor(() => {
+			expect(logout).toHaveBeenCalled();
+			expect(onClose).toHaveBeenCalled();
+		});
 	});
 
 	test("Close-button calls onClose", () => {
