@@ -1,6 +1,4 @@
 import { Header } from "@/components/Header";
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 import { serverFetch } from "@/lib/serverFetch";
 import {
@@ -9,8 +7,7 @@ import {
 	addPostMedia,
 	deletePostMedia,
 } from "../../actions";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getRoles } from "@/lib/getRole";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -33,19 +30,7 @@ interface ResponsePostMedia {
 export default async function PostEditPage({ params }: Props) {
 	const { id } = await params;
 
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decoded = jwtDecode<JwtPayload>(token);
-			isAdmin = decoded.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const { isAdmin } = await getRoles();
 
 	if (!isAdmin) redirect(`/post/${id}`);
 

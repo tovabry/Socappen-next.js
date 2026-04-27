@@ -1,11 +1,8 @@
 import { Header } from "@/components/Header";
 import { formatDate } from "@/lib/formatDate";
+import { getRoles } from "@/lib/getRole";
 import { serverFetch } from "@/lib/serverFetch";
-import { jwtDecode } from "jwt-decode";
 import { Pencil } from "lucide-react";
-import { cookies } from "next/headers";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -29,19 +26,7 @@ interface ResponsePostMedia {
 export default async function PostDetailPage({ params }: Props) {
 	const { id } = await params;
 
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decodedToken = jwtDecode<JwtPayload>(token);
-			isAdmin = decodedToken.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const { isAdmin } = await getRoles();
 
 	const [res, mediaRes] = await Promise.all([
 		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`),

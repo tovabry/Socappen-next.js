@@ -1,26 +1,10 @@
 import { Header } from "@/components/Header";
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
-import { createPost } from "../actions";
 import { NewPostForm } from "@/components/post/NewPostForm";
-
-type JwtPayload = { roles: string[]; sub: string; exp: number };
+import { getRoles } from "@/lib/getRole";
 
 export default async function NewPostPage() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	if (token) {
-		try {
-			const decodedToken = jwtDecode<JwtPayload>(token);
-			isAdmin = decodedToken.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const { isAdmin } = await getRoles();
 
 	if (!isAdmin) redirect("/post");
 
