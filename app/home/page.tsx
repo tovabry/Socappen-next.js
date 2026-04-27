@@ -17,7 +17,7 @@ export default async function HomePage() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header title="Resursenheten för ungdomar" />
-			<main className="flex-1 mb-4">
+			<main className="flex-1 mb-4 md:w-2/3 lg:w-1/2 mx-auto">
 				<WelcomeMessage roleLabel={roleLabel} />
 				<p className="mx-12 my-5 text-white text-lg">
 					Resursenheten har hand om familjefrågor. Du som ungdom kan kontakta

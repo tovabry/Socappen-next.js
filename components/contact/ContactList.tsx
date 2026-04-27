@@ -27,7 +27,7 @@ export function ContactList({ contacts, isAdmin }: Props) {
 					</a>
 				)}
 			</div>
-			<main className="mx-6 mt-6">
+			<main className="flex flex-col gap-4 mx-6 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
 				{contacts.map((contact, index) => (
 					<section
 						key={index}
@@ -37,6 +37,7 @@ export function ContactList({ contacts, isAdmin }: Props) {
 							src={contact.imgUrl}
 							alt={contact.title}
 							className="w-16 h-16 rounded-full object-contain"
+							aria-label={`Image for contact: ${contact.title}`}
 						/>
 						<div className="flex flex-col gap-2 w-full min-w-0">
 							<h3 className="text-xl font-semibold wrap-break-word">
@@ -45,12 +46,14 @@ export function ContactList({ contacts, isAdmin }: Props) {
 							<a
 								href={`mailto:${contact.mail}`}
 								className="text-gray-600 wrap-break-word"
+								aria-label={`Mail to contact: ${contact.title}`}
 							>
 								E-post: {contact.mail}
 							</a>
 							<a
 								href={`tel:${contact.phone}`}
 								className="text-gray-600 wrap-break-word"
+								aria-label={`Call to contact: ${contact.title}`}
 							>
 								Telefon: {contact.phone}
 							</a>
@@ -59,6 +62,7 @@ export function ContactList({ contacts, isAdmin }: Props) {
 									<div className="flex gap-2">
 										<a
 											href={`/contacts/${contact.id}/edit`}
+											aria-label={`Redigera kontakt: ${contact.title}`}
 											className="px-3 py-1 text-sm border rounded-md shadow-md"
 										>
 											Redigera
