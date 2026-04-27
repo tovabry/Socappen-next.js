@@ -16,6 +16,9 @@ export default async function PostPage() {
 
 	const res = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/posts?page=0&size=20`,
+		{
+			next: { revalidate: 300 }, // Cache for 5 minutes
+		},
 	);
 	const posts: ResponsePost[] = await res.json();
 

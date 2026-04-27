@@ -13,7 +13,7 @@ export default async function ContactsPage() {
 	const [{ isAdmin }, res] = await Promise.all([
 		getRoles(),
 		fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
-			next: { revalidate: 3600 }, // 60 minutes caching
+			next: { revalidate: 1200 }, // 20 minutes caching
 		}),
 	]);
 	if (!res.ok) {
