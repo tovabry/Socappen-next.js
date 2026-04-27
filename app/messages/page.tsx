@@ -48,7 +48,7 @@ export default async function MessagesPage() {
 			<Header title="Meddelanden" backRouteLink="/home" />
 			{isAdmin ? (
 				<>
-					<h2 className="text-xl text-center font-semibold mt-5 mx-5">
+					<h2 className="text-xl text-white text-center font-semibold mt-5 mx-5">
 						Mina konversationer
 					</h2>
 					{sortConversationsByActivity(myConversations).map((c) => (
@@ -58,7 +58,7 @@ export default async function MessagesPage() {
 							isParticipant={myConversationIds.has(c.id)}
 						/>
 					))}
-					<h2 className="text-xl text-center font-semibold mt-10 mx-5">
+					<h2 className="text-xl text-white text-center font-semibold mt-10 mx-5">
 						Alla konversationer
 					</h2>
 					{sortConversationsByActivity(allConversations).map((c) => (
@@ -71,7 +71,7 @@ export default async function MessagesPage() {
 				</>
 			) : (
 				<>
-					<h2 className="text-xl font-semibold text-center mt-5 mx-5">
+					<h2 className="text-xl text-white font-semibold text-center mt-5 mx-5">
 						Mina konversationer
 					</h2>
 					{sortConversationsByActivity(myConversations).map((c) => (

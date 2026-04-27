@@ -15,7 +15,10 @@ export function Header({ title, backRouteLink }: HeaderProps) {
 			<header className="bg-(--bg-secondary-color-red) shadow-lg p-2">
 				<div className="flex flex-row items-center px-4 py-1">
 					{backRouteLink && (
-						<a href={backRouteLink || "/home"} aria-label="Stäng login fönster">
+						<a
+							href={backRouteLink || "/home"}
+							aria-label="Stäng in/utloggningsfönster"
+						>
 							<ArrowLeft className="text-white" />
 						</a>
 					)}
@@ -25,7 +28,7 @@ export function Header({ title, backRouteLink }: HeaderProps) {
 					<button
 						onClick={() => setAuthOpen(true)}
 						className="text-white text-sm font-medium hover:underline"
-						aria-label="Öppna inloggningsfönster"
+						aria-label="Öppna in/utloggningsfönster"
 					>
 						<User aria-hidden="true" />
 					</button>

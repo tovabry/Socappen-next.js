@@ -8,6 +8,7 @@ import {
 	deletePostMedia,
 } from "../../actions";
 import { getRoles } from "@/lib/getRole";
+import { DeletePostButton } from "@/components/post/DeletePostButton";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -153,15 +154,7 @@ export default async function PostEditPage({ params }: Props) {
 					<p className="text-sm text-gray-500 mb-4">
 						Åtgärden kan inte ångras.
 					</p>
-					<form action={deletePost}>
-						<input type="hidden" name="postId" value={id} />
-						<button
-							type="submit"
-							className="px-4 py-2 bg-red-500 text-white rounded-md text-sm"
-						>
-							Ta bort inlägg
-						</button>
-					</form>
+					<DeletePostButton postId={id} />
 				</section>
 			</main>
 		</div>

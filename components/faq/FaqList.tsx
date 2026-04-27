@@ -22,6 +22,7 @@ export function FaqList({ faqs, isAdmin }: Props) {
 	const filtered = faqs.filter((faq) =>
 		faq.question.toLowerCase().includes(searchQuery.toLowerCase()),
 	);
+	const reversed = [...filtered].reverse(); // Show newest first since FAQ doesn't have createdAt
 
 	return (
 		<div className="w-full">
@@ -43,7 +44,7 @@ export function FaqList({ faqs, isAdmin }: Props) {
 				/>
 			</div>
 			<div className="flex flex-col gap-2 mx-10 mt-4">
-				{filtered.map((faq) => (
+				{reversed.map((faq) => (
 					<div
 						key={faq.id}
 						className="bg-white rounded-md shadow overflow-hidden"
