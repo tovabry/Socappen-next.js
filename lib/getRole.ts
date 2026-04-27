@@ -3,6 +3,10 @@ import { jwtDecode } from "jwt-decode";
 
 type JwtPayload = { roles: string[]; sub: string; exp: number };
 
+/**
+ *  Checks the user's roles based on the JWT token stored in cookies and returns an object indicating their permissions.
+ * @returns An object with boolean properties: isUser, isAdmin, and isSysAdmin, indicating the user's roles.
+ */
 export async function getRoles(): Promise<{
 	isUser: boolean;
 	isAdmin: boolean;

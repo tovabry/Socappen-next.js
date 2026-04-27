@@ -11,6 +11,7 @@ interface AuthUser {
 
 interface AuthContextValue {
 	user: AuthUser | null;
+	loading: boolean;
 	setUser: (user: AuthUser | null) => void;
 	logout: () => void;
 }
@@ -23,11 +24,13 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<AuthUser | null>(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		fetchCurrentUser()
 			.then(setUser)
-			.catch(() => setUser(null));
+			.catch(() => setUser(null))
+			.finally(() => setLoading(false));
 	}, []);
 
 	const logout = async () => {
@@ -39,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, setUser, logout }}>
+		<AuthContext.Provider value={{ user, loading, setUser, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
