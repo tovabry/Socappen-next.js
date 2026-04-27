@@ -2,11 +2,9 @@ import { Header } from "@/components/Header";
 import { formatDate } from "@/lib/formatDate";
 import { serverFetch } from "@/lib/serverFetch";
 import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
-import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
 import { createConversation, joinConversation } from "./actions";
-import { fetchCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { getRoles } from "@/lib/getRole";
 
 interface ResponseConversation {
 	id: number;
@@ -15,25 +13,8 @@ interface ResponseConversation {
 	lastActivityAt: string;
 }
 
-type JwtPayload = { roles: string[]; sub: string; exp: number };
-
 export default async function MessagesPage() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-	let isAdmin = false;
-	let isUser = false;
-
-	if (token) {
-		try {
-			const decoded = jwtDecode<JwtPayload>(token);
-			isAdmin = decoded.roles.some((r) =>
-				["ROLE_ADMIN", "ROLE_SYSADMIN"].includes(r),
-			);
-			isUser = decoded.roles.includes("ROLE_USER");
-		} catch {
-			console.error("Invalid token");
-		}
-	}
+	const { isAdmin, isUser } = await getRoles();
 
 	if (!isAdmin && !isUser) {
 		redirect("/home");
@@ -43,15 +24,15 @@ export default async function MessagesPage() {
 	const myRes = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/conversations/my?page=0&size=20`,
 	);
+
 	const myConversations: ResponseConversation[] = myRes.ok
 		? await myRes.json()
 		: [];
 
 	const myConversationIds = new Set(myConversations.map((c) => c.id));
-
 	let allConversations: ResponseConversation[] = [];
 
-	// If admin fetch all conversations
+	// If logged in user is admin then fetch all conversations
 	if (isAdmin) {
 		const allRes = await serverFetch(
 			`${process.env.NEXT_PUBLIC_API_URL}/conversations?page=0&size=100`,

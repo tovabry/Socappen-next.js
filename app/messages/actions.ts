@@ -2,25 +2,22 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { serverFetch } from "@/lib/serverFetch";
 
 export async function createConversation() {
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
-
-	const userRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-		headers: { Cookie: `token=${token}` },
-	});
+	const userRes = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+	);
 	const currentUser = await userRes.json();
-	console.log("currentUser:", currentUser);
 
-	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/conversations`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Cookie: `token=${token}`,
+	const res = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/conversations`,
+		{
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ participantIds: [currentUser.id] }),
 		},
-		body: JSON.stringify({ participantIds: [currentUser.id] }),
-	});
+	);
 
 	if (!res.ok) {
 		console.error("Create conversation failed:", res.status, await res.text());
@@ -33,14 +30,11 @@ export async function createConversation() {
 
 export async function joinConversation(formData: FormData) {
 	const conversationId = formData.get("conversationId") as string;
-	const cookieStore = await cookies();
-	const token = cookieStore.get("token")?.value;
 
-	const res = await fetch(
+	const res = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationId}/join`,
 		{
 			method: "POST",
-			headers: { Cookie: `token=${token}` },
 		},
 	);
 

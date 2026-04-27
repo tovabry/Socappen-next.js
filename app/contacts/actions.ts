@@ -2,7 +2,6 @@
 
 import { serverFetch } from "@/lib/serverFetch";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function deleteContact(formData: FormData) {
