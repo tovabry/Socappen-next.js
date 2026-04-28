@@ -94,6 +94,12 @@ Projektet är organiserat enligt följande:
   - Omdirigerar till `/login` om token saknas eller har gått ut.
   - Omdirigerar till `/home` om användaren försöker nå en sida de inte har behörighet till.
 
+#### Klient-side autentiseringsstate
+
+- **`AuthContext`** hanterar den inloggade användarens state på klientsidan.
+- Vid appstart hämtar `AuthProvider` den inloggade användaren via `fetchCurrentUser` och exponerar `user`, `loading` och `logout` till hela komponentträdet via React Context.
+- Komponenter som behöver tillgång till inloggad användare använder `useAuth()`-hooken.
+
 ---
 
 ### Användarroller
