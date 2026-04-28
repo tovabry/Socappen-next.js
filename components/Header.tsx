@@ -22,7 +22,7 @@ export function Header({ title, backRouteLink }: HeaderProps) {
 							<ArrowLeft className="text-white" />
 						</a>
 					)}
-					<h1 className="text-lg text-center text-white flex justify-around items-center w-full">
+					<h1 className="text-lg md:text-xl font-semibold text-shadow-md text-center text-white flex justify-around items-center w-full">
 						{title}
 					</h1>
 					<button
