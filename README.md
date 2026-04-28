@@ -107,7 +107,7 @@ Projektet är organiserat enligt följande:
 | Roll            | Åtkomst                             |
 | --------------- | ----------------------------------- |
 | `ROLE_USER`     | Standard-åtkomst till appen.        |
-| `ROLE_ADMIN`    | Åtkomst till `/admin` och `/logs`.  |
+| `ROLE_ADMIN`    | Åtkomst till `/admin`               |
 | `ROLE_SYSADMIN` | Full åtkomst inklusive `/sysadmin`. |
 
 ---
