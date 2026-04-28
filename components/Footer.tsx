@@ -18,6 +18,7 @@ export function Footer() {
 					<h3 className="text-lg underline underline-offset-2 mb-2">Kontakt</h3>
 					<p className="text-md">Öppettider: 10:00 - 16:00</p>
 					<p className="text-md">Telefon: 0322-000 00</p>
+					<p className="text-md">Mail:</p>
 					<a
 						href="mailto:resursenheten@herrljunga.se"
 						className="text-md text-white"
@@ -26,6 +27,7 @@ export function Footer() {
 						<Mail size={16} className="inline-block" />{" "}
 						Resursenheten@herrljunga.se
 					</a>
+					<p className="text-md">Webbsida:</p>
 					<a
 						href="https://www.exempel.se"
 						className="text-md text-white"

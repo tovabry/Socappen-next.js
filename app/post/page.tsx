@@ -74,7 +74,7 @@ export default async function PostPage() {
 							<a
 								href={`/post/${post.id}`}
 								aria-label={`Läs mer om ${post.title}`}
-								className="text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+								className="w-full text-center text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
 							>
 								Läs mer
 							</a>

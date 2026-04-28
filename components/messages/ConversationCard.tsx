@@ -37,7 +37,7 @@ export function ConversationCard({
 
 			<div className="mt-4 flex flex-wrap gap-2">
 				{!isParticipant ? (
-					<form action={joinConversation}>
+					<form action={joinConversation} className="w-full">
 						<input
 							type="hidden"
 							name="conversationId"
@@ -46,7 +46,7 @@ export function ConversationCard({
 						<button
 							type="submit"
 							aria-label={`Gå med i konversation ${conversation.id}`}
-							className="px-3 py-1 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+							className="w-full text-center text-sm px-3 py-2 bg-(--bg-secondary-color-red) text-white rounded-md"
 						>
 							Gå med i konversation
 						</button>
@@ -55,7 +55,7 @@ export function ConversationCard({
 					<Link
 						href={`/messages/${conversation.id}`}
 						aria-label={`Öppna konversation ${conversation.id}`}
-						className="text-sm border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+						className="w-full text-center text-sm border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
 					>
 						Öppna
 					</Link>
