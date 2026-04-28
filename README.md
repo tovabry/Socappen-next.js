@@ -14,6 +14,39 @@ Appen är designad för att:
 
 ---
 
+## Komma igång
+
+### Klona och installera
+
+```bash
+git clone https://github.com/tovabry/Socappen-next.js.git
+cd Socappen-next.js
+npm install
+```
+
+### Miljövariabler
+
+Skapa en `.env`-fil i projektroten och fyll i:
+
+```
+NEXT_PUBLIC_API_URL=
+NEXT_PUBLIC_SOCKET_URL=
+```
+
+### Starta dev-miljö
+
+```bash
+npm run dev
+```
+
+### Köra tester
+
+```bash
+npm run test
+```
+
+---
+
 ## Teknisk Dokumentation
 
 ### Tekniker
@@ -23,6 +56,17 @@ Appen är designad för att:
 - **Jest**: För testning.
 - **TypeScript**: För typning och bättre utvecklarupplevelse.
 - **StompJS/SockJS**: För Websocket till realtids-chatten.
+
+---
+
+### Projektstruktur
+
+Projektet är organiserat enligt följande:
+
+- app/ → Next.js sidor och routing
+- components/ → Återanvändbara React-komponenter
+- lib/ → Hjälpfunktioner och API-anrop
+- test/ → Jest-tester
 
 ---
 
@@ -43,14 +87,33 @@ Appen är designad för att:
 
 ---
 
+### Autentisering
+
+- JWT-token lagras i en **HTTP-only cookie** efter inloggning.
+- `proxy.ts` dekoderar token vid varje request och:
+  - Omdirigerar till `/login` om token saknas eller har gått ut.
+  - Omdirigerar till `/home` om användaren försöker nå en sida de inte har behörighet till.
+
+---
+
+### Användarroller
+
+| Roll            | Åtkomst                             |
+| --------------- | ----------------------------------- |
+| `ROLE_USER`     | Standard-åtkomst till appen.        |
+| `ROLE_ADMIN`    | Åtkomst till `/admin` och `/logs`.  |
+| `ROLE_SYSADMIN` | Full åtkomst inklusive `/sysadmin`. |
+
+---
+
 ### API-Integration
 
 #### Gemensamma API-anrop
 
 - **`serverFetch`**:
   - En wrapper runt `fetch` som hanterar HTTP-cookies som standard för alla API-anrop.
-- **`getRole`**:
-  - En funktion som hämtar rollen för den inloggade användaren för att kontrollera behörigheter.
+- **`getRoles`**:
+  - Avkodar JWT-token från cookien för att server-side kontrollera användarens roll och behörigheter.
 
 #### Unika API-anrop
 
@@ -59,27 +122,10 @@ Appen är designad för att:
 - **Exempel**:
   - Skapa och hantera konversationer i `messages/actions.ts`.
 
----
+#### Realtidskommunikation
 
-### Projektstruktur
-
-Projektet är organiserat enligt följande:
-
-app/
-
-- Huvudmappen för Next.js-sidor och routing.
-
-components/
-
-- Återanvändbara React-komponenter.
-
-lib/
-
-- Hjälpfunktioner och API-anrop
-
-test/
-
-- Jest tester.
+- **StompJS/SockJS** används för WebSocket-anslutning till chattfunktionen.
+- Anslutningen hanteras i `lib/` via `useMessages`-hooken som prenumererar på meddelanden i realtid.
 
 ---
 
@@ -99,22 +145,3 @@ test/
    - `deletePost` skickar en DELETE-förfrågan till API:t och uppdaterar sidan.
 
 ---
-
-## Komma igång
-
-### Klona och installera
-
-```bash
-git clone https://github.com/tovabry/Socappen-next.js.git
-cd Socappen-next.js
-npm install
-```
-
-### Miljövariabler
-
-Skapa en `.env`-fil i projektroten och fyll i:
-
-```
-NEXT_PUBLIC_API_URL=
-NEXT_PUBLIC_SOCKET_URL=
-```
