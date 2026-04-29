@@ -34,7 +34,7 @@ export function DeletePostButton({ postId }: Props) {
 							Avbryt
 						</button>
 						<form action={deletePost}>
-							<input type="hidden" name="id" value={postId} />
+							<input type="hidden" name="postId" value={postId} />
 							<button
 								type="submit"
 								className="px-3 py-1 bg-red-500 text-white rounded-md text-sm cursor-pointer"

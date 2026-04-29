@@ -5,7 +5,10 @@ export function Footer() {
 		<footer className="bg-(--bg-secondary-color-red) text-white py-4 shadow-lg mt-4 overflow-hidden">
 			<div className="flex flex-col md:flex-row md:justify-around justify-between px-8 gap-4">
 				<section className="flex flex-col min-w-0 text-start">
-					<h3 className="text-lg mb-2 underline underline-offset-2 ">Om oss</h3>
+					<h3 className="text-lg font-semibold">Om oss</h3>
+					<div className="inline-block mb-4">
+						<div className="h-1 w-16 bg-white rounded-full"></div>
+					</div>
 					<p className="text-md mb-2">Resursenheten hanterar frågor om:</p>
 					<ul className="list-disc list-inside text-sm">
 						<li>Familjefrågor</li>
@@ -14,8 +17,11 @@ export function Footer() {
 					</ul>
 				</section>
 
-				<section className="flex flex-col min-w-0 text-start gap-1">
-					<h3 className="text-lg underline underline-offset-2 mb-2">Kontakt</h3>
+				<section className="flex flex-col min-w-0 text-start">
+					<h3 className="text-lg font-semibold">Kontakt</h3>
+					<div className="inline-block mb-4">
+						<div className="h-1 w-16 bg-white rounded-full"></div>
+					</div>
 					<p className="text-md">Öppettider: 10:00 - 16:00</p>
 					<p className="text-md">Telefon: 0322-000 00</p>
 					<p className="text-md">Mail:</p>
