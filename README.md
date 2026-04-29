@@ -12,7 +12,8 @@ Appen är designad för att:
 - Skapa, läsa och hantera kontakter till andra relevanta webbplatser, kontaktpersoner eller organisationer.
 - Hantera användare och konton med roller och behörigheter.
 
-Backend hittas här: https://github.com/tovabry/Socappen
+Backend delen av projektet hittas här: https://github.com/tovabry/Socappen
+
 ---
 
 ## Komma igång
