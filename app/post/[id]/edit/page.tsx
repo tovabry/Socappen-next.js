@@ -78,7 +78,7 @@ export default async function PostEditPage({ params }: Props) {
 						</div>
 						<button
 							type="submit"
-							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm cursor-pointer"
 						>
 							Spara
 						</button>
@@ -103,7 +103,7 @@ export default async function PostEditPage({ params }: Props) {
 											<input type="hidden" name="postId" value={id} />
 											<button
 												type="submit"
-												className="text-red-500 text-xs border border-red-500 rounded px-2 py-1"
+												className="text-red-500 text-xs border border-red-500 rounded px-2 py-1 cursor-pointer"
 											>
 												Ta bort
 											</button>
@@ -142,7 +142,7 @@ export default async function PostEditPage({ params }: Props) {
 						</div>
 						<button
 							type="submit"
-							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm cursor-pointer"
 						>
 							Lägg till media
 						</button>

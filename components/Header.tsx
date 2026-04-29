@@ -39,7 +39,7 @@ export function Header({ title, backRouteLink }: HeaderProps) {
 							type="button"
 							onClick={() => setAuthOpen(true)}
 							aria-label="Öppna konto"
-							className="inline-flex h-10 w-10 sm:h-auto sm:w-auto items-center justify-center gap-2 rounded-md sm:px-3 sm:py-2 text-sm font-medium text-white hover:bg-white/10"
+							className="inline-flex h-10 w-10 sm:h-auto sm:w-auto items-center justify-center gap-2 rounded-md sm:px-3 sm:py-2 text-sm font-medium text-white hover:bg-white/10 cursor-pointer"
 						>
 							<User size={20} aria-hidden="true" />
 							<span className="hidden sm:inline">Konto</span>

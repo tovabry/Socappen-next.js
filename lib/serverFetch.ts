@@ -9,11 +9,16 @@ import { cookies } from "next/headers";
  */
 export async function serverFetch(url: string, options?: RequestInit) {
 	const cookieStore = await cookies();
-	return fetch(url, {
-		...options,
-		headers: {
-			Cookie: cookieStore.toString(),
-			...options?.headers,
-		},
-	});
+
+	try {
+		return await fetch(url, {
+			...options,
+			headers: {
+				Cookie: cookieStore.toString(),
+				...options?.headers,
+			},
+		});
+	} catch (error) {
+		throw new Error(`serverFetch failed for ${url}`, { cause: error });
+	}
 }

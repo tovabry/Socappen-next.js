@@ -15,7 +15,7 @@ export function DeleteFaqButton({ faqId }: Props) {
 		<div className="relative self-end">
 			<button
 				onClick={() => setOpen(true)}
-				className="flex items-center gap-2 px-4 py-2 border border-red-500 text-red-500 rounded-md text-sm"
+				className="flex items-center gap-2 px-4 py-2 border border-red-500 text-red-500 rounded-md text-sm cursor-pointer"
 			>
 				<Trash2 size={16} />
 				Ta bort
@@ -29,7 +29,7 @@ export function DeleteFaqButton({ faqId }: Props) {
 					<div className="flex justify-end gap-2">
 						<button
 							onClick={() => setOpen(false)}
-							className="px-3 py-1 border rounded-md text-sm"
+							className="px-3 py-1 border rounded-md text-sm cursor-pointer"
 						>
 							Avbryt
 						</button>
@@ -37,7 +37,7 @@ export function DeleteFaqButton({ faqId }: Props) {
 							<input type="hidden" name="id" value={faqId} />
 							<button
 								type="submit"
-								className="px-3 py-1 bg-red-500 text-white rounded-md text-sm"
+								className="px-3 py-1 bg-red-500 text-white rounded-md text-sm cursor-pointer"
 							>
 								Ta bort
 							</button>
