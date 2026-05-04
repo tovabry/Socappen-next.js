@@ -7,7 +7,7 @@ export default function HomePage() {
 			<Header title="System Administratör" backRouteLink="/home" />
 			<main className="flex flex-col w-full justify-center">
 				<MenuButton buttonText="Hantera behörigheter" routeLink="#" />
-				<MenuButton buttonText="Hantera konton" routeLink="#" />
+				<MenuButton buttonText="Hantera konton" routeLink="/sysadmin/users" />
 				<MenuButton buttonText="Systemloggar" routeLink="/sysadmin/logs" />
 				<MenuButton buttonText="Systeminställningar" routeLink="#" />
 			</main>

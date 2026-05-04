@@ -1,8 +1,7 @@
 import { Header } from "@/components/Header";
-import { formatDate } from "@/lib/formatDate";
 import { serverFetch } from "@/lib/serverFetch";
 import { sortConversationsByActivity } from "@/lib/sorting/sortConversations";
-import { createConversation, joinConversation } from "./actions";
+import { createConversation } from "./actions";
 import { redirect } from "next/navigation";
 import { getRoles } from "@/lib/getRole";
 import { ConversationCard } from "@/components/messages/ConversationCard";
@@ -54,6 +53,7 @@ export default async function MessagesPage() {
 						Mina konversationer
 					</h2>
 
+					{/* Show logged in user's conversations */}
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{sortConversationsByActivity(myConversations).map((c) => (
 							<ConversationCard
@@ -63,7 +63,7 @@ export default async function MessagesPage() {
 							/>
 						))}
 					</div>
-
+					{/* If logged in user has no conversations, show button to create a new one */}
 					{isUser && myConversations.length === 0 && (
 						<div className="flex justify-center mt-8">
 							<form action={createConversation}>
@@ -79,6 +79,7 @@ export default async function MessagesPage() {
 					)}
 				</section>
 
+				{/* If admin show all started conversations */}
 				{isAdmin && (
 					<section aria-labelledby="all-conversations-heading">
 						<h2

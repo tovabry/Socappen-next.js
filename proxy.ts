@@ -27,7 +27,7 @@ export function proxy(request: NextRequest) {
 		// Sysadmin only routes
 		if (
 			pathname.startsWith("/sysadmin") &&
-			!decoded.roles.includes("ROLE_SYSADMIN")
+			!decoded.roles.some((r) => ["ROLE_SYSADMIN", "ROLE_ADMIN"].includes(r))
 		) {
 			return NextResponse.redirect(new URL("/home", request.url));
 		}
