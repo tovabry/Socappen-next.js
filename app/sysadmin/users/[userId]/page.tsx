@@ -70,7 +70,7 @@ export default async function UserDetailPage({
 									/>
 									<button
 										type="submit"
-										className="text-sm px-3 py-1 border rounded-md"
+										className="text-sm px-3 py-1 border rounded-md cursor-pointer shadow-md"
 									>
 										Ta bort
 									</button>
@@ -99,7 +99,7 @@ export default async function UserDetailPage({
 									/>
 									<button
 										type="submit"
-										className="text-sm px-3 py-1 bg-(--bg-secondary-color-red) text-white rounded-md"
+										className="text-sm px-3 py-1 bg-(--bg-secondary-color-red) text-white rounded-md cursor-pointer shadow-md"
 									>
 										Lägg till
 									</button>

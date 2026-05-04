@@ -85,7 +85,7 @@ export default async function UsersPage({
 								href={`/sysadmin/users/${user.id}`}
 								className="w-full text-center text-sm border rounded-md px-3 py-2"
 							>
-								Öppna
+								Hantera behörigheter
 							</Link>
 
 							<form action={promoteToAdmin}>
