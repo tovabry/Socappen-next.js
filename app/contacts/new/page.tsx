@@ -2,10 +2,12 @@ import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { createContact } from "../actions";
 import { getRoles } from "@/lib/getRole";
+import { hasPermission } from "@/lib/getPermissions";
 
 export default async function ContactNewPage() {
 	const { isAdmin } = await getRoles();
-	if (!isAdmin) redirect("/contacts");
+	const hasContactPermissions = await hasPermission("manage_contact");
+	if (!isAdmin || !hasContactPermissions) redirect("/contacts");
 
 	return (
 		<div className="w-full">

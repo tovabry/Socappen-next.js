@@ -1,4 +1,5 @@
 import { ContactList } from "@/components/contact/ContactList";
+import { hasPermission } from "@/lib/getPermissions";
 import { getRoles } from "@/lib/getRole";
 
 interface ContactResponse {
@@ -10,6 +11,7 @@ interface ContactResponse {
 }
 
 export default async function ContactsPage() {
+	const hasContactPermissions = await hasPermission("manage_contact");
 	const [{ isAdmin }, res] = await Promise.all([
 		getRoles(),
 		fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
@@ -27,5 +29,11 @@ export default async function ContactsPage() {
 			? data.content
 			: [];
 
-	return <ContactList contacts={contacts} isAdmin={isAdmin} />;
+	return (
+		<ContactList
+			contacts={contacts}
+			isAdmin={isAdmin}
+			hasContactPermissions={hasContactPermissions}
+		/>
+	);
 }

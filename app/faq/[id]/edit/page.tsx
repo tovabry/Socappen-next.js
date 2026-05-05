@@ -1,6 +1,4 @@
-import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { Header } from "@/components/Header";
 import { updateFaq } from "../../actions";
 import { DeleteFaqButton } from "@/components/faq/DeleteFaqButton";

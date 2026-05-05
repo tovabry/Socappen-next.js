@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { updateContact } from "../../actions";
 import { DeleteContactButton } from "@/components/contact/DeleteContactButton";
 import { getRoles } from "@/lib/getRole";
+import { hasPermission } from "@/lib/getPermissions";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -11,7 +12,8 @@ interface Props {
 export default async function ContactEditPage({ params }: Props) {
 	const { id } = await params;
 	const { isAdmin } = await getRoles();
-	if (!isAdmin) redirect(`/contacts/${id}`);
+	const hasContactPermissions = await hasPermission("manage_contact");
+	if (!isAdmin || !hasContactPermissions) redirect("/contacts");
 
 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`);
 	const contact = await res.json();

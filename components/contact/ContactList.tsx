@@ -11,14 +11,19 @@ interface ContactResponse {
 interface Props {
 	contacts: ContactResponse[];
 	isAdmin: boolean;
+	hasContactPermissions: boolean;
 }
 
-export function ContactList({ contacts, isAdmin }: Props) {
+export function ContactList({
+	contacts,
+	isAdmin,
+	hasContactPermissions,
+}: Props) {
 	return (
 		<div className="w-full">
 			<Header title="Kontakter" backRouteLink="/home" />
 			<div className="flex items-center gap-4 mx-6 mt-5 justify-end">
-				{isAdmin && (
+				{isAdmin && hasContactPermissions && (
 					<a
 						href="/contacts/new"
 						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
@@ -58,7 +63,7 @@ export function ContactList({ contacts, isAdmin }: Props) {
 								Telefon: {contact.phone}
 							</a>
 							<div className="flex flex-row justify-end">
-								{isAdmin && (
+								{isAdmin && hasContactPermissions && (
 									<div className="flex gap-2">
 										<a
 											href={`/contacts/${contact.id}/edit`}
