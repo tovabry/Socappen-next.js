@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { updateFaq } from "../../actions";
 import { DeleteFaqButton } from "@/components/faq/DeleteFaqButton";
 import { getRoles } from "@/lib/getRole";
+import { hasPermission } from "@/lib/getPermissions";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -13,8 +14,9 @@ interface Props {
 export default async function FaqEditPage({ params }: Props) {
 	const { id } = await params;
 	const { isAdmin } = await getRoles();
+	const hasFaqPermissions = await hasPermission("manage_faq");
 
-	if (!isAdmin) redirect("/faq");
+	if (!isAdmin || !hasFaqPermissions) redirect("/faq");
 
 	const faqRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`);
 	const faq = await faqRes.json();

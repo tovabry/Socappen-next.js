@@ -2,11 +2,13 @@ import { redirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { createFaq } from "../actions";
 import { getRoles } from "@/lib/getRole";
+import { hasPermission } from "@/lib/getPermissions";
 
 export default async function FaqNewPage() {
 	const { isAdmin } = await getRoles();
+	const hasFaqPermissions = await hasPermission("manage_faq");
 
-	if (!isAdmin) redirect("/faq");
+	if (!isAdmin || !hasFaqPermissions) redirect("/faq");
 
 	return (
 		<div className="w-full">
