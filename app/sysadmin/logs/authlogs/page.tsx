@@ -1,7 +1,9 @@
 import { LogTable } from "@/components/logs/LogTable";
 import { formatDate } from "@/lib/formatDate";
+import { hasPermission } from "@/lib/getPermissions";
 import { serverFetch } from "@/lib/serverFetch";
 import { sortLogsByCreatedAt } from "@/lib/sorting/sortLogs";
+import { redirect } from "next/navigation";
 
 interface AuthLog {
 	id: number;
@@ -15,6 +17,9 @@ interface AuthLog {
 }
 
 export default async function AuthLogs() {
+	const hasLogViewPermissions = await hasPermission("view_logs");
+	if (!hasLogViewPermissions) redirect("/home");
+
 	const res = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/admin/logs/auth`,
 	);

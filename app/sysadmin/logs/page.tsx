@@ -1,7 +1,11 @@
 import { Header } from "@/components/Header";
 import { LogsMenuButton } from "@/components/logs/LogsMenuButtons";
+import { hasPermission } from "@/lib/getPermissions";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
+export default async function HomePage() {
+	const hasLogViewPermissions = await hasPermission("view_logs");
+	if (!hasLogViewPermissions) redirect("/home");
 	return (
 		<div className="flex flex-col min-h-screen">
 			<Header title="Loggar" backRouteLink="/sysadmin" />
