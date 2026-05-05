@@ -8,6 +8,7 @@ import {
 	deletePostMedia,
 } from "../../actions";
 import { getRoles } from "@/lib/getRole";
+import { DeletePostButton } from "@/components/post/DeletePostButton";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -77,7 +78,7 @@ export default async function PostEditPage({ params }: Props) {
 						</div>
 						<button
 							type="submit"
-							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm cursor-pointer"
 						>
 							Spara
 						</button>
@@ -102,7 +103,7 @@ export default async function PostEditPage({ params }: Props) {
 											<input type="hidden" name="postId" value={id} />
 											<button
 												type="submit"
-												className="text-red-500 text-xs border border-red-500 rounded px-2 py-1"
+												className="text-red-500 text-xs border border-red-500 rounded px-2 py-1 cursor-pointer"
 											>
 												Ta bort
 											</button>
@@ -141,7 +142,7 @@ export default async function PostEditPage({ params }: Props) {
 						</div>
 						<button
 							type="submit"
-							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+							className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm cursor-pointer"
 						>
 							Lägg till media
 						</button>
@@ -153,15 +154,7 @@ export default async function PostEditPage({ params }: Props) {
 					<p className="text-sm text-gray-500 mb-4">
 						Åtgärden kan inte ångras.
 					</p>
-					<form action={deletePost}>
-						<input type="hidden" name="postId" value={id} />
-						<button
-							type="submit"
-							className="px-4 py-2 bg-red-500 text-white rounded-md text-sm"
-						>
-							Ta bort inlägg
-						</button>
-					</form>
+					<DeletePostButton postId={id} />
 				</section>
 			</main>
 		</div>

@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { formatDate } from "@/lib/formatDate";
 import { getRoles } from "@/lib/getRole";
 import { serverFetch } from "@/lib/serverFetch";
+import { sortPostsByNewest } from "@/lib/sorting/sortPosts";
 
 interface ResponsePost {
 	id: number;
@@ -9,6 +10,7 @@ interface ResponsePost {
 	title: string;
 	content: string;
 	createdAt: string;
+	updatedAt: string;
 }
 
 export default async function PostPage() {
@@ -21,6 +23,7 @@ export default async function PostPage() {
 		},
 	);
 	const posts: ResponsePost[] = await res.json();
+	const sortedPosts = sortPostsByNewest(posts);
 
 	return (
 		<div className="w-full">
@@ -36,7 +39,7 @@ export default async function PostPage() {
 				)}
 			</div>
 			<main className="flex flex-col gap-4 mx-6 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
-				{posts.map((post) => (
+				{sortedPosts.map((post) => (
 					<article
 						key={post.id}
 						className="bg-white rounded-lg shadow-md p-5 overflow-hidden"
@@ -44,10 +47,10 @@ export default async function PostPage() {
 						<div className="flex justify-between items-start">
 							<div className="min-w-0">
 								<time
-									dateTime={post.createdAt}
+									dateTime={post.updatedAt || post.createdAt}
 									className="text-xs text-gray-400 mt-1"
 								>
-									{formatDate(post.createdAt)}
+									{formatDate(post.updatedAt || post.createdAt)}
 								</time>
 								<h2 className="text-lg font-semibold wrap-break-word">
 									{post.title}
@@ -71,7 +74,7 @@ export default async function PostPage() {
 							<a
 								href={`/post/${post.id}`}
 								aria-label={`Läs mer om ${post.title}`}
-								className="text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+								className="w-full text-center text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
 							>
 								Läs mer
 							</a>

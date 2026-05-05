@@ -24,7 +24,7 @@ export function HomePageButton({
 				aria-label={`Navigera till ${buttonText}`}
 			>
 				<div className="flex flex-row p-4 justify-between">
-					<span className="text-white text-md">{buttonText}</span>
+					<p className="text-white text-shadow-md text-md">{buttonText}</p>
 					<ArrowRight className="text-white" aria-hidden="true" />
 				</div>
 			</a>
