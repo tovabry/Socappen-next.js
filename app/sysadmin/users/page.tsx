@@ -23,8 +23,8 @@ export default async function UsersPage({
 }: {
 	searchParams: Promise<{ role?: string }>;
 }) {
-	const { isSysAdmin } = await getRoles();
-	if (!isSysAdmin) redirect("/home");
+	const { isSysAdmin, isAdmin } = await getRoles();
+	if (!isSysAdmin && !isAdmin) redirect("/home");
 
 	const { role = "all" } = await searchParams;
 

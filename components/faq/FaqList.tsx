@@ -13,9 +13,10 @@ interface ResponseFaq {
 interface Props {
 	faqs: ResponseFaq[];
 	isAdmin: boolean;
+	hasFaqPermissions: boolean;
 }
 
-export function FaqList({ faqs, isAdmin }: Props) {
+export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [openId, setOpenId] = useState<number | null>(null);
 
@@ -28,7 +29,7 @@ export function FaqList({ faqs, isAdmin }: Props) {
 		<div className="w-full">
 			<Header title="Vanligt förekommande frågor" backRouteLink="/home" />
 			<div className="flex items-center gap-4 mx-10 mt-5 flex-col md:flex-row">
-				{isAdmin && (
+				{isAdmin && hasFaqPermissions && (
 					<a
 						href="/faq/new"
 						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm whitespace-nowrap"
@@ -64,7 +65,7 @@ export function FaqList({ faqs, isAdmin }: Props) {
 						{openId === faq.id && (
 							<div className="px-4 pb-4 text-gray-700 border-t pt-3">
 								<p className="wrap-break-word text-lg">{faq.answer}</p>
-								{isAdmin && (
+								{isAdmin && hasFaqPermissions && (
 									<div className="flex flex-row justify-end gap-2">
 										<a
 											href={`/faq/${faq.id}/edit`}

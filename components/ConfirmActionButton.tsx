@@ -52,7 +52,7 @@ export function ConfirmActionButton({
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
-				className="inline-flex items-center gap-2 px-4 py-2 border border-red-500 text-red-600 rounded-md text-sm font-medium hover:bg-red-50 transition-colors"
+				className="inline-flex items-center gap-2 px-4 py-2 border border-red-500 text-red-600 rounded-md text-sm font-medium hover:bg-red-50 transition-colors cursor-pointer"
 				aria-haspopup="dialog"
 				aria-expanded={open}
 			>
@@ -76,7 +76,7 @@ export function ConfirmActionButton({
 							ref={cancelRef}
 							type="button"
 							onClick={() => setOpen(false)}
-							className="px-3 py-1 border rounded-md text-sm"
+							className="px-3 py-1 border rounded-md text-sm cursor-pointer"
 						>
 							{cancelLabel}
 						</button>
@@ -92,7 +92,7 @@ export function ConfirmActionButton({
 							))}
 							<button
 								type="submit"
-								className="px-3 py-1 bg-red-600 text-white rounded-md text-sm"
+								className="px-3 py-1 bg-red-600 text-white rounded-md text-sm cursor-pointer"
 							>
 								{confirmLabel}
 							</button>
