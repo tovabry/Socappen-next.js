@@ -1,12 +1,7 @@
 import { Header } from "@/components/Header";
 import { redirect } from "next/navigation";
 import { serverFetch } from "@/lib/serverFetch";
-import {
-	updatePost,
-	deletePost,
-	addPostMedia,
-	deletePostMedia,
-} from "../../actions";
+import { updatePost, addPostMedia, deletePostMedia } from "../../actions";
 import { getRoles } from "@/lib/getRole";
 import { DeletePostButton } from "@/components/post/DeletePostButton";
 import { hasPermission } from "@/lib/getPermissions";

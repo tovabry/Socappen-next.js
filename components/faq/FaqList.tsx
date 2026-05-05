@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 interface ResponseFaq {
 	id: number;
@@ -36,12 +37,12 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 					className="p-2 border rounded-md bg-white flex-1 lg:min-w-150 shadow-md"
 				/>
 				{isAdmin && hasFaqPermissions && (
-					<a
+					<Link
 						href="/faq/new"
 						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm whitespace-nowrap"
 					>
 						+ Lägg till ny FAQ
-					</a>
+					</Link>
 				)}
 			</div>
 			<main className="flex flex-col gap-2 mx-10 mt-4 md:w-2/3 md:mx-auto">
@@ -67,13 +68,13 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 								<p className="wrap-break-word text-lg">{faq.answer}</p>
 								{isAdmin && hasFaqPermissions && (
 									<div className="flex flex-row justify-end gap-2">
-										<a
+										<Link
 											href={`/faq/${faq.id}/edit`}
 											aria-label={`Redigera FAQ: ${faq.question}`}
 											className="px-3 py-1 text-sm border rounded-md shadow-md"
 										>
 											Redigera
-										</a>
+										</Link>
 									</div>
 								)}
 							</div>

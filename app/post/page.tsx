@@ -4,6 +4,7 @@ import { hasPermission } from "@/lib/getPermissions";
 import { getRoles } from "@/lib/getRole";
 import { serverFetch } from "@/lib/serverFetch";
 import { sortPostsByNewest } from "@/lib/sorting/sortPosts";
+import Link from "next/link";
 
 interface ResponsePost {
 	id: number;
@@ -32,12 +33,12 @@ export default async function PostPage() {
 			<Header title="Posts" backRouteLink="/home" />
 			<div className="flex justify-end mx-10 mt-5">
 				{isAdmin && hasPostPermissions && (
-					<a
+					<Link
 						href="/post/new"
 						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm shadow-md"
 					>
 						+ Nytt inlägg
-					</a>
+					</Link>
 				)}
 			</div>
 			<main className="flex flex-col gap-4 mx-6 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3">
@@ -60,12 +61,12 @@ export default async function PostPage() {
 							</div>
 							{isAdmin && hasPostPermissions && (
 								<div className="flex gap-2">
-									<a
+									<Link
 										href={`/post/${post.id}/edit`}
 										className="px-3 py-1 text-sm border rounded-md shadow-md"
 									>
 										Redigera
-									</a>
+									</Link>
 								</div>
 							)}
 						</div>
@@ -73,13 +74,13 @@ export default async function PostPage() {
 							{post.content}
 						</p>
 						<div className="flex flex-row">
-							<a
+							<Link
 								href={`/post/${post.id}`}
 								aria-label={`Läs mer om ${post.title}`}
 								className="w-full text-center text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
 							>
 								Läs mer
-							</a>
+							</Link>
 						</div>
 					</article>
 				))}

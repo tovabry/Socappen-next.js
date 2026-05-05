@@ -9,22 +9,21 @@ export default async function Page({
 	params: Promise<{ conversationId: string }>;
 }) {
 	const { conversationId } = await params;
-	const { isAdmin, isUser } = await getRoles();
-	if (!isAdmin && !isUser) redirect("/home");
+	const id = Number(conversationId);
 
-	if (!isAdmin) {
-		const myRes = await serverFetch(
-			`${process.env.NEXT_PUBLIC_API_URL}/conversations/my?page=0&size=200`,
-			{ cache: "no-store" },
-		);
+	const { isAdmin, isUser, isSysAdmin } = await getRoles();
+	if (!isAdmin && !isUser && !isSysAdmin) redirect("/home");
+	if (!Number.isFinite(id)) redirect("/messages");
 
-		if (!myRes.ok) redirect("/messages");
+	const myRes = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/conversations/my?page=0&size=500`,
+		{ cache: "no-store" },
+	);
 
-		const mine: Array<{ id: number }> = await myRes.json();
+	if (!myRes.ok) redirect("/messages");
 
-		if (!mine.some((c) => c.id === Number(conversationId)))
-			redirect("/messages");
-	}
+	const mine: Array<{ id: number }> = await myRes.json();
+	if (!mine.some((c) => c.id === id)) redirect("/messages");
 
 	return <MessagesClient conversationId={conversationId} />;
 }
