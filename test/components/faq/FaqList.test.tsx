@@ -12,13 +12,13 @@ const faqs = [
 
 describe("Faq-List", () => {
 	test("Shows all questions", () => {
-		render(<FaqList faqs={faqs} isAdmin={false} />);
+		render(<FaqList faqs={faqs} isAdmin={false} hasFaqPermissions={true} />);
 		expect(screen.getByText("Vad är FAQ?")).toBeInTheDocument();
 		expect(screen.getByText("Hur kontaktar jag er?")).toBeInTheDocument();
 	});
 
 	test("Filters questions based on search input", () => {
-		render(<FaqList faqs={faqs} isAdmin={false} />);
+		render(<FaqList faqs={faqs} isAdmin={false} hasFaqPermissions={true} />);
 		fireEvent.change(screen.getByPlaceholderText("Sök..."), {
 			target: { value: "kontakt" },
 		});
@@ -27,7 +27,7 @@ describe("Faq-List", () => {
 	});
 
 	test("Expands answer when clicking on question", () => {
-		render(<FaqList faqs={faqs} isAdmin={false} />);
+		render(<FaqList faqs={faqs} isAdmin={false} hasFaqPermissions={true} />);
 		expect(
 			screen.queryByText("Vanliga frågor och svar."),
 		).not.toBeInTheDocument();
@@ -36,7 +36,7 @@ describe("Faq-List", () => {
 	});
 
 	test("Closes answer when clicking again", () => {
-		render(<FaqList faqs={faqs} isAdmin={false} />);
+		render(<FaqList faqs={faqs} isAdmin={false} hasFaqPermissions={true} />);
 		fireEvent.click(screen.getByText("Vad är FAQ?"));
 		fireEvent.click(screen.getByText("Vad är FAQ?"));
 		expect(
@@ -45,17 +45,17 @@ describe("Faq-List", () => {
 	});
 
 	test("Shows + Add new FAQ button for admin", () => {
-		render(<FaqList faqs={faqs} isAdmin={true} />);
+		render(<FaqList faqs={faqs} isAdmin={true} hasFaqPermissions={true} />);
 		expect(screen.getByText("+ Lägg till ny FAQ")).toBeInTheDocument();
 	});
 
 	test("Hides + Add new FAQ button for non-admin", () => {
-		render(<FaqList faqs={faqs} isAdmin={false} />);
+		render(<FaqList faqs={faqs} isAdmin={false} hasFaqPermissions={true} />);
 		expect(screen.queryByText("+ Lägg till ny FAQ")).not.toBeInTheDocument();
 	});
 
 	test("Shows Edit link in expanded card for admin", () => {
-		render(<FaqList faqs={faqs} isAdmin={true} />);
+		render(<FaqList faqs={faqs} isAdmin={true} hasFaqPermissions={true} />);
 		fireEvent.click(screen.getByText("Vad är FAQ?"));
 		expect(screen.getByText("Redigera")).toBeInTheDocument();
 	});

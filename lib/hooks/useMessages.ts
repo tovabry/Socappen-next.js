@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import {
@@ -21,7 +21,7 @@ export function useMessages(conversationId: string) {
 	const isFetchingRef = useRef(false);
 	const prevScrollHeightRef = useRef<number | null>(null);
 
-	// Initial load of messages and setup of websocket connection
+	// Initial load of messages for the current conversation
 	useEffect(() => {
 		const controller = new AbortController();
 		isFetchingRef.current = true;
@@ -42,7 +42,7 @@ export function useMessages(conversationId: string) {
 		return () => controller.abort();
 	}, [conversationId]);
 
-	// WebSocket connection
+	// Open websocket for this conversation and append incoming messages
 	useEffect(() => {
 		const client = new Client({
 			webSocketFactory: () =>
@@ -55,34 +55,49 @@ export function useMessages(conversationId: string) {
 			});
 		};
 		client.activate();
+		// Close websocket subscription on unmount / conversation change
 		return () => {
 			client.deactivate();
 		};
 	}, [conversationId]);
 
-	// Load older messages with infinite scroll
-	const loadOlder = (listScrollHeight: number) => {
-		if (isFetchingRef.current || !hasMoreRef.current) return;
-		isFetchingRef.current = true;
-		setLoadingMore(true);
-		prevScrollHeightRef.current = listScrollHeight;
+	// Load older messages when user scrolls to top
+	// useCallback keeps function stable between renders
+	const loadOlder = useCallback(
+		(listScrollHeight: number) => {
+			if (isFetchingRef.current || !hasMoreRef.current) return;
 
-		fetchMessagePage(conversationId, pageRef.current + 1)
-			.then((older) => {
-				if (older.length < pageSize) {
-					hasMoreRef.current = false;
-					setHasMore(false);
-				}
-				setMessages((prev) => mergeOlderMessages(older, prev));
-				pageRef.current += 1;
-			})
-			.catch(console.error)
-			.finally(() => setLoadingMore(false));
-	};
+			isFetchingRef.current = true;
+			setLoadingMore(true);
+			prevScrollHeightRef.current = listScrollHeight;
 
-	const sendMessage = (content: string) => {
-		return postMessage(conversationId, content);
-	};
+			fetchMessagePage(conversationId, pageRef.current + 1)
+				.then((older) => {
+					if (older.length < pageSize) {
+						hasMoreRef.current = false;
+						setHasMore(false);
+					}
+					setMessages((prev) => mergeOlderMessages(older, prev));
+					pageRef.current += 1;
+				})
+				.catch(console.error)
+				// Always release loading lock, even on error
+				.finally(() => {
+					setLoadingMore(false);
+					isFetchingRef.current = false;
+				});
+		},
+		[conversationId],
+	);
+
+	// Send message to current conversation
+	// useCallback keeps function stable for consumers
+	const sendMessage = useCallback(
+		(content: string) => {
+			return postMessage(conversationId, content);
+		},
+		[conversationId],
+	);
 
 	return {
 		messages,

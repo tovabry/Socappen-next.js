@@ -20,14 +20,14 @@ export async function getPermissions(): Promise<Set<string>> {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("token")?.value;
 
+	if (!token) return new Set();
+
 	const meRes = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/users/me`,
 		{
 			cache: "no-store",
 		},
 	);
-
-	if (!token) return new Set();
 
 	if (meRes.status === 401 || meRes.status === 403) return new Set();
 
