@@ -5,6 +5,7 @@ import { serverFetch } from "@/lib/serverFetch";
 import { redirect } from "next/navigation";
 import { promoteToAdmin, demoteToUser, deleteUserAccount } from "./actions";
 import { ConfirmActionButton } from "@/components/ConfirmActionButton";
+import { hasPermission } from "@/lib/getPermissions";
 
 interface UserRow {
 	id: number;
@@ -24,7 +25,9 @@ export default async function UsersPage({
 	searchParams: Promise<{ role?: string }>;
 }) {
 	const { isSysAdmin, isAdmin } = await getRoles();
-	if (!isSysAdmin && !isAdmin) redirect("/home");
+	const hasUserPermissions = await hasPermission("manage_user");
+	const hasManagePermissions = await hasPermission("manage_permission");
+	if ((!isSysAdmin && !isAdmin) || !hasUserPermissions) redirect("/home");
 
 	const { role = "all" } = await searchParams;
 
@@ -81,32 +84,38 @@ export default async function UsersPage({
 						<p className="text-sm">Roll: {normalizeRole(user.role) || "-"}</p>
 
 						<div className="mt-4 flex flex-col gap-2">
-							<Link
-								href={`/sysadmin/users/${user.id}`}
-								className="w-full text-center text-sm border rounded-md px-3 py-2"
-							>
-								Hantera behörigheter
-							</Link>
-
-							<form action={promoteToAdmin}>
-								<input type="hidden" name="userId" value={user.id} />
-								<button
-									type="submit"
-									className="w-full text-sm px-3 py-2 rounded-md bg-(--bg-secondary-color-red) text-white cursor-pointer"
+							{hasManagePermissions && (
+								<Link
+									href={`/sysadmin/users/${user.id}`}
+									className="w-full text-center text-sm border rounded-md px-3 py-2"
 								>
-									Ge admin
-								</button>
-							</form>
+									Hantera behörigheter
+								</Link>
+							)}
 
-							<form action={demoteToUser}>
-								<input type="hidden" name="userId" value={user.id} />
-								<button
-									type="submit"
-									className="w-full text-sm px-3 py-2 rounded-md border cursor-pointer"
-								>
-									Ta bort admin
-								</button>
-							</form>
+							{hasManagePermissions && (
+								<form action={promoteToAdmin}>
+									<input type="hidden" name="userId" value={user.id} />
+									<button
+										type="submit"
+										className="w-full text-sm px-3 py-2 rounded-md bg-(--bg-secondary-color-red) text-white cursor-pointer"
+									>
+										Ge admin
+									</button>
+								</form>
+							)}
+
+							{hasManagePermissions && (
+								<form action={demoteToUser}>
+									<input type="hidden" name="userId" value={user.id} />
+									<button
+										type="submit"
+										className="w-full text-sm px-3 py-2 rounded-md border cursor-pointer"
+									>
+										Ta bort admin
+									</button>
+								</form>
+							)}
 
 							<ConfirmActionButton
 								action={deleteUserAccount}

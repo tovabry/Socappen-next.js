@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { formatDate } from "@/lib/formatDate";
+import { hasPermission } from "@/lib/getPermissions";
 import { getRoles } from "@/lib/getRole";
 import { serverFetch } from "@/lib/serverFetch";
 import { Pencil } from "lucide-react";
@@ -27,6 +28,7 @@ export default async function PostDetailPage({ params }: Props) {
 	const { id } = await params;
 
 	const { isAdmin } = await getRoles();
+	const hasPostPermissions = await hasPermission("manage_post");
 
 	const [res, mediaRes] = await Promise.all([
 		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`),
@@ -64,7 +66,7 @@ export default async function PostDetailPage({ params }: Props) {
 								{post.title}
 							</h1>
 						</div>
-						{isAdmin && (
+						{isAdmin && hasPostPermissions && (
 							<a
 								href={`/post/${id}/edit`}
 								aria-label={`Redigera ${post.title}`}

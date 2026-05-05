@@ -9,6 +9,7 @@ import {
 } from "../../actions";
 import { getRoles } from "@/lib/getRole";
 import { DeletePostButton } from "@/components/post/DeletePostButton";
+import { hasPermission } from "@/lib/getPermissions";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -32,8 +33,9 @@ export default async function PostEditPage({ params }: Props) {
 	const { id } = await params;
 
 	const { isAdmin } = await getRoles();
+	const hasPostPermissions = await hasPermission("manage_post");
 
-	if (!isAdmin) redirect(`/post/${id}`);
+	if (!isAdmin || !hasPostPermissions) redirect(`/post/${id}`);
 
 	const [postRes, mediaRes] = await Promise.all([
 		serverFetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`),

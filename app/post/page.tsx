@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { formatDate } from "@/lib/formatDate";
+import { hasPermission } from "@/lib/getPermissions";
 import { getRoles } from "@/lib/getRole";
 import { serverFetch } from "@/lib/serverFetch";
 import { sortPostsByNewest } from "@/lib/sorting/sortPosts";
@@ -15,6 +16,7 @@ interface ResponsePost {
 
 export default async function PostPage() {
 	const { isAdmin } = await getRoles();
+	const hasPostPermissions = await hasPermission("manage_post");
 
 	const res = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/posts?page=0&size=20`,
@@ -29,7 +31,7 @@ export default async function PostPage() {
 		<div className="w-full">
 			<Header title="Posts" backRouteLink="/home" />
 			<div className="flex justify-end mx-10 mt-5">
-				{isAdmin && (
+				{isAdmin && hasPostPermissions && (
 					<a
 						href="/post/new"
 						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm shadow-md"
@@ -56,7 +58,7 @@ export default async function PostPage() {
 									{post.title}
 								</h2>
 							</div>
-							{isAdmin && (
+							{isAdmin && hasPostPermissions && (
 								<div className="flex gap-2">
 									<a
 										href={`/post/${post.id}/edit`}

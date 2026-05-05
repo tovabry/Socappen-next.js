@@ -41,8 +41,8 @@ export default async function HomePage() {
 					disabled={!isSysAdmin && !isAdmin && !isUser}
 				/>
 
-				{isSysAdmin && (
-					<HomePageButton buttonText="System admin" routeLink="/sysadmin" />
+				{isAdmin && (
+					<HomePageButton buttonText="Admin verktyg" routeLink="/sysadmin" />
 				)}
 			</main>
 			<Footer />

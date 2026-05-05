@@ -2,11 +2,13 @@ import { Header } from "@/components/Header";
 import { redirect } from "next/navigation";
 import { NewPostForm } from "@/components/post/NewPostForm";
 import { getRoles } from "@/lib/getRole";
+import { hasPermission } from "@/lib/getPermissions";
 
 export default async function NewPostPage() {
 	const { isAdmin } = await getRoles();
+	const hasPostPermissions = await hasPermission("manage_post");
 
-	if (!isAdmin) redirect("/post");
+	if (!isAdmin || !hasPostPermissions) redirect("/post");
 
 	return (
 		<div className="w-full">
