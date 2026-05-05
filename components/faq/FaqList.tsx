@@ -28,7 +28,13 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 	return (
 		<div className="w-full">
 			<Header title="Vanligt förekommande frågor" backRouteLink="/home" />
-			<div className="flex items-center gap-4 mx-10 mt-5 flex-col md:flex-row">
+			<div className="flex items-center gap-4 mx-10 mt-5 flex-col md:flex-col">
+				<input
+					onChange={(e) => setSearchQuery(e.target.value)}
+					type="text"
+					placeholder="Sök..."
+					className="p-2 border rounded-md bg-white flex-1 lg:min-w-150 shadow-md"
+				/>
 				{isAdmin && hasFaqPermissions && (
 					<a
 						href="/faq/new"
@@ -37,12 +43,6 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 						+ Lägg till ny FAQ
 					</a>
 				)}
-				<input
-					onChange={(e) => setSearchQuery(e.target.value)}
-					type="text"
-					placeholder="Sök..."
-					className="p-2 border rounded-md bg-white flex-1"
-				/>
 			</div>
 			<main className="flex flex-col gap-2 mx-10 mt-4 md:w-2/3 md:mx-auto">
 				{reversed.map((faq) => (

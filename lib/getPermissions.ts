@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { serverFetch } from "./serverFetch";
 
 export type PermissionName =
@@ -12,16 +13,23 @@ interface MeResponse {
 	id: number;
 	email: string;
 	role: string;
-	permissions: string[]; // viktigt: permissions (plural) + string[]
+	permissions: string[];
 }
 
 export async function getPermissions(): Promise<Set<string>> {
+	const cookieStore = await cookies();
+	const token = cookieStore.get("token")?.value;
+
 	const meRes = await serverFetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/users/me`,
 		{
 			cache: "no-store",
 		},
 	);
+
+	if (!token) return new Set();
+
+	if (meRes.status === 401 || meRes.status === 403) return new Set();
 
 	if (!meRes.ok) {
 		console.error("users/me failed:", meRes.status, await meRes.text());
