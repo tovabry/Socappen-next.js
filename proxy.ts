@@ -48,5 +48,10 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/sysadmin/:path*", "/admin/:path*", "/logs/:path*"],
+	matcher: [
+		"/sysadmin/:path*",
+		"/admin/:path*",
+		"/logs/:path*",
+		"/messages/:path*",
+	],
 };

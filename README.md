@@ -114,6 +114,63 @@ Projektet är organiserat enligt följande:
 
 ---
 
+### Åtkomstmodell (roller + permissions)
+
+Applikationen använder en kombination av **roller** och **finkorniga permissions**.
+
+- **Roller** avgör grundåtkomst till delar av systemet.
+- **Permissions** avgör vilka specifika funktioner en användare får utföra (t.ex. redigera FAQ, hantera användare, se loggar).
+
+#### Exempel på permissions
+
+- `manage_user`
+- `manage_faq`
+- `manage_post`
+- `manage_contact`
+- `manage_permission`
+- `view_logs`
+
+Permissions hämtas via backend och används i frontend för att visa eller dölja actions och knappar.
+
+---
+
+### Meddelanden (chatt) - åtkomstregler
+
+Meddelandefunktionen är roll- och behörighetsstyrd:
+
+- Endast inloggade användare får nå `/messages`.
+- En vanlig användare (`ROLE_USER`) kan endast se och gå in i konversationer där användaren är deltagare.
+- Admin/sysadmin kan se alla konversationer och gå med i flera konversationer.
+- Åtkomst kontrolleras i flera lager:
+  1. Route-skydd (proxy/middleware)
+  2. Server-side validering i pages/actions
+
+---
+
+### Systemadministration - användarhantering
+
+Sidan `/sysadmin/users` innehåller:
+
+- Listning av användare
+- Filtrering per roll
+- Promote/demote av administratörsroll
+- Hantering av användarbehörigheter
+- Borttagning av konto med bekräftelse
+
+UI för olika actions visas endast när användaren har rätt permission.
+
+---
+
+### Gemensam bekräftelse för destruktiva actions
+
+Alla delete-flöden använder en gemensam komponent för bekräftelse (`ConfirmActionButton`), vilket ger:
+
+- konsekvent UX
+- återanvändbar kod
+- minskad risk för oavsiktlig borttagning
+
+---
+
 ### API-Integration
 
 #### Gemensamma API-anrop

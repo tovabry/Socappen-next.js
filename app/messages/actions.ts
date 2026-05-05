@@ -1,8 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { serverFetch } from "@/lib/serverFetch";
+import { getRoles } from "@/lib/getRole";
 
 export async function createConversation() {
 	const userRes = await serverFetch(
@@ -29,6 +29,11 @@ export async function createConversation() {
 }
 
 export async function joinConversation(formData: FormData) {
+	const { isAdmin } = await getRoles();
+	if (!isAdmin) {
+		redirect("/messages");
+	}
+
 	const conversationId = formData.get("conversationId") as string;
 
 	const res = await serverFetch(
