@@ -20,6 +20,7 @@ export function useMessages(conversationId: string) {
 	const hasMoreRef = useRef(true);
 	const isFetchingRef = useRef(false);
 	const prevScrollHeightRef = useRef<number | null>(null);
+	const aiSessionIdRef = useRef<string | null>(null);
 
 	// Initial load of messages for the current conversation
 	useEffect(() => {
@@ -90,11 +91,59 @@ export function useMessages(conversationId: string) {
 		[conversationId],
 	);
 
+	// Reset AI session when switching conversation.
+	// refresh/new tab also starts a new AI session.
+	useEffect(() => {
+		aiSessionIdRef.current = null;
+	}, [conversationId]);
+
 	// Send message to current conversation
 	// useCallback keeps function stable for consumers
 	const sendMessage = useCallback(
-		(content: string) => {
-			return postMessage(conversationId, content);
+		async (content: string) => {
+			await postMessage(conversationId, content);
+
+			if (process.env.NEXT_PUBLIC_CHAT_MODE !== "ai") return;
+
+			const res = await fetch("/api/ai", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					message: content,
+					sessionId: aiSessionIdRef.current,
+				}),
+			});
+
+			if (!res.ok) {
+				setMessages((prev) => [
+					...prev,
+					{
+						id: Date.now() + Math.floor(Math.random() * 1000),
+						senderId: -1,
+						content: "AI-svar kunde inte hämtas just nu.",
+						sentAt: new Date().toISOString(),
+						senderType: "AI",
+					},
+				]);
+				return;
+			}
+
+			const data = await res.json();
+
+			if (data.session_id) {
+				aiSessionIdRef.current = data.session_id;
+			}
+
+			setMessages((prev) => [
+				...prev,
+				{
+					id: Date.now() + Math.floor(Math.random() * 1000),
+					senderId: -1,
+					content: data.reply ?? "Inget svar från AI.",
+					sentAt: new Date().toISOString(),
+					senderType: "AI",
+				},
+			]);
 		},
 		[conversationId],
 	);

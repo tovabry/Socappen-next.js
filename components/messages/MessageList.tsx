@@ -33,8 +33,11 @@ export function MessageList({
 				{!hasMore && "Inga tidigare meddelanden"}
 			</div>
 
-			{messages.map((m) =>
-				m.senderId === userId ? (
+			{messages.map((m) => {
+				const isAi = m.senderType === "AI";
+				const isMine = m.senderId === userId && !isAi;
+
+				return isMine ? (
 					<SentMessage
 						key={m.id}
 						senderId={m.senderId}
@@ -48,8 +51,8 @@ export function MessageList({
 						content={m.content}
 						sentAt={m.sentAt}
 					/>
-				),
-			)}
+				);
+			})}
 
 			<div ref={bottomRef} />
 		</ul>

@@ -26,6 +26,7 @@ export default function MessagesClient({
 
 	const [newMessage, setNewMessage] = useState("");
 	const [sendError, setSendError] = useState<string | null>(null);
+	const [isWaitingForAi, setIsWaitingForAi] = useState(false);
 
 	const listRef = useRef<HTMLUListElement>(null);
 	const topOfListRef = useRef<HTMLDivElement>(null);
@@ -57,14 +58,20 @@ export default function MessagesClient({
 	}, [messages, prevScrollHeightRef, isFetchingRef]);
 
 	const handleSend = async () => {
+		const content = newMessage.trim();
+		if (!content) return;
+
+		setNewMessage("");
+		setSendError(null);
+		if (textareaRef.current) textareaRef.current.style.height = "auto";
+
+		setIsWaitingForAi(true);
 		try {
-			if (!newMessage.trim()) return;
-			await sendMessage(newMessage);
-			setNewMessage("");
-			setSendError(null);
-			if (textareaRef.current) textareaRef.current.style.height = "auto";
+			await sendMessage(content);
 		} catch (err) {
 			if (err instanceof MessageValidationError) setSendError(err.message);
+		} finally {
+			setIsWaitingForAi(false);
 		}
 	};
 
@@ -89,6 +96,7 @@ export default function MessagesClient({
 				textareaRef={textareaRef}
 				bottomRef={bottomRef}
 				error={sendError}
+				isLoading={isWaitingForAi}
 			/>
 		</div>
 	);

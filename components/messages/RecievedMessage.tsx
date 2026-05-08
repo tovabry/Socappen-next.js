@@ -17,7 +17,11 @@ export function RecievedMessage({
 				<p className="m-0 max-w-full wrap-break-word">{content}</p>
 				<span className="text-xs opacity-70">{formatDate(sentAt)}</span>
 				<span className="text-xs opacity-70">
-					{senderId ? `${senderId}` : "Missing id"}
+					{senderId === -1
+						? "Eneo AI"
+						: senderId
+							? `${senderId}`
+							: "Missing id"}
 				</span>
 			</div>
 		</li>

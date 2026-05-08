@@ -5,6 +5,7 @@ export interface Message {
 	senderId: number;
 	content: string;
 	sentAt: string;
+	senderType?: "USER" | "AI";
 }
 
 export class MessageValidationError extends Error {}

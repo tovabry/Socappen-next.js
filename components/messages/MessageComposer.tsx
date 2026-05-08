@@ -1,6 +1,6 @@
 "use client";
 
-import { Send } from "lucide-react";
+import { LoaderIcon, Send } from "lucide-react";
 
 interface Props {
 	value: string;
@@ -9,6 +9,7 @@ interface Props {
 	textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 	bottomRef: React.RefObject<HTMLDivElement | null>;
 	error: string | null;
+	isLoading?: boolean;
 }
 
 export function MessageComposer({
@@ -18,6 +19,7 @@ export function MessageComposer({
 	textareaRef,
 	bottomRef,
 	error,
+	isLoading,
 }: Props) {
 	return (
 		<>
@@ -51,13 +53,25 @@ export function MessageComposer({
 						}
 					}}
 					name="Text-area för meddelande"
-					placeholder="Skicka meddelande"
+					placeholder={
+						isLoading ? "Väntar på AI..." : "Skriv ett meddelande..."
+					}
 					aria-label="Skriv ditt meddelande här"
 					rows={1}
+					disabled={isLoading}
 					className="w-full resize-none overflow-y-auto focus:outline-none px-3 py-2 border border-gray-400 rounded-lg mx-2 shadow-sm max-h-22 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
 				/>
-				<button type="submit" className="mr-2 p-1" aria-label="Send message">
-					<Send strokeWidth={1} />
+				<button
+					type="submit"
+					className="mr-2 p-1"
+					aria-label="Send message"
+					disabled={isLoading}
+				>
+					{isLoading ? (
+						<LoaderIcon strokeWidth={1} />
+					) : (
+						<Send strokeWidth={1} />
+					)}
 				</button>
 			</form>
 
