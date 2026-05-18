@@ -1,0 +1,32 @@
+import { Header } from "@/components/Header";
+import { LogsMenuButton } from "@/components/logs/LogsMenuButtons";
+import { hasPermission } from "@/lib/getPermissions";
+import { redirect } from "next/navigation";
+
+export default async function HomePage() {
+	const hasLogViewPermissions = await hasPermission("view_logs");
+	if (!hasLogViewPermissions) redirect("/home");
+	return (
+		<div className="flex flex-col min-h-screen">
+			<Header title="Loggar" backRouteLink="/sysadmin" />
+			<main className="flex flex-col w-full justify-center">
+				<LogsMenuButton
+					buttonText="Meddelande loggar"
+					routeLink="/sysadmin/logs/messagelogs"
+				/>
+				<LogsMenuButton
+					buttonText="Authentication loggar"
+					routeLink="/sysadmin/logs/authlogs"
+				/>
+				<LogsMenuButton
+					buttonText="FAQ loggar"
+					routeLink="/sysadmin/logs/faqlogs"
+				/>
+				<LogsMenuButton
+					buttonText="Post loggar"
+					routeLink="/sysadmin/logs/postlogs"
+				/>
+			</main>
+		</div>
+	);
+}

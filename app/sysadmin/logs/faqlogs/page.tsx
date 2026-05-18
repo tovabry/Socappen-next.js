@@ -1,0 +1,38 @@
+import { LogTable } from "@/components/logs/LogTable";
+import { formatDate } from "@/lib/formatDate";
+import { hasPermission } from "@/lib/getPermissions";
+import { serverFetch } from "@/lib/serverFetch";
+import { sortLogsByCreatedAt } from "@/lib/sorting/sortLogs";
+import { redirect } from "next/navigation";
+
+interface FaqLog {
+	id: number;
+	appUserId: number;
+	faqId: number;
+	ipAddress: string;
+	createdAt: string;
+}
+
+export default async function FaqLogs() {
+	const hasLogViewPermissions = await hasPermission("view_logs");
+	if (!hasLogViewPermissions) redirect("/home");
+
+	const res = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/admin/logs/faq`,
+	);
+	const faqLogs: FaqLog[] = res.ok ? await res.json() : [];
+	const sortedLogs = sortLogsByCreatedAt(faqLogs);
+
+	return (
+		<LogTable
+			title="FAQ loggar"
+			data={sortedLogs}
+			columns={[
+				{ id: 1, header: "User ID", render: (l) => l.appUserId },
+				{ id: 2, header: "FAQ ID", render: (l) => l.faqId },
+				{ id: 3, header: "IP adress", render: (l) => l.ipAddress },
+				{ id: 4, header: "Skapad", render: (l) => formatDate(l.createdAt) },
+			]}
+		/>
+	);
+}

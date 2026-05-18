@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchCurrentUser, getToken, removeToken } from "../auth";
+import { fetchCurrentUser } from "../auth";
 
 interface AuthUser {
 	id: number;
@@ -11,31 +11,38 @@ interface AuthUser {
 
 interface AuthContextValue {
 	user: AuthUser | null;
+	loading: boolean;
 	setUser: (user: AuthUser | null) => void;
 	logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+/*
+ Provide authentication context to the app, including user info and logout function.
+ On first load, it checks for a token and fetches the current user info if a token exists.
+*/
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<AuthUser | null>(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const token = getToken();
-		if (token) {
-			fetchCurrentUser(token)
-				.then(setUser)
-				.catch(() => removeToken());
-		}
+		fetchCurrentUser()
+			.then(setUser)
+			.catch(() => setUser(null))
+			.finally(() => setLoading(false));
 	}, []);
 
-	const logout = () => {
-		removeToken();
+	const logout = async () => {
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+			method: "POST",
+			credentials: "include",
+		});
 		setUser(null);
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, setUser, logout }}>
+		<AuthContext.Provider value={{ user, loading, setUser, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

@@ -3,6 +3,7 @@
 import LoginForm from "./LoginForm";
 import { X } from "lucide-react";
 import { useAuth } from "@/lib/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface AuthModalProps {
 	open: boolean;
@@ -11,11 +12,15 @@ interface AuthModalProps {
 
 export default function AuthModal({ open, onClose }: AuthModalProps) {
 	const { user, logout } = useAuth();
+	const router = useRouter();
+
 	if (!open) return null;
 
-	const handleLogout = () => {
-		logout();
+	const handleLogout = async () => {
+		await logout();
 		onClose();
+		router.push("/home");
+		router.refresh();
 	};
 
 	return (
@@ -23,17 +28,17 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 			<div className="bg-white rounded-lg p-6 w-full max-w-sm relative">
 				<button
 					onClick={onClose}
-					className="absolute top-3 right-3"
+					className="absolute top-3 right-3 cursor-pointer"
 					aria-label="Close login window"
 				>
 					<X />
 				</button>
 				{user ? (
 					<div className="flex flex-col items-center">
-						<p className="mb-4 text-lg">Du är inloggad som: {user?.email}</p>
+						<p className="my-4 text-lg">Du är inloggad som: {user?.email}</p>
 						<button
 							onClick={handleLogout}
-							className="border rounded-lg px-4 py-2 bg-[#f87171] text-white"
+							className="border rounded-lg px-4 py-2 bg-(--bg-secondary-color-red) text-white cursor-pointer"
 						>
 							Logga ut
 						</button>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { fetchCurrentUser, saveToken } from "@/lib/auth";
+import { fetchCurrentUser } from "@/lib/auth";
 import { useAuth } from "@/lib/context/AuthContext";
 
 interface LoginFormProps {
@@ -29,10 +29,11 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 		setLoading(true);
 
 		try {
-			const res = await fetch("http://localhost:8080/api/auth/login", {
+			const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: form.email, password: form.password }),
+				credentials: "include",
 			});
 
 			if (!res.ok) {
@@ -40,17 +41,14 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 				return;
 			}
 
-			const { token } = await res.json();
-
-			localStorage.setItem("token", token);
-			window.dispatchEvent(new Event("auth-change"));
+			const user = await fetchCurrentUser();
+			setUser(user);
 			if (onSuccess) {
-				saveToken(token);
-				const user = await fetchCurrentUser(token);
-				setUser(user);
-				onSuccess?.();
+				onSuccess();
+				router.refresh();
 			} else {
 				router.push("/home");
+				router.refresh();
 			}
 		} catch {
 			setError("Något gick fel, försök igen.");

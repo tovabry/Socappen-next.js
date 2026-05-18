@@ -1,8 +1,6 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { QuestionCard } from "../../components/QuestionCard";
-import { Header } from "@/components/Header";
+import { FaqList } from "@/components/faq/FaqList";
+import { hasPermission } from "@/lib/getPermissions";
+import { getRoles } from "@/lib/getRole";
 
 interface ResponseFaq {
 	id: number;
@@ -10,50 +8,28 @@ interface ResponseFaq {
 	answer: string;
 }
 
-export default function FaqPage() {
-	const [faqs, setFaqs] = useState<ResponseFaq[]>([]);
-	const [searchQuery, setSearchQuery] = useState("");
+export default async function FaqPage() {
+	console.log("FAQ fetch at:", new Date().toISOString());
+	const hasFaqPermissions = await hasPermission("manage_faq");
+	const [{ isAdmin }, res] = await Promise.all([
+		getRoles(),
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq?size=30`, {
+			next: { revalidate: 1200 }, // 20 minutes caching
+		}),
+	]);
+	if (!res.ok) {
+		console.error("FAQ fetch failed:", res.status, await res.text());
+		return <div>Kunde inte hämta FAQ.</div>;
+	}
 
-	useEffect(() => {
-		fetch("http://localhost:8080/api/faq")
-			.then((res) => res.json())
-			.then((data: ResponseFaq[]) => setFaqs(data))
-			.catch((err) => {
-				console.error("Failed to fetch FAQs:", err);
-				setFaqs([]);
-			});
-	}, []);
-
-	const searchFilter = (array: ResponseFaq[]) => {
-		return array.filter((faq) =>
-			faq.question.toLowerCase().includes(searchQuery.toLowerCase()),
-		);
-	};
-
-	const filtered = searchFilter(faqs);
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchQuery(e.target.value);
-	};
+	const data = await res.json();
+	const faqs: ResponseFaq[] = data.content ?? data;
 
 	return (
-		<div className="w-full">
-			<Header title="Vanligt förekommande frågor" backRouteLink="/home" />
-			<input
-				onChange={handleChange}
-				type="text"
-				placeholder="Sök..."
-				className="p-2 border rounded-md mx-10 mt-5 bg-white w-[calc(100%-80px)]"
-			/>
-			<div className="flex flex-col gap-2 mx-10 md:grid md:grid-cols-2 lg:grid-cols-3">
-				{filtered.map((faq) => (
-					<QuestionCard
-						key={faq.id}
-						question={faq.question}
-						routeLink={`/faq/${faq.id}`}
-					/>
-				))}
-			</div>
-		</div>
+		<FaqList
+			faqs={faqs}
+			isAdmin={isAdmin}
+			hasFaqPermissions={hasFaqPermissions}
+		/>
 	);
 }
