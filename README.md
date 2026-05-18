@@ -4,14 +4,14 @@
 
 - [Introduktion](#introduktion)
 - [Komma igång](#komma-igång)
+  - [Förutsättningar](#förutsättningar)
   - [Klona och installera](#klona-och-installera)
   - [Miljövariabler](#miljövariabler)
-  - [Starta dev-miljö](#starta-dev-miljö)
-  - [Köra tester](#köra-tester)
-  - [Starta prod-server](#starta-prod-server)
+  - [Scripts](#scripts)
 - [Teknisk Dokumentation](#teknisk-dokumentation)
   - [Tekniker](#tekniker)
   - [Projektstruktur](#projektstruktur)
+  - [Tester](#tester)
   - [Designbeslut](#designbeslut)
   - [Autentisering](#autentisering)
   - [Användarroller](#användarroller)
@@ -40,6 +40,13 @@ Backend delen av projektet hittas här: https://github.com/tovabry/Socappen
 
 ## Komma igång
 
+### Förutsättningar
+
+- Node.js 20 eller senare
+- npm 10 eller senare
+- Backend-API måste vara igång och nåbart
+- WebSocket-endpoint måste vara igång för realtidschatten
+
 ### Klona och installera
 
 ```bash
@@ -52,36 +59,19 @@ npm install
 
 Skapa en `.env`-fil i projektroten och fyll i:
 
-```
-NEXT_PUBLIC_API_URL=
-NEXT_PUBLIC_SOCKET_URL=
-```
-
-### Starta dev-miljö
-
-```bash
-npm run dev
+```env
+NEXT_PUBLIC_API_URL=      # Bas-URL till backendens REST API
+NEXT_PUBLIC_SOCKET_URL=   # Bas-URL till backendens WebSocket-endpoint
 ```
 
-### Köra tester
+### Scripts
 
-```bash
-npm run test
-```
-
-### Starta prod-server
-
-Bygg en production build:
-
-```bash
-npm run build
-```
-
-Start prod-server:
-
-```bash
-npm run start
-```
+| Kommando        | Beskrivning               |
+| --------------- | ------------------------- |
+| `npm run dev`   | Startar utvecklingsmiljö  |
+| `npm run test`  | Kör tester                |
+| `npm run build` | Bygger produktionsversion |
+| `npm run start` | Startar produktionsserver |
 
 ---
 
@@ -105,6 +95,30 @@ Projektet är organiserat enligt följande:
 - components/ → Återanvändbara React-komponenter
 - lib/ → Hjälpfunktioner och API-anrop
 - test/ → Jest-tester
+
+---
+
+### Tester
+
+Projektet använder **Jest** och **React Testing Library** för enhets- och komponenttester.
+
+Testerna fokuserar främst på:
+
+- Rendering och interaktion i UI-komponenter
+- Validerings- och hjälpfunktioner i `lib/`
+- Behörighets- och åtkomstrelaterade flöden (t.ex. meddelanden)
+
+Testfiler finns under:
+
+- `test/components/`
+- `test/lib/`
+- `test/app/`
+
+Kör alla tester med:
+
+```bash
+npm run test
+```
 
 ---
 
@@ -143,11 +157,11 @@ Projektet är organiserat enligt följande:
 
 ### Användarroller
 
-| Roll            | Åtkomst                             |
-| --------------- | ----------------------------------- |
-| `ROLE_USER`     | Standard-åtkomst till appen.        |
-| `ROLE_ADMIN`    | Åtkomst till `/admin`               |
-| `ROLE_SYSADMIN` | Full åtkomst inklusive `/sysadmin`. |
+| Roll            | Åtkomst                                                                     |
+| --------------- | --------------------------------------------------------------------------- |
+| `ROLE_USER`     | Standardåtkomst till användarfunktioner.                                    |
+| `ROLE_ADMIN`    | Administrativ åtkomst, inklusive `/sysadmin`-funktioner enligt route-skydd. |
+| `ROLE_SYSADMIN` | Utökad administrativ åtkomst, inklusive `/sysadmin`.                        |
 
 ---
 
