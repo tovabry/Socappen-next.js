@@ -14,19 +14,13 @@
   - [Projektstruktur](#projektstruktur)
   - [Designbeslut](#designbeslut)
   - [Autentisering](#autentisering)
-    - [Klient-side autentiseringsstate](#klient-side-autentiseringsstate)
   - [Användarroller](#användarroller)
   - [Åtkomstmodell (roller + permissions)](#åtkomstmodell-roller--permissions)
-    - [Exempel på permissions](#exempel-på-permissions)
   - [Meddelanden (chatt) - åtkomstregler](#meddelanden-chatt---åtkomstregler)
   - [Systemadministration - användarhantering](#systemadministration---användarhantering)
   - [Gemensam bekräftelse för destruktiva actions](#gemensam-bekräftelse-för-destruktiva-actions)
   - [API-Integration](#api-integration)
-    - [Gemensamma API-anrop](#gemensamma-api-anrop)
-    - [Unika API-anrop](#unika-api-anrop)
-    - [Realtidskommunikation](#realtidskommunikation)
   - [Exempel: Hur en funktion är byggd](#exempel-hur-en-funktion-är-byggd)
-    - [Post-funktionalitet](#post-funktionalitet)
 
 ## Introduktion
 
