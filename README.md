@@ -1,5 +1,33 @@
 # Socappen - Frontend
 
+## Innehållsförteckning
+
+- [Introduktion](#introduktion)
+- [Komma igång](#komma-igång)
+  - [Klona och installera](#klona-och-installera)
+  - [Miljövariabler](#miljövariabler)
+  - [Starta dev-miljö](#starta-dev-miljö)
+  - [Köra tester](#köra-tester)
+  - [Starta prod-server](#starta-prod-server)
+- [Teknisk Dokumentation](#teknisk-dokumentation)
+  - [Tekniker](#tekniker)
+  - [Projektstruktur](#projektstruktur)
+  - [Designbeslut](#designbeslut)
+  - [Autentisering](#autentisering)
+    - [Klient-side autentiseringsstate](#klient-side-autentiseringsstate)
+  - [Användarroller](#användarroller)
+  - [Åtkomstmodell (roller + permissions)](#åtkomstmodell-roller--permissions)
+    - [Exempel på permissions](#exempel-på-permissions)
+  - [Meddelanden (chatt) - åtkomstregler](#meddelanden-chatt---åtkomstregler)
+  - [Systemadministration - användarhantering](#systemadministration---användarhantering)
+  - [Gemensam bekräftelse för destruktiva actions](#gemensam-bekräftelse-för-destruktiva-actions)
+  - [API-Integration](#api-integration)
+    - [Gemensamma API-anrop](#gemensamma-api-anrop)
+    - [Unika API-anrop](#unika-api-anrop)
+    - [Realtidskommunikation](#realtidskommunikation)
+  - [Exempel: Hur en funktion är byggd](#exempel-hur-en-funktion-är-byggd)
+    - [Post-funktionalitet](#post-funktionalitet)
+
 ## Introduktion
 
 Socappen är en responsiv, mobile-first webbapplikation byggd med Next.js och Tailwind CSS.
@@ -47,6 +75,20 @@ npm run dev
 npm run test
 ```
 
+### Starta prod-server
+
+Bygg en production build:
+
+```bash
+npm run build
+```
+
+Start prod-server:
+
+```bash
+npm run start
+```
+
 ---
 
 ## Teknisk Dokumentation
@@ -77,8 +119,9 @@ Projektet är organiserat enligt följande:
 1. **Responsiv design**:
    - Applikationen är byggd med "Mobile-first"-tänk. Detta innebär att applikationen i första hand ska fungera och se bra ut på mindre skärmar, som mobiler. Därefter skalas UI:et upp för större skärmar.
 
-2. **Rollbaserad åtkomstkontroll**:
-   - Next.js Middleware används tillsammans med HTTP-only cookies för att säkerställa att användare endast kan komma åt sidor och funktioner som de har behörighet till.
+2. **Roll- och behörighetsbaserad åtkomstkontroll**:
+   - Next.js Middleware används tillsammans med HTTP-only cookies för route-skydd.
+   - Funktioner i UI styrs även av permissions (`hasPermission`) för mer finkornig åtkomst.
 
 3. **Caching och prestanda**:
    - **ISR (Incremental Static Regeneration)** används för att förbättra prestanda och minska belastningen på servern.
@@ -130,7 +173,7 @@ Applikationen använder en kombination av **roller** och **finkorniga permission
 - `manage_permission`
 - `view_logs`
 
-Permissions hämtas via backend och används i frontend för att visa eller dölja actions och knappar.
+Permissions hämtas via `/users/me` (`getPermissions`/`hasPermission`) och används i frontend för att visa/dölja actions. För gäster returneras tom permission-set.
 
 ---
 
@@ -138,12 +181,18 @@ Permissions hämtas via backend och används i frontend för att visa eller döl
 
 Meddelandefunktionen är roll- och behörighetsstyrd:
 
-- Endast inloggade användare får nå `/messages`.
-- En vanlig användare (`ROLE_USER`) kan endast se och gå in i konversationer där användaren är deltagare.
-- Admin/sysadmin kan se alla konversationer och gå med i flera konversationer.
-- Åtkomst kontrolleras i flera lager:
-  1. Route-skydd (proxy/middleware)
-  2. Server-side validering i pages/actions
+- Endast inloggade användare får nå `/messages` (route-skydd via `proxy.ts`).
+- Vanliga användare (`ROLE_USER`) ser endast sina egna konversationer.
+- Admin/sysadmin kan se alla konversationer i listan.
+- För att öppna en specifik konversation krävs deltagarskap (även för admin/sysadmin).
+- Endast admin/sysadmin kan gå med i konversationer via `joinConversation`.
+- URL-manipulation begränsas genom server-side validering av deltagarskap i konversation.
+
+Åtkomst kontrolleras i flera lager:
+
+1. Route-skydd (`proxy.ts`)
+2. Server-side kontroll i `app/messages/[conversationId]/page.tsx`
+3. Server actions i `app/messages/actions.ts`
 
 ---
 
@@ -179,6 +228,9 @@ Alla delete-flöden använder en gemensam komponent för bekräftelse (`ConfirmA
   - En wrapper runt `fetch` som hanterar HTTP-cookies som standard för alla API-anrop.
 - **`getRoles`**:
   - Avkodar JWT-token från cookien för att server-side kontrollera användarens roll och behörigheter.
+- **`getPermissions` / `hasPermission`**:
+  - Hämtar inloggad användares permissions från `/users/me`.
+  - Används för funktionsstyrning i UI (t.ex. visa/dölja admin-actions).
 
 #### Unika API-anrop
 
