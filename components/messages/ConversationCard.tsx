@@ -12,16 +12,18 @@ interface ResponseConversation {
 export function ConversationCard({
 	conversation,
 	isParticipant,
+	participantName,
 }: {
 	conversation: ResponseConversation;
 	isParticipant: boolean;
+	participantName: string;
 }) {
 	return (
 		<article className="bg-white rounded-lg shadow-md p-5 overflow-hidden">
 			<div className="flex justify-between items-start gap-3">
 				<div className="min-w-0">
 					<h3 className="text-lg font-semibold wrap-break-word">
-						Konversation {conversation.id}
+						{participantName}
 					</h3>
 					<time
 						dateTime={conversation.lastActivityAt}

@@ -12,6 +12,12 @@ interface ResponseConversation {
 	status: string;
 	lastActivityAt: string;
 }
+interface ResponseParticipant {
+	id: number;
+	userId: number;
+	email: string;
+	joinedAt: string;
+}
 
 export default async function MessagesPage() {
 	const { isAdmin, isUser } = await getRoles();
@@ -40,6 +46,29 @@ export default async function MessagesPage() {
 		);
 	}
 
+	// TODO:
+	// Should be removed and let /conversations/{id} endpoint return the label to avoid extra fetches like this one.
+	// Get participating users email to show as label in conversation cards.
+	const meRes = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+	);
+	const me = meRes.ok ? await meRes.json() : null;
+
+	const allVisibleConversations = [...myConversations, ...allConversations];
+
+	const labels = isAdmin
+		? new Map(
+				await Promise.all(
+					allVisibleConversations.map(
+						async (c) =>
+							[c.id, await getConversationLabel(c.id, me?.id)] as const,
+					),
+				),
+			)
+		: new Map(
+				allVisibleConversations.map((c) => [c.id, "Administratör"] as const),
+			);
+
 	return (
 		<div className="w-full">
 			<Header title="Meddelanden" backRouteLink="/home" />
@@ -60,6 +89,7 @@ export default async function MessagesPage() {
 								key={c.id}
 								conversation={c}
 								isParticipant={myConversationIds.has(c.id)}
+								participantName={labels.get(c.id) || `Konversation ${c.id}`}
 							/>
 						))}
 					</div>
@@ -95,6 +125,7 @@ export default async function MessagesPage() {
 									key={c.id}
 									conversation={c}
 									isParticipant={myConversationIds.has(c.id)}
+									participantName={labels.get(c.id) || `Konversation ${c.id}`}
 								/>
 							))}
 						</div>
@@ -102,5 +133,30 @@ export default async function MessagesPage() {
 				)}
 			</main>
 		</div>
+	);
+}
+
+// TODO:
+// participants should be fetched with conversations/{id} endpoint to avoid extra fetches like this one.
+async function getConversationLabel(conversationId: number, myUserId?: number) {
+	const res = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/conversations/${conversationId}/participant`,
+		{ cache: "no-store" },
+	);
+
+	if (!res.ok) {
+		console.error(
+			`participant fetch failed for ${conversationId}:`,
+			res.status,
+			await res.text(),
+		);
+		return `Konversation ${conversationId}`;
+	}
+
+	const participants: ResponseParticipant[] = await res.json();
+	const other = participants.find((p) => p.userId !== myUserId);
+
+	return (
+		other?.email ?? participants[0]?.email ?? `Konversation ${conversationId}`
 	);
 }
