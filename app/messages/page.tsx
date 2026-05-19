@@ -77,7 +77,7 @@ export default async function MessagesPage() {
 								<button
 									type="submit"
 									aria-label="Starta ny chatt"
-									className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md"
+									className="px-4 py-2 bg-(--accent-lightblue) text-white rounded-md shadow-md"
 								>
 									Starta ny chatt
 								</button>

@@ -53,7 +53,7 @@ export function ConversationCard({
 						<button
 							type="submit"
 							aria-label={`Gå med i konversation ${conversation.id}`}
-							className="w-full text-center text-sm px-3 py-2 bg-(--bg-secondary-color-red) text-white rounded-md"
+							className="w-full text-center text-sm px-3 py-2 bg-(--accent-lightblue) text-white rounded-md shadow-md"
 						>
 							Gå med i konversation
 						</button>
@@ -62,7 +62,7 @@ export function ConversationCard({
 					<Link
 						href={`/messages/${conversation.id}`}
 						aria-label={`Öppna konversation ${conversation.id}`}
-						className="w-full text-center text-sm border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+						className="w-full text-center text-sm font-semibold mt-3 border b-2 rounded-md px-3 py-1 text-(--bg-light) bg-(--accent-lightblue) shadow-md"
 					>
 						Öppna
 					</Link>

@@ -30,7 +30,7 @@ export default async function FaqNewPage() {
 					</div>
 					<button
 						type="submit"
-						className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+						className="self-end px-4 py-2 bg-(--accent-lightblue) text-white rounded-md text-sm"
 					>
 						Skapa
 					</button>

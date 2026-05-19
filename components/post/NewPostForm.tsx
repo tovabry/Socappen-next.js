@@ -89,14 +89,14 @@ export function NewPostForm() {
 			<button
 				type="button"
 				onClick={addMedia}
-				className="text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+				className="w-full text-center text-sm font-semibold mt-3 border b-2 rounded-md px-3 py-1 text-(--bg-light) bg-(--accent-lightblue) shadow-md"
 			>
 				+ Lägg till media
 			</button>
 
 			<button
 				type="submit"
-				className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+				className="w-full text-center text-sm font-semibold mt-3 border b-2 rounded-md px-3 py-1 text-(--bg-light) bg-(--accent-lightblue) shadow-md"
 			>
 				Publicera
 			</button>

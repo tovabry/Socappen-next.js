@@ -15,8 +15,8 @@ export function MenuButton({
 		<div
 			className={`rounded-full border shadow-md mx-5 mt-5 ${
 				disabled
-					? "bg-(--bg-secondary-color-red)/50 pointer-events-none"
-					: "bg-(--bg-secondary-color-red)"
+					? "bg-(--accent-lightblue)/70 pointer-events-none"
+					: "bg-(--accent-lightblue) shadow-md hover:bg-(--accent-lightblue)/70 hover:shadow-xl"
 			}`}
 		>
 			<a href={routeLink || "#"} aria-label={`Navigera till ${buttonText}`}>

@@ -26,7 +26,7 @@ export function MessageComposer({
 					e.preventDefault();
 					onSend();
 				}}
-				className="flex flex-row p-1 py-4 w-full bg-white mx-auto"
+				className="flex items-end gap-2 border-t border-gray-200 bg-white px-3 py-3"
 			>
 				<textarea
 					ref={textareaRef}
@@ -54,10 +54,15 @@ export function MessageComposer({
 					placeholder="Skicka meddelande"
 					aria-label="Skriv ditt meddelande här"
 					rows={1}
-					className="w-full resize-none overflow-y-auto focus:outline-none px-3 py-2 border border-gray-400 rounded-lg mx-2 shadow-sm max-h-22 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
+					className="max-h-32 min-h-10 flex-1 resize-none overflow-y-auto rounded-2xl border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-(--accent-lightblue) [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
 				/>
-				<button type="submit" className="mr-2 p-1" aria-label="Send message">
-					<Send strokeWidth={1} />
+				<button
+					type="submit"
+					disabled={!value.trim()}
+					className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--accent-lightblue) text-white disabled:opacity-40"
+					aria-label="Skicka meddelande"
+				>
+					<Send size={18} strokeWidth={2} />
 				</button>
 			</form>
 

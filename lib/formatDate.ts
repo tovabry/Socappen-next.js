@@ -11,3 +11,19 @@ export function formatDate(dateString: string) {
 		minute: "2-digit",
 	});
 }
+
+export function formatTime(dateString: string) {
+	const date = new Date(dateString);
+	return date.toLocaleTimeString("sv-SE", {
+		hour: "2-digit",
+		minute: "2-digit",
+	});
+}
+
+export function formatOnlyDate(dateString: string) {
+	const date = new Date(dateString);
+	return date.toLocaleDateString("sv-SE", {
+		month: "2-digit",
+		day: "2-digit",
+	});
+}
