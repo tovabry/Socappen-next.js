@@ -7,23 +7,25 @@ interface ResponseConversation {
 	createdAt: string;
 	status: string;
 	lastActivityAt: string;
+	conversationCount: number;
+	participantEmail: string;
 }
 
 export function ConversationCard({
 	conversation,
 	isParticipant,
-	participantName,
+	conversationLabel,
 }: {
 	conversation: ResponseConversation;
 	isParticipant: boolean;
-	participantName: string;
+	conversationLabel: string;
 }) {
 	return (
 		<article className="bg-white rounded-lg shadow-md p-5 overflow-hidden">
 			<div className="flex justify-between items-start gap-3">
 				<div className="min-w-0">
 					<h3 className="text-lg font-semibold wrap-break-word">
-						{participantName}
+						{conversationLabel}
 					</h3>
 					<time
 						dateTime={conversation.lastActivityAt}
@@ -33,6 +35,9 @@ export function ConversationCard({
 					</time>
 					<p className="text-sm text-gray-700 mt-2">
 						Status: {conversation.status}
+					</p>
+					<p className="text-sm text-gray-700 mt-2">
+						Användare med i chatten: {conversation.conversationCount}
 					</p>
 				</div>
 			</div>

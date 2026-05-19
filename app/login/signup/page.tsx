@@ -128,8 +128,8 @@ export default function SignupPage() {
 				<h2 className="text-xl font-semibold mb-1">Skapa ett konto</h2>
 				<p className="text-sm text-gray-400 mb-6">
 					Har du redan ett konto?{" "}
-					<a href="/login" className="text-gray-900 hover:underline">
-						Logga in
+					<a href="/home" className="text-gray-900 hover:underline">
+						Gå tillbaka
 					</a>
 				</p>
 

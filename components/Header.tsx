@@ -15,7 +15,7 @@ export function Header({ title, backRouteLink }: HeaderProps) {
 
 	return (
 		<>
-			<header className="sticky top-0 z-50 bg-(--bg-secondary-color-red) border-b border-white/15">
+			<header className="sticky top-0 z-50 bg-(--bg-dark-header) border-b">
 				<div className="mx-auto max-w-6xl px-3 py-2">
 					<div className="grid grid-cols-[40px_1fr_40px] sm:grid-cols-[auto_1fr_auto] items-center gap-2">
 						{backRouteLink ? (
