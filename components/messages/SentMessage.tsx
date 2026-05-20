@@ -1,4 +1,4 @@
-import { formatDate, formatOnlyDate, formatTime } from "@/lib/formatDate";
+import { formatOnlyDate, formatTime } from "@/lib/formatDate";
 
 interface SentMessageProps {
 	content: string;

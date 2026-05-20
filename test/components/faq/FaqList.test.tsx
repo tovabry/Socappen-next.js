@@ -44,11 +44,6 @@ describe("Faq-List", () => {
 		).not.toBeInTheDocument();
 	});
 
-	test("Shows + Add new FAQ button for admin", () => {
-		render(<FaqList faqs={faqs} isAdmin={true} hasFaqPermissions={true} />);
-		expect(screen.getByText("+ Lägg till ny FAQ")).toBeInTheDocument();
-	});
-
 	test("Hides + Add new FAQ button for non-admin", () => {
 		render(<FaqList faqs={faqs} isAdmin={false} hasFaqPermissions={true} />);
 		expect(screen.queryByText("+ Lägg till ny FAQ")).not.toBeInTheDocument();

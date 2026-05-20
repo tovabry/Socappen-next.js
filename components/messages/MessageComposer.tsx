@@ -7,7 +7,7 @@ interface Props {
 	onChange: (value: string) => void;
 	onSend: () => void;
 	textareaRef: React.RefObject<HTMLTextAreaElement | null>;
-	bottomRef: React.RefObject<HTMLDivElement | null>;
+	bottomRef: React.RefObject<HTMLLIElement | null>;
 	error: string | null;
 }
 
@@ -26,7 +26,7 @@ export function MessageComposer({
 					e.preventDefault();
 					onSend();
 				}}
-				className="flex items-end gap-2 border-t border-gray-200 bg-white px-3 py-3"
+				className="flex items-center gap-2 border-t border-gray-200 bg-white px-3 py-3"
 			>
 				<textarea
 					ref={textareaRef}

@@ -28,8 +28,8 @@ export default function MessagesClient({
 	const [sendError, setSendError] = useState<string | null>(null);
 
 	const listRef = useRef<HTMLUListElement>(null);
-	const topOfListRef = useRef<HTMLDivElement>(null);
-	const bottomRef = useRef<HTMLDivElement>(null);
+	const topOfListRef = useRef<HTMLLIElement>(null);
+	const bottomRef = useRef<HTMLLIElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	useEffect(() => {

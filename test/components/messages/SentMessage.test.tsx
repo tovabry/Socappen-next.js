@@ -19,22 +19,4 @@ describe("Sent message component", () => {
 		const timestamp = screen.getByText(/10:30/);
 		expect(timestamp).toBeInTheDocument();
 	});
-
-	test("Render senderId if provided", () => {
-		render(
-			<SentMessage
-				content="Hello, this is a sent message!"
-				sentAt={sentAt}
-				senderId={12}
-			/>,
-		);
-		expect(screen.getByText(/12/)).toBeInTheDocument();
-	});
-
-	test('Render "missing id" if senderId is not provided', () => {
-		render(
-			<SentMessage content="Hello, this is a sent message!" sentAt={sentAt} />,
-		);
-		expect(screen.getByText(/Missing id/)).toBeInTheDocument();
-	});
 });

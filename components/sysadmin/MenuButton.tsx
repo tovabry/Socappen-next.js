@@ -16,13 +16,16 @@ export function MenuButton({
 			className={`rounded-full border shadow-md mx-5 mt-5 ${
 				disabled
 					? "bg-(--accent-lightblue)/70 pointer-events-none"
-					: "bg-(--accent-lightblue) shadow-md hover:bg-(--accent-lightblue)/70 hover:shadow-xl"
+					: "bg-(--accent-lightblue) shadow-md hover:transform transition-transform duration-200 group hover:shadow-2xl"
 			}`}
 		>
 			<a href={routeLink || "#"} aria-label={`Navigera till ${buttonText}`}>
 				<div className="flex flex-row p-4 justify-between">
 					<span className="text-white text-md">{buttonText}</span>
-					<ArrowRight className="text-white" aria-hidden="true" />
+					<ArrowRight
+						className="text-white transition-transform duration-200 group-hover:translate-x-1"
+						aria-hidden="true"
+					/>
 				</div>
 			</a>
 		</div>

@@ -46,7 +46,7 @@ export default async function HomePage() {
 					}
 				/>
 				<HomePageButton
-					buttonText="Posts"
+					buttonText="Nyheter och Tips"
 					routeLink="/post"
 					icon={
 						<Newspaper className="text-white" aria-hidden="true" size={24} />

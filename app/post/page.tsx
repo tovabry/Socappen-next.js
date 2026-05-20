@@ -30,7 +30,7 @@ export default async function PostPage() {
 
 	return (
 		<div className="w-full">
-			<Header title="Posts" backRouteLink="/home" />
+			<Header title="Nyheter och Tips" backRouteLink="/home" />
 			<div className="flex justify-end mx-10 mt-5">
 				{isAdmin && hasPostPermissions && (
 					<Link
