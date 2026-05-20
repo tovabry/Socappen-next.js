@@ -3,7 +3,6 @@ import { formatDate } from "@/lib/formatDate";
 import { hasPermission } from "@/lib/getPermissions";
 import { getRoles } from "@/lib/getRole";
 import { serverFetch } from "@/lib/serverFetch";
-import { Pencil } from "lucide-react";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -72,7 +71,6 @@ export default async function PostDetailPage({ params }: Props) {
 								aria-label={`Redigera ${post.title}`}
 								className="flex items-center gap-2 px-3 py-1 text-sm border rounded-md shadow-md"
 							>
-								<Pencil size={14} />
 								Redigera
 							</a>
 						)}

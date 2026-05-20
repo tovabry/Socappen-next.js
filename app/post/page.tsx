@@ -30,12 +30,12 @@ export default async function PostPage() {
 
 	return (
 		<div className="w-full">
-			<Header title="Posts" backRouteLink="/home" />
+			<Header title="Nyheter och Tips" backRouteLink="/home" />
 			<div className="flex justify-end mx-10 mt-5">
 				{isAdmin && hasPostPermissions && (
 					<Link
 						href="/post/new"
-						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm shadow-md"
+						className="px-4 py-2 bg-(--accent-lightblue) text-white rounded-md text-sm shadow-md"
 					>
 						+ Nytt inlägg
 					</Link>
@@ -77,7 +77,7 @@ export default async function PostPage() {
 							<Link
 								href={`/post/${post.id}`}
 								aria-label={`Läs mer om ${post.title}`}
-								className="w-full text-center text-sm mt-3 border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+								className="w-full text-center text-sm font-semibold mt-3 border b-2 rounded-md px-3 py-1 text-(--bg-light) bg-(--accent-lightblue) shadow-md"
 							>
 								Läs mer
 							</Link>

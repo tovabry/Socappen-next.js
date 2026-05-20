@@ -7,23 +7,25 @@ interface ResponseConversation {
 	createdAt: string;
 	status: string;
 	lastActivityAt: string;
+	conversationCount: number;
+	participantEmail: string;
 }
 
 export function ConversationCard({
 	conversation,
 	isParticipant,
-	participantName,
+	conversationLabel,
 }: {
 	conversation: ResponseConversation;
 	isParticipant: boolean;
-	participantName: string;
+	conversationLabel: string;
 }) {
 	return (
 		<article className="bg-white rounded-lg shadow-md p-5 overflow-hidden">
 			<div className="flex justify-between items-start gap-3">
 				<div className="min-w-0">
 					<h3 className="text-lg font-semibold wrap-break-word">
-						{participantName}
+						{conversationLabel}
 					</h3>
 					<time
 						dateTime={conversation.lastActivityAt}
@@ -33,6 +35,9 @@ export function ConversationCard({
 					</time>
 					<p className="text-sm text-gray-700 mt-2">
 						Status: {conversation.status}
+					</p>
+					<p className="text-sm text-gray-700 mt-2">
+						Användare med i chatten: {conversation.conversationCount}
 					</p>
 				</div>
 			</div>
@@ -48,7 +53,7 @@ export function ConversationCard({
 						<button
 							type="submit"
 							aria-label={`Gå med i konversation ${conversation.id}`}
-							className="w-full text-center text-sm px-3 py-2 bg-(--bg-secondary-color-red) text-white rounded-md"
+							className="w-full text-center text-sm px-3 py-2 bg-(--accent-lightblue) text-white rounded-md shadow-md"
 						>
 							Gå med i konversation
 						</button>
@@ -57,7 +62,7 @@ export function ConversationCard({
 					<Link
 						href={`/messages/${conversation.id}`}
 						aria-label={`Öppna konversation ${conversation.id}`}
-						className="w-full text-center text-sm border rounded-2xl px-3 py-1 text-(--bg-secondary-color-red) shadow-md"
+						className="w-full text-center text-sm font-semibold mt-3 border b-2 rounded-md px-3 py-1 text-(--bg-light) bg-(--accent-lightblue) shadow-md"
 					>
 						Öppna
 					</Link>

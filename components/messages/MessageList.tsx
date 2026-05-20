@@ -6,8 +6,8 @@ import type { Message } from "@/lib/messages";
 
 interface Props {
 	listRef: React.RefObject<HTMLUListElement | null>;
-	topOfListRef: React.RefObject<HTMLDivElement | null>;
-	bottomRef: React.RefObject<HTMLDivElement | null>;
+	topOfListRef: React.RefObject<HTMLLIElement | null>;
+	bottomRef: React.RefObject<HTMLLIElement | null>;
 	messages: Message[];
 	userId?: number;
 	loadingMore: boolean;
@@ -25,13 +25,13 @@ export function MessageList({
 }: Props) {
 	return (
 		<ul ref={listRef} className="flex-1 overflow-y-auto">
-			<div
+			<li
 				ref={topOfListRef}
-				className="flex justify-center py-2 text-sm text-gray-400"
+				className="flex justify-center py-2 text-sm text-gray-400 list-none"
 			>
 				{loadingMore && "Laddar..."}
 				{!hasMore && "Inga tidigare meddelanden"}
-			</div>
+			</li>
 
 			{messages.map((m) =>
 				m.senderId === userId ? (
@@ -51,7 +51,7 @@ export function MessageList({
 				),
 			)}
 
-			<div ref={bottomRef} />
+			<li ref={bottomRef} className="list-none" />
 		</ul>
 	);
 }

@@ -38,7 +38,7 @@ export default function AuthModal({ open, onClose }: AuthModalProps) {
 						<p className="my-4 text-lg">Du är inloggad som: {user?.email}</p>
 						<button
 							onClick={handleLogout}
-							className="border rounded-lg px-4 py-2 bg-(--bg-secondary-color-red) text-white cursor-pointer"
+							className="border rounded-lg px-4 py-2 bg-(--accent-lightblue) text-white cursor-pointer"
 						>
 							Logga ut
 						</button>

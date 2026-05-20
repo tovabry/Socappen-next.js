@@ -10,7 +10,7 @@
   - [Scripts](#scripts)
 - [Teknisk dokumentation](#teknisk-dokumentation)
   - [Arkitekturöversikt](#arkitekturöversikt)
-  - [Teknikstack](#teknikstack)
+  - [Tekniker](#tekniker)
   - [Projektstruktur](#projektstruktur)
   - [Komponentstruktur](#komponentstruktur)
   - [API-integration](#api-integration)
@@ -442,5 +442,6 @@ Caching-tider:
 Projektet innehåller flera centrala frontendflöden, men det finns områden som kan vidareutvecklas:
 
 - Utökad testtäckning för server actions.
+- E2E Tester för ännu mer testtäckning.
 - Mer konsekvent hantering av loading- och error-states.
 - Tydligare typning av API-responser.

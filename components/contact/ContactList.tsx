@@ -27,7 +27,7 @@ export function ContactList({
 				{isAdmin && hasContactPermissions && (
 					<Link
 						href="/contacts/new"
-						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+						className="px-4 py-2 bg-(--accent-lightblue) text-white rounded-md text-sm"
 					>
 						+ Lägg till ny kontakt
 					</Link>
@@ -37,7 +37,7 @@ export function ContactList({
 				{contacts.map((contact, index) => (
 					<section
 						key={index}
-						className="bg-white rounded-lg shadow-md p-6 mb-4 flex items-center gap-4 overflow-hidden"
+						className="bg-white rounded-lg shadow-md p-6 mb-4 flex gap-4 overflow-hidden"
 					>
 						<img
 							src={contact.imgUrl}
@@ -49,6 +49,7 @@ export function ContactList({
 							<h3 className="text-xl font-semibold wrap-break-word">
 								{contact.title}
 							</h3>
+							<div className="h-1 max-w-full bg-(--accent-lightblue) rounded-full"></div>
 							<Link
 								href={`mailto:${contact.mail}`}
 								className="text-gray-600 wrap-break-word"

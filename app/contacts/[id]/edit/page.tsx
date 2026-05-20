@@ -66,7 +66,7 @@ export default async function ContactEditPage({ params }: Props) {
 						<div className="flex flex-row justify-end gap-4 mt-4">
 							<button
 								type="submit"
-								className="self-end px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm"
+								className="self-end px-4 py-2 bg-(--accent-lightblue) text-white rounded-md text-sm shadow-md"
 							>
 								Spara
 							</button>

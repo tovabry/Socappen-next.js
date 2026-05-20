@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Header } from "@/components/Header";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
 
 interface ResponseFaq {
@@ -39,9 +39,9 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 				{isAdmin && hasFaqPermissions && (
 					<Link
 						href="/faq/new"
-						className="px-4 py-2 bg-(--bg-secondary-color-red) text-white rounded-md text-sm whitespace-nowrap"
+						className="px-4 py-2 bg-(--accent-lightblue) text-white rounded-md text-md whitespace-nowrap flex flex-row items-center gap-1"
 					>
-						+ Lägg till ny FAQ
+						<Plus aria-hidden="true" /> Lägg till ny FAQ
 					</Link>
 				)}
 			</div>
@@ -57,7 +57,10 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 							aria-label={`Visa svar för: ${faq.question}`}
 							aria-expanded={openId === faq.id}
 						>
-							<p className="text-lg wrap-break-word">{faq.question}</p>
+							<div>
+								<p className="text-sm text-gray-700">Fråga:</p>
+								<p className="text-lg wrap-break-word">{faq.question}</p>
+							</div>
 							<ChevronDown
 								size={18}
 								className={`transition-transform shrink-0 ml-2 ${openId === faq.id ? "rotate-180" : ""}`}
@@ -65,6 +68,7 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 						</button>
 						{openId === faq.id && (
 							<div className="px-4 pb-4 text-gray-700 border-t pt-3">
+								<p className="text-sm text-gray-700">Svar:</p>
 								<p className="wrap-break-word text-lg">{faq.answer}</p>
 								{isAdmin && hasFaqPermissions && (
 									<div className="flex flex-row justify-end gap-2">

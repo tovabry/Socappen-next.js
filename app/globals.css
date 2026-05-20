@@ -3,8 +3,22 @@
 @theme inline {
 	--bg-color-red: #5b2a2a;
 	--bg-secondary-color-red: #df5e5e;
-	--message-sent-color: #ddb8b8;
+	--message-sent-color: #005a00;
 	--message-received-color: #ffffff;
+	--bg-dark: #393939;
+	--bg-dark-header: #2c2c2c;
+	--bg-light: #e2e2e2;
+	--accent-green: #44b48d;
+	--accent-lightblue: #02b4b7;
+	--accent-blue: #004a64;
+	--accent-gray: #9a9a9a;
+	--accent-earth: #a28877;
+}
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Montserrat;
 }
 
 @layer components {
@@ -13,7 +27,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: #5b2a2a;
+		background-color: var(--accent-blue);
 		font-family: sans-serif;
 	}
 
@@ -65,7 +79,7 @@
 		width: 100%;
 		padding: 10px;
 		margin-top: 8px;
-		background: #df5e5e;
+		background: var(--accent-lightblue);
 		color: #ffffff;
 		border: none;
 		border-radius: 6px;
