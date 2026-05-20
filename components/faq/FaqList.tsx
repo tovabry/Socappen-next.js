@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Header } from "@/components/Header";
-import { ChevronDown, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
 
 interface ResponseFaq {
@@ -15,9 +15,17 @@ interface Props {
 	faqs: ResponseFaq[];
 	isAdmin: boolean;
 	hasFaqPermissions: boolean;
+	page: number;
+	hasNextPage: boolean;
 }
 
-export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
+export function FaqList({
+	faqs,
+	isAdmin,
+	hasFaqPermissions,
+	page,
+	hasNextPage,
+}: Props) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [openId, setOpenId] = useState<number | null>(null);
 
@@ -86,6 +94,25 @@ export function FaqList({ faqs, isAdmin, hasFaqPermissions }: Props) {
 					</div>
 				))}
 			</main>
+			<div className="flex justify-center gap-4 mt-6 mb-8">
+				{page > 0 && (
+					<Link
+						href={`/faq?page=${page - 1}`}
+						className="px-4 py-2 bg-(--accent-lightblue) text-white rounded-md"
+					>
+						<ArrowLeft aria-hidden="true" aria-label="Föregående" />
+					</Link>
+				)}
+
+				{hasNextPage && (
+					<Link
+						href={`/faq?page=${page + 1}`}
+						className="px-4 py-2 bg-(--accent-lightblue) text-white rounded-md"
+					>
+						<ArrowRight aria-hidden="true" aria-label="Nästa" />
+					</Link>
+				)}
+			</div>
 		</div>
 	);
 }

@@ -19,6 +19,10 @@ export default async function HomePage() {
 					routeLink="/sysadmin/logs"
 					disabled={!hasLogViewPermissions}
 				/>
+				<MenuButton
+					buttonText="E-postaviseringar"
+					routeLink="/sysadmin/email_notifications"
+				/>
 			</main>
 		</div>
 	);

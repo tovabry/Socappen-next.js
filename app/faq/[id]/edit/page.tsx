@@ -4,6 +4,7 @@ import { updateFaq } from "../../actions";
 import { DeleteFaqButton } from "@/components/faq/DeleteFaqButton";
 import { getRoles } from "@/lib/getRole";
 import { hasPermission } from "@/lib/getPermissions";
+import { serverFetch } from "@/lib/serverFetch";
 
 interface Props {
 	params: Promise<{ id: string }>;
@@ -16,7 +17,9 @@ export default async function FaqEditPage({ params }: Props) {
 
 	if (!isAdmin || !hasFaqPermissions) redirect("/faq");
 
-	const faqRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`);
+	const faqRes = await serverFetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`,
+	);
 	const faq = await faqRes.json();
 
 	return (

@@ -13,15 +13,19 @@ export function MenuButton({
 }: MenuButtonProps) {
 	return (
 		<div
-			className={`rounded-full border shadow-md mx-5 mt-5 ${
+			className={`rounded-md shadow-md mx-5 mt-5 hover:shadow-2xl ${
 				disabled
-					? "bg-(--accent-lightblue)/70 pointer-events-none"
-					: "bg-(--accent-lightblue) shadow-md hover:transform transition-transform duration-200 group hover:shadow-2xl"
+					? "bg-(--accent-lightblue)/50 pointer-events-none"
+					: "bg-(--accent-lightblue)/70 cursor-pointer"
 			}`}
 		>
-			<a href={routeLink || "#"} aria-label={`Navigera till ${buttonText}`}>
-				<div className="flex flex-row p-4 justify-between">
-					<span className="text-white text-md">{buttonText}</span>
+			<a
+				href={disabled ? undefined : routeLink || "#"}
+				aria-label={`Navigera till ${buttonText}`}
+			>
+				<div className="flex flex-row p-4 justify-between hover:transform transition-transform duration-200 group">
+					<p className="text-white text-shadow-md text-md">{buttonText}</p>
+
 					<ArrowRight
 						className="text-white transition-transform duration-200 group-hover:translate-x-1"
 						aria-hidden="true"
