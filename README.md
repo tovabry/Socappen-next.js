@@ -445,3 +445,4 @@ Projektet innehåller flera centrala frontendflöden, men det finns områden som
 - E2E Tester för ännu mer testtäckning.
 - Mer konsekvent hantering av loading- och error-states.
 - Tydligare typning av API-responser.
+- Email notiser / funktionsbrevlåda påbörjat ui men ingen funktionalitet i backend som fungerar än.
